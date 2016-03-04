@@ -1,0 +1,4 @@
+build-*
+*.user
+*_debug
+example/bin/example
