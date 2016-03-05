@@ -120,36 +120,34 @@ void drawSegment(cpVect a, cpVect b, cpSpaceDebugColor color, cpDataPointer data
     ofSetLineWidth(1);
     ofNoFill();
     ofSetColor(toOf(color));
-    //ofLog() << toOf(a) << " - " << toOf(b);
     ofDrawLine(toOf(a), toOf(b));
-
-	/*ofDrawLine(100, 500, 300, 500);
-	ofDrawRectangle(20, 30, 100, 100);*/
 }
 
 void drawFatSegment(cpVect a, cpVect b, cpFloat r, cpSpaceDebugColor outline, cpSpaceDebugColor fill, cpDataPointer data){
     ofSetLineWidth(r);
-    ofNoFill();
     ofSetColor(toOf(fill));
     ofDrawLine(toOf(a), toOf(b));
 }
 
-void drawPolygon(int count, const cpVect *verts, cpFloat r, cpSpaceDebugColor outline, cpSpaceDebugColor fill, cpDataPointer data){
+static ofMesh polyMesh;
+static ofTessellator tesselator;
 
-    ofPolyline poly;
+void drawPolygon(int count, const cpVect *verts, cpFloat r, cpSpaceDebugColor outline, cpSpaceDebugColor fill, cpDataPointer data){
+	ofPolyline poly;
 
     for(int i=0; i<count;i++){
         poly.addVertex(toOf(verts[i]));
     }
     poly.close();
 
-    ofFill();
-    ofSetColor(toOf(fill));
-    poly.draw();
+	ofSetColor(toOf(fill));
+	ofFill();
+	tesselator.tessellateToMesh(poly, ofPolyWindingMode::OF_POLY_WINDING_POSITIVE, polyMesh, true);
+	polyMesh.drawFaces();
 
-    ofNoFill();
-    ofSetColor(toOf(outline));
-    poly.draw();
+	ofSetColor(toOf(outline));
+	ofNoFill();
+	poly.draw();
 }
 
 void drawDot(cpFloat size, cpVect pos, cpSpaceDebugColor color, cpDataPointer data){
