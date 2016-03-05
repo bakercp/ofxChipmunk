@@ -13,7 +13,8 @@ World::~World(){
 }
 
 void World::update(){
-	ofGetElapsedTimeMillis();
+    if(ofGetFrameNum() < 10)
+        return;
 
 	int targetFPS = ofGetTargetFrameRate();
 	if(targetFPS == 0){
@@ -26,7 +27,7 @@ void World::update(){
 		ofLogWarning("ofxChipmunk") << "current framerate (" << curFPS << ") is bellow target framerate (" << targetFPS << "), physics may behave strangely";
 	}
 
-	cpSpaceStep(space, 1.f/float(targetFPS));
+    cpSpaceStep(space, 1.f/float(targetFPS));
 }
 
 void World::draw(){
@@ -38,7 +39,7 @@ void World::setGravity(ofVec2f g){
 }
 
 void World::createFloor(){
-	floor = createStaticLine(ofVec2f(0, ofGetHeight()-10), ofVec2f(ofGetWidth(), ofGetHeight()));
+    floor = createStaticLine(ofVec2f(0, ofGetHeight()), ofVec2f(ofGetWidth(), ofGetHeight()));
 }
 
 shared_ptr<Circle> World::createCircle(float radius, float mass){

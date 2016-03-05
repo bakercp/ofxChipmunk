@@ -12,8 +12,6 @@ public:
 	Circle(cpSpace* space, float radius, float mass=1);
 
 	void setup(cpSpace* space, float radius, float mass=1);
-
-	cpShape* shape;
 };
 
 } // namespace ofxChipmunk

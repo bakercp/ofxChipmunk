@@ -90,7 +90,7 @@ static cpSpaceDebugDrawOptions drawOptions = {
 	drawPolygon,
 	drawDot,
 
-	(cpSpaceDebugDrawFlags)(CP_SPACE_DEBUG_DRAW_SHAPES | CP_SPACE_DEBUG_DRAW_CONSTRAINTS | CP_SPACE_DEBUG_DRAW_COLLISION_POINTS),
+    (cpSpaceDebugDrawFlags)(CP_SPACE_DEBUG_DRAW_SHAPES | CP_SPACE_DEBUG_DRAW_CONSTRAINTS | CP_SPACE_DEBUG_DRAW_COLLISION_POINTS),
 
 	{200.0f/255.0f, 210.0f/255.0f, 230.0f/255.0f, 1.0f},
 	ColorForShape,
@@ -106,35 +106,56 @@ void drawSpace(cpSpace *space){
 }
 
 void drawCircle(cpVect p, cpFloat a, cpFloat r, cpSpaceDebugColor outline, cpSpaceDebugColor fill, cpDataPointer data){
-	ofSetColor(toOf(fill));
+    ofSetColor(toOf(fill));
 	ofFill();
 	ofDrawCircle(toOf(p), r);
 
+    ofSetLineWidth(1);
 	ofSetColor(toOf(outline));
 	ofNoFill();
 	ofDrawCircle(toOf(p), r);
 }
 
 void drawSegment(cpVect a, cpVect b, cpSpaceDebugColor color, cpDataPointer data){
-	//ofNoFill();
-	//ofSetColor(toOf(color));
-	//ofLog() << toOf(a) << " - " << toOf(b);
-	//ofDrawLine(toOf(a), toOf(b));
+    ofSetLineWidth(1);
+    ofNoFill();
+    ofSetColor(toOf(color));
+    //ofLog() << toOf(a) << " - " << toOf(b);
+    ofDrawLine(toOf(a), toOf(b));
 
 	/*ofDrawLine(100, 500, 300, 500);
 	ofDrawRectangle(20, 30, 100, 100);*/
 }
 
 void drawFatSegment(cpVect a, cpVect b, cpFloat r, cpSpaceDebugColor outline, cpSpaceDebugColor fill, cpDataPointer data){
-
+    ofSetLineWidth(r);
+    ofNoFill();
+    ofSetColor(toOf(fill));
+    ofDrawLine(toOf(a), toOf(b));
 }
 
 void drawPolygon(int count, const cpVect *verts, cpFloat r, cpSpaceDebugColor outline, cpSpaceDebugColor fill, cpDataPointer data){
 
+    ofPolyline poly;
+
+    for(int i=0; i<count;i++){
+        poly.addVertex(toOf(verts[i]));
+    }
+    poly.close();
+
+    ofFill();
+    ofSetColor(toOf(fill));
+    poly.draw();
+
+    ofNoFill();
+    ofSetColor(toOf(outline));
+    poly.draw();
 }
 
 void drawDot(cpFloat size, cpVect pos, cpSpaceDebugColor color, cpDataPointer data){
-
+    ofFill();
+    ofSetColor(toOf(color));
+    ofDrawCircle(toOf(pos), size);
 }
 
 

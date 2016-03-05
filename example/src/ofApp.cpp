@@ -2,13 +2,18 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
+    ofBackground(30);
+
 	ofSetFrameRate(60);
 
 	world.createFloor();
 
-	circle = world.createCircle(20, 100);
+    circle = world.createCircle(20);
 	circle->setPosition(ofVec2f(ofGetWidth()*.5, 10));
-	circle->setFriction(.7);
+
+    rect = world.createRect(ofRectangle(0, 0, 200, 200), 100);
+    rect->setPosition(ofVec2f(ofGetWidth()*.5, 50));
+    rect->setRotation(ofDegToRad(48));
 }
 
 //--------------------------------------------------------------

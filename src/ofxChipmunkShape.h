@@ -13,6 +13,7 @@ public:
 
     void setup(cpSpace* space, cpShape* shape);
 
+    void setElasticity(float);
 	void setFriction(float friction);
 
 private:

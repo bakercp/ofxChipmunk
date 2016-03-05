@@ -12,8 +12,6 @@ public:
 	Rect(cpSpace* space, ofRectangle bounds, float mass=1);
 
 	void setup(cpSpace* space, ofRectangle bounds, float mass=1);
-
-	cpShape* shape;
 };
 
 } // namespace ofxChipmunk

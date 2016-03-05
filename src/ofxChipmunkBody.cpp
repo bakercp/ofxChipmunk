@@ -23,7 +23,11 @@ ofVec2f Body::getPosition(){
 }
 
 void Body::setPosition(ofVec2f pos){
-	cpBodySetPosition(body, toChipmunk(pos));
+    cpBodySetPosition(body, toChipmunk(pos));
+}
+
+void Body::setRotation(float radians){
+    cpBodySetAngle(body, radians);
 }
 
 }// namespace ofxChimpunk
