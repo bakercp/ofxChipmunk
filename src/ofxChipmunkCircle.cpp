@@ -17,4 +17,12 @@ void Circle::setup(cpSpace *space, float radius, float mass){
 	Shape::setup(space, cpCircleShapeNew(body, radius, cpvzero));
 }
 
+void Circle::setRadius(float r){
+	cpCircleShapeSetRadius(shape, r);
+}
+
+float Circle::getRadius(){
+	return cpCircleShapeGetRadius(shape);
+}
+
 } // namespace ofxChipmunk

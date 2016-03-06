@@ -39,7 +39,21 @@ void World::setGravity(ofVec2f g){
 }
 
 void World::createFloor(){
-    floor = createStaticLine(ofVec2f(0, ofGetHeight()), ofVec2f(ofGetWidth(), ofGetHeight()));
+	floor = createStaticLine(ofVec2f(0, ofGetHeight()), ofVec2f(ofGetWidth(), ofGetHeight()));
+}
+
+void World::createWallLeft(){
+	wallLeft = createStaticLine(ofVec2f(0, 0), ofVec2f(0, ofGetHeight()));
+}
+
+void World::createWallRight(){
+	wallRight = createStaticLine(ofVec2f(ofGetWidth(), 0), ofVec2f(ofGetWidth(), ofGetHeight()));
+}
+
+void World::createBounds(){
+	createFloor();
+	createWallLeft();
+	createWallRight();
 }
 
 shared_ptr<Circle> World::createCircle(float radius, float mass){
@@ -52,6 +66,10 @@ shared_ptr<Rect> World::createRect(ofRectangle rect, float mass){
 
 shared_ptr<StaticLine> World::createStaticLine(ofVec2f a, ofVec2f b){
 	return shared_ptr<StaticLine>(new StaticLine(space, a, b));
+}
+
+shared_ptr<StaticRect> World::createStaticRect(ofRectangle rect){
+	return shared_ptr<StaticRect>(new StaticRect(space, rect));
 }
 
 

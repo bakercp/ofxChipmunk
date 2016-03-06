@@ -4,6 +4,9 @@
 #include "ofMain.h"
 #include <chipmunk.h>
 
+#define OFXCHIPMUNK_DEFAULT_STIFFNES 5.f
+#define OFXCHIPMUNK_DEFAULT_DAMPING .3f
+
 namespace ofxChipmunk {
 
 //converting

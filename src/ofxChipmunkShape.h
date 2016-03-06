@@ -3,6 +3,8 @@
 
 #include "ofMain.h"
 #include <chipmunk.h>
+#include "chipmunk_unsafe.h"
+
 
 namespace ofxChipmunk {
 
@@ -16,7 +18,7 @@ public:
     void setElasticity(float);
 	void setFriction(float friction);
 
-private:
+protected:
     cpShape* shape;
 };
 

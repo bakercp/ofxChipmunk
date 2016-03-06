@@ -2,3 +2,5 @@ build-*
 *.user
 *_debug
 example/bin/example
+*.so
+*/obj/*

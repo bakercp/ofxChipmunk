@@ -6,23 +6,27 @@ void ofApp::setup(){
 
 	ofSetFrameRate(60);
 
-	world.createFloor();
+	world.createBounds();
 
     circle = world.createCircle(20);
 	circle->setPosition(ofVec2f(ofGetWidth()*.5, 10));
 
-    rect = world.createRect(ofRectangle(0, 0, 200, 200), 100);
-    rect->setPosition(ofVec2f(ofGetWidth()*.5, 50));
-    rect->setRotation(ofDegToRad(48));
+	rect = world.createRect(ofRectangle(0, 0, 150, 200), 100);
+	rect->setPosition(ofVec2f(ofGetWidth()*.5, 200));
+	rect->setRotation(ofDegToRad(60));
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
+	circle->setRadius(circle->getRadius()+.3);
+
 	world.update();
 }
 
 //--------------------------------------------------------------
 void ofApp::draw(){
+
+	//debug drawing may be slow...
 	world.draw();
 }
 
