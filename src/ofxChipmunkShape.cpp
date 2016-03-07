@@ -13,8 +13,8 @@ Shape::~Shape(){
 
 void Shape::setup(cpSpace *space, cpShape *s){
 	shape = cpSpaceAddShape(space, s);
-    setFriction(.8);
-    setElasticity(.1);
+	setFriction(OFXCHIPMUNK_DEFAULT_FRICTION);
+	setElasticity(OFXCHIPMUNK_DEFAULT_ELASTICITY);
 }
 
 void Shape::setElasticity(float value){
@@ -26,8 +26,16 @@ void Shape::setFriction(float friction){
 }
 
 //
-void ShapeCircle::setup(cpSpace *space, cpBody* body, float radius){
-    Shape::setup(space, cpCircleShapeNew(body, radius, cpvzero));
+ShapeCircle::ShapeCircle(){
+
+}
+
+ShapeCircle::ShapeCircle(cpSpace *space, cpBody *body, float radius, ofVec2f offset){
+	setup(space, body, radius, offset);
+}
+
+void ShapeCircle::setup(cpSpace *space, cpBody* body, float radius, ofVec2f offset){
+	Shape::setup(space, cpCircleShapeNew(body, radius, toChipmunk(offset)));
 }
 
 void ShapeCircle::setRadius(float r){
@@ -39,11 +47,29 @@ float ShapeCircle::getRadius(){
 }
 
 //
+ShapeRect::ShapeRect(){
+
+}
+
+ShapeRect::ShapeRect(cpSpace *space, cpBody *body, ofRectangle bounds){
+	setup(space, body, bounds);
+}
+
 void ShapeRect::setup(cpSpace *space, cpBody *body, ofRectangle bounds){
     Shape::setup(space, cpBoxShapeNew(body, bounds.width, bounds.height, 0));
 }
 
 //
+ShapePolygon::ShapePolygon(){}
+
+ShapePolygon::ShapePolygon(cpSpace *space, cpBody *body, ofPolyline poly){
+	setup(space, body, poly);
+}
+
+ShapePolygon::ShapePolygon(cpSpace *space, cpBody *body, std::vector<ofVec2f> &points){
+	setup(space, body, points);
+}
+
 void ShapePolygon::setup(cpSpace *space, cpBody *body, ofPolyline poly){
     std::vector<ofVec2f> vecs;
     for(auto& p: poly){

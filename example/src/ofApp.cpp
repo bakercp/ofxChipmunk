@@ -19,16 +19,21 @@ void ofApp::setup(){
 
 	//
 	ofPolyline polyline;
-	for(unsigned i=0; i<13; i++){
-		float angle = ofMap(i, 0, 13, 0, TWO_PI);
-		float r = ofRandom(15, 30);
+	for(unsigned i=0; i<17; i++){
+		float angle = ofMap(i, 0, 17, 0, TWO_PI);
+		float r = ofRandom(15, 100);
 		polyline.addVertex(cosf(angle)*r, sinf(angle)*r);
 	}
 	poly = world.createPoly(polyline);
 	poly->setPosition(ofVec2f(ofGetWidth()*.4, 0));
 
-
-
+	//
+	Composite::Definition def;
+	def.addCircle(50, ofVec2f(10, 10), 1);
+	def.addCircle(50, ofVec2f(-50, -50));
+	def.addRect(ofRectangle(-10, -10, 100, 100));
+	composite = world.createComposite(def);
+	composite->setPosition(ofVec2f(ofGetWidth()*.53, 100));
 
 	//
 	spring = world.createSpring(circle, rect);

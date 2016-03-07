@@ -24,18 +24,26 @@ protected:
 
 class ShapeCircle: public Shape{
 public:
-    void setup(cpSpace* space, cpBody* body, float radius);
+	ShapeCircle();
+	ShapeCircle(cpSpace* space, cpBody* body, float radius, ofVec2f offset = ofVec2f(0, 0));
+	void setup(cpSpace* space, cpBody* body, float radius, ofVec2f offset = ofVec2f(0, 0));
     void setRadius(float r);
     float getRadius();
 };
 
 class ShapeRect: public Shape{
 public:
+	ShapeRect();
+	ShapeRect(cpSpace* space, cpBody* body, ofRectangle bounds);
     void setup(cpSpace* space, cpBody* body, ofRectangle bounds);
 };
 
 class ShapePolygon: public Shape{
 public:
+	ShapePolygon();
+	ShapePolygon(cpSpace* space, cpBody* body, ofPolyline poly);
+	ShapePolygon(cpSpace* space, cpBody* body, std::vector<ofVec2f>& points);
+
     void setup(cpSpace* space, cpBody* body, ofPolyline poly);
     void setup(cpSpace* space, cpBody* body, std::vector<ofVec2f>& points);
 protected:

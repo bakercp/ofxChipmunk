@@ -6,6 +6,8 @@
 
 #define OFXCHIPMUNK_DEFAULT_STIFFNES 5.f
 #define OFXCHIPMUNK_DEFAULT_DAMPING .3f
+#define OFXCHIPMUNK_DEFAULT_FRICTION .7f
+#define OFXCHIPMUNK_DEFAULT_ELASTICITY .1f
 
 namespace ofxChipmunk {
 
@@ -15,6 +17,8 @@ ofVec2f toOf(cpVect v);
 
 cpBB toChipmunk(ofRectangle rect);
 ofRectangle toOf(cpBB rect);
+
+std::vector<cpVect> toChipmunk(std::vector<ofVec2f>& points);
 
 //drawing
 void drawSpace(cpSpace* space);

@@ -3,55 +3,72 @@
 
 #include "ofxChipmunkBody.h"
 #include "ofxChipmunkShape.h"
+#include "ofxChipmunkCircle.h"
+#include "ofxChipmunkRect.h"
+#include "ofxChipmunkPolygon.h"
+#include "ofxChipmunkUtils.h"
 
 namespace ofxChipmunk {
 
 class Composite: public Body{
 public:
-    Composite();
+	class Definition{
+	private:
+		class ShapeDefinition{
+		public:
+			cpFloat mass;
+			cpFloat moment;
+			cpFloat elasticity;
+			cpFloat friction;
 
-    void setup(cpSpace* space);
+			virtual Shape* create(cpSpace* space, cpBody* body) = 0;
+		};
 
-    void addCircle(ofVec2f offset, float radius, float mass=1);
-    void addRect(ofRectangle r, float mass=1);
-    void addPolygon(ofPolyline p, float mass=1);
+		class CircleDefinition: public ShapeDefinition{
+		public:
+			CircleDefinition(float radius, ofVec2f offset=ofVec2f(0,0), float mass=1, float friction=OFXCHIPMUNK_DEFAULT_FRICTION, float elasticity=OFXCHIPMUNK_DEFAULT_ELASTICITY);
+			Shape *create(cpSpace *space, cpBody *body) override;
+			float radius;
+			ofVec2f offset;
+		};
 
-    void build();
+		class RectDefinition: public ShapeDefinition{
+		public:
+			RectDefinition(ofRectangle bounds, float mass=1, float friction=OFXCHIPMUNK_DEFAULT_FRICTION, float elasticity=OFXCHIPMUNK_DEFAULT_ELASTICITY);
+			Shape *create(cpSpace *space, cpBody *body) override;
+			ofRectangle bounds;
+		};
+
+		class PolygonDefinition: public ShapeDefinition{
+		public:
+			PolygonDefinition(std::vector<ofVec2f> points, float mass=1, float friction=OFXCHIPMUNK_DEFAULT_FRICTION, float elasticity=OFXCHIPMUNK_DEFAULT_ELASTICITY);
+			Shape *create(cpSpace *space, cpBody *body) override;
+			std::vector<ofVec2f> points;
+		};
+
+	public:
+		void addCircle(float radius, ofVec2f offset, float mass=1, float friction=OFXCHIPMUNK_DEFAULT_FRICTION, float elasticity=OFXCHIPMUNK_DEFAULT_ELASTICITY);
+		void addRect(ofRectangle bounds, float mass=1, float friction=OFXCHIPMUNK_DEFAULT_FRICTION, float elasticity=OFXCHIPMUNK_DEFAULT_ELASTICITY);
+		void addPolygon(ofPolyline poly, float mass=1, float friction=OFXCHIPMUNK_DEFAULT_FRICTION, float elasticity=OFXCHIPMUNK_DEFAULT_ELASTICITY);
+		void addPolygon(std::vector<ofVec2f> points, float mass=1, float friction=OFXCHIPMUNK_DEFAULT_FRICTION, float elasticity=OFXCHIPMUNK_DEFAULT_ELASTICITY);
+		void addLine(ofVec2f a, ofVec2f b, float mass=1, float friction=OFXCHIPMUNK_DEFAULT_FRICTION, float elasticity=OFXCHIPMUNK_DEFAULT_ELASTICITY);
+
+		cpFloat getMass();
+		cpFloat getMoment();
+
+		std::vector<ShapeDefinition*> shapes;
+
+	};
+
+	Composite();
+	Composite(cpSpace* space, Definition& def);
+
+	void setup(cpSpace* space, Definition& def);
 
 private:
-    void add(Shape* shape);
+	void add(Shape* shape);
 
-
-    class Temp{
-    public:
-        cpFloat mass;
-        cpFloat moment;
-    };
-
-    class TempCircle: public Temp{
-    public:
-        float radius;
-        ofVec2f offset;
-    };
-
-    class TempRect: public Temp{
-    public:
-        ofRectangle rect;
-    };
-
-    class TempPoly: public Temp{
-    public:
-        cpVect* vects;
-        int numVects;
-    };
-
-    std::vector<shared_ptr<Shape>> shapes;
-
-    std::vector<TempCircle> tmpCircles;
-    std::vector<TempRect> tmpRects;
-    std::vector<TempPoly> tmpPolys;
-
-    cpSpace* space;
+	std::vector<shared_ptr<Shape>> shapes;
 };
 
 } // namespace ofxChimpunk

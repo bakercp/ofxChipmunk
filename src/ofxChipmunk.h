@@ -8,11 +8,14 @@
 #include "ofxChipmunkBody.h"
 #include "ofxChipmunkCircle.h"
 #include "ofxChipmunkRect.h"
+#include "ofxChipmunkPolygon.h"
 
+/*
 using ofxChipmunkWorld = ofxChipmunk::World;
 using ofxChipmunkShape = ofxChipmunk::Shape;
 using ofxChipmunkBody = ofxChipmunk::Body;
 using ofxChipmunkCircle = ofxChipmunk::Circle;
 using ofxChipmunkQuad = ofxChipmunk::Rect;
+*/
 
 #endif // OFXCHIPMUNK_H

@@ -3,8 +3,6 @@
 #include "ofMain.h"
 #include "ofxChipmunk.h"
 
-#include <ofxChipmunkComposite.h>
-
 using namespace ofxChipmunk;
 
 class ofApp : public ofBaseApp{

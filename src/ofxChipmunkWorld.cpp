@@ -72,8 +72,8 @@ shared_ptr<Polygon> World::createPoly(ofPolyline poly, float mass){
     return shared_ptr<Polygon>(new Polygon(space, poly, mass));
 }
 
-shared_ptr<Composite> World::createComposite(){
-
+shared_ptr<Composite> World::createComposite(Composite::Definition &definition){
+	return shared_ptr<Composite>(new Composite(space, definition));
 }
 
 shared_ptr<StaticLine> World::createStaticLine(ofVec2f a, ofVec2f b){

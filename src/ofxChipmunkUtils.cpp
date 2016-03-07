@@ -153,7 +153,15 @@ void drawPolygon(int count, const cpVect *verts, cpFloat r, cpSpaceDebugColor ou
 void drawDot(cpFloat size, cpVect pos, cpSpaceDebugColor color, cpDataPointer data){
     ofFill();
     ofSetColor(toOf(color));
-    ofDrawCircle(toOf(pos), size);
+	ofDrawCircle(toOf(pos), size);
+}
+
+std::vector<cpVect> toChipmunk(std::vector<ofVec2f>& points){
+	std::vector<cpVect> ret;
+	for(auto& p: points){
+		ret.push_back(toChipmunk(p));
+	}
+	return ret;
 }
 
 
