@@ -2,7 +2,7 @@
 
 namespace ofxChipmunk {
 
-Spring::Spring(){
+Spring::Spring():forceFunction(nullptr){
 
 }
 
@@ -21,5 +21,27 @@ void Spring::setup(cpSpace* space, Body *a, Body *b, ofVec2f anchorA, ofVec2f an
 void Spring::setup(cpSpace *space, cpBody *a, cpBody *b, ofVec2f anchorA, ofVec2f anchorB, float distance, float stiffness, float damping){
 	Constraint::setup(space, cpDampedSpringNew(a, b, toChipmunk(anchorA), toChipmunk(anchorB), distance, stiffness, damping));
 }
+
+float Spring::getStiffness(){
+	return cpDampedSpringGetStiffness(constraint);
+}
+
+void Spring::setStiffness(float stiffness){
+	cpDampedSpringSetStiffness(constraint, stiffness);
+}
+
+void Spring::setSpringForceFunction(Spring::ForceFunction f){
+	cpConstraintSetUserData(constraint, this);
+	cpDampedSpringSetSpringForceFunc(constraint, &Spring::springForceFunc);
+}
+
+cpFloat Spring::springForceFunc(cpConstraint *constraint, cpFloat dist){
+	Spring* spring = (Spring*)cpConstraintGetUserData(constraint);
+	if(spring->forceFunction){
+		return spring->forceFunction(spring, dist);
+	}
+	return 0;
+}
+
 
 } // namespace ofxChipmunk

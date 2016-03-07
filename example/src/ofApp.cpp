@@ -4,18 +4,33 @@
 void ofApp::setup(){
     ofBackground(30);
 
-	ofSetFrameRate(30);
+	ofSetFrameRate(60);
 
 	world.createBounds();
 
+	//
     circle = world.createCircle(20);
-	circle->setPosition(ofVec2f(ofGetWidth()*.5, 10));
+	circle->setPosition(ofVec2f(ofGetWidth()*.5, 40));
 
+	//
 	rect = world.createRect(ofRectangle(0, 0, 150, 200), 100);
 	rect->setPosition(ofVec2f(ofGetWidth()*.5, 200));
 	rect->setRotation(ofDegToRad(60));
 
+	//
+	ofPolyline polyline;
+	for(unsigned i=0; i<13; i++){
+		float angle = ofMap(i, 0, 13, 0, TWO_PI);
+		float r = ofRandom(15, 30);
+		polyline.addVertex(cosf(angle)*r, sinf(angle)*r);
+	}
+	poly = world.createPoly(polyline);
+	poly->setPosition(ofVec2f(ofGetWidth()*.4, 0));
+
+
+	//
 	spring = world.createSpring(circle, rect);
+	spring = world.createSpring(circle, poly);
 }
 
 //--------------------------------------------------------------

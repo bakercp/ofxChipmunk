@@ -8,6 +8,7 @@
 #include "ofxChipmunkRect.h"
 #include "ofxChipmunkStaticRect.h"
 #include "ofxChipmunkSpring.h"
+#include "ofxChipmunkPolygon.h"
 
 namespace ofxChipmunk {
 
@@ -28,6 +29,8 @@ public:
 	//primitives
 	shared_ptr<Circle> createCircle(float radius, float mass=1);
 	shared_ptr<Rect> createRect(ofRectangle rect, float mass=1);
+	shared_ptr<Polygon> createPoly(std::vector<ofVec2f>& points, float mass=1);
+	shared_ptr<Polygon> createPoly(ofPolyline poly, float mass=1);
 
 	//static primitives
 	shared_ptr<StaticLine> createStaticLine(ofVec2f a, ofVec2f b);

@@ -64,6 +64,14 @@ shared_ptr<Rect> World::createRect(ofRectangle rect, float mass){
 	return shared_ptr<Rect>(new Rect(space, rect, mass));
 }
 
+shared_ptr<Polygon> World::createPoly(std::vector<ofVec2f>& points, float mass){
+	return shared_ptr<Polygon>(new Polygon(space, points, mass));
+}
+
+shared_ptr<Polygon> World::createPoly(ofPolyline poly, float mass){
+	return shared_ptr<Polygon>(new Polygon(space, poly, mass));
+}
+
 shared_ptr<StaticLine> World::createStaticLine(ofVec2f a, ofVec2f b){
 	return shared_ptr<StaticLine>(new StaticLine(space, a, b));
 }
