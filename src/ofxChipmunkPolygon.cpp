@@ -24,14 +24,13 @@ void Polygon::setup(cpSpace *space, ofPolyline poly, float mass){
 
 void Polygon::setup(cpSpace *space, std::vector<ofVec2f> &points, float mass){
 	cpVect verts[points.size()];
-	//memcpy(verts, points.data(), sizeof(cpVect)*points.size());
 	for(size_t i=0; i<points.size(); i++){
 		verts[i] = toChipmunk(points[i]);
 	}
 
 	cpFloat moment = cpMomentForPoly(mass, points.size(), verts, cpvzero, 0.0);
 	Body::setup(space, mass, moment);
-	Shape::setup(space, cpPolyShapeNew(body, points.size(), verts, cpTransformIdentity, 0.0));
+    ShapePolygon::setup(space, body, points.size(), verts);
 }
 
 } // namespace ofxChipmunk

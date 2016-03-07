@@ -6,15 +6,12 @@
 
 namespace ofxChipmunk {
 
-class Circle: public ofxChipmunk::Body, public ofxChipmunk::Shape{
+class Circle: public ofxChipmunk::Body, public ofxChipmunk::ShapeCircle{
 public:
     Circle();
 	Circle(cpSpace* space, float radius, float mass=1);
 
 	void setup(cpSpace* space, float radius, float mass=1);
-
-	void setRadius(float r);
-	float getRadius();
 };
 
 } // namespace ofxChipmunk
