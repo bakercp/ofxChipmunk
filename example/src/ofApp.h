@@ -3,6 +3,8 @@
 #include "ofMain.h"
 #include "ofxChipmunk.h"
 
+#include <ofxChipmunkComposite.h>
+
 using namespace ofxChipmunk;
 
 class ofApp : public ofBaseApp{
@@ -29,4 +31,5 @@ public:
     shared_ptr<Rect> rect;
 	shared_ptr<Polygon> poly;
 	shared_ptr<Spring> spring;
+    shared_ptr<Composite> composite;
 };

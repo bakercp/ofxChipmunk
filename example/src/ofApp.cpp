@@ -28,6 +28,8 @@ void ofApp::setup(){
 	poly->setPosition(ofVec2f(ofGetWidth()*.4, 0));
 
 
+
+
 	//
 	spring = world.createSpring(circle, rect);
 	spring = world.createSpring(circle, poly);
