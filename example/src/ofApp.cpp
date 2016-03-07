@@ -4,7 +4,7 @@
 void ofApp::setup(){
     ofBackground(30);
 
-	ofSetFrameRate(60);
+	ofSetFrameRate(30);
 
 	world.createBounds();
 
@@ -14,11 +14,13 @@ void ofApp::setup(){
 	rect = world.createRect(ofRectangle(0, 0, 150, 200), 100);
 	rect->setPosition(ofVec2f(ofGetWidth()*.5, 200));
 	rect->setRotation(ofDegToRad(60));
+
+	spring = world.createSpring(circle, rect);
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-	circle->setRadius(circle->getRadius()+.3);
+	//circle->setRadius(circle->getRadius()+.3);
 
 	world.update();
 }

@@ -11,6 +11,7 @@ public:
 
 protected:
     Constraint();
+	~Constraint();
 
 	void setup(cpSpace* space, cpConstraint* constraint);
 

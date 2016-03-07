@@ -27,4 +27,5 @@ public:
 	World world;
 	shared_ptr<Circle> circle;
     shared_ptr<Rect> rect;
+	shared_ptr<Spring> spring;
 };

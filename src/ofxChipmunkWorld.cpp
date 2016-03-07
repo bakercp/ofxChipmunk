@@ -72,5 +72,25 @@ shared_ptr<StaticRect> World::createStaticRect(ofRectangle rect){
 	return shared_ptr<StaticRect>(new StaticRect(space, rect));
 }
 
+shared_ptr<Spring> World::createSpring(shared_ptr<Body> a, shared_ptr<Body> b, float stiffness, float damping){
+	return createSpring(a, b, ofVec2f(0, 0), ofVec2f(0, 0), a->getPosition().distance(b->getPosition()), stiffness, damping);
+}
+
+shared_ptr<Spring> World::createSpring(shared_ptr<Body> a, shared_ptr<Body> b, ofVec2f anchorA, ofVec2f anchorB, float distance, float stiffness, float damping){
+	return shared_ptr<Spring>(new Spring(space, a.get(), b.get(), anchorA, anchorB, distance, stiffness, damping));
+}
+
+void World::onClick(ofMouseEventArgs &args){
+
+}
+
+void World::onDrag(ofMouseEventArgs &args){
+
+}
+
+void World::onRelease(ofMouseEventArgs &args){
+
+}
+
 
 } // namespace ofxChipmunk

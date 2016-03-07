@@ -10,8 +10,11 @@ namespace ofxChipmunk {
 class Spring: public Constraint{
 public:
     Spring();
+	Spring(cpSpace* space, Body* a, Body* b, ofVec2f anchorA, ofVec2f anchorB, float distance, float stiffness=OFXCHIPMUNK_DEFAULT_STIFFNES, float damping=OFXCHIPMUNK_DEFAULT_DAMPING);
+	Spring(cpSpace* space, cpBody* a, cpBody* b, ofVec2f anchorA, ofVec2f anchorB, float distance, float stiffness=OFXCHIPMUNK_DEFAULT_STIFFNES, float damping=OFXCHIPMUNK_DEFAULT_DAMPING);
 
     void setup(cpSpace* space, Body* a, Body* b, ofVec2f anchorA, ofVec2f anchorB, float distance, float stiffness=OFXCHIPMUNK_DEFAULT_STIFFNES, float damping=OFXCHIPMUNK_DEFAULT_DAMPING);
+	void setup(cpSpace* space, cpBody* a, cpBody* b, ofVec2f anchorA, ofVec2f anchorB, float distance, float stiffness=OFXCHIPMUNK_DEFAULT_STIFFNES, float damping=OFXCHIPMUNK_DEFAULT_DAMPING);
 };
 
 } // namespace ofxChipmunk
