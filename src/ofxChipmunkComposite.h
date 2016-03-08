@@ -73,6 +73,8 @@ public:
 
 	void setScale(float s);
 
+	ofPath getAsPath();
+
 private:
 	void add(Shape* shape);
 

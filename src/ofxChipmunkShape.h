@@ -20,6 +20,7 @@ public:
 
 	//very unsafe function
 	virtual void scale(float s){ofLogNotice("ofxChipmunk") << "Scale not implemented for this shape";};
+	virtual ofPath getAsPath(){ofLogNotice("ofxChipmunk") << "GetAsPath not implemented for this shape";};
 
 protected:
 	cpShape* shape;
@@ -33,9 +34,9 @@ public:
 	void setRadius(float r);
 	float getRadius();
 	void scale(float s) override;
+	ofPath getAsPath() override;
 private:
 	float radiusInitial;
-
 };
 
 class ShapeRect: public Shape{
@@ -55,6 +56,7 @@ public:
 	void setup(cpSpace* space, cpBody* body, std::vector<ofVec2f>& points);
 
 	void scale(float s) override;
+	ofPath getAsPath() override;
 protected:
 	void setup(cpSpace* space, cpBody* body, int nPoints, cpVect* pts);
 

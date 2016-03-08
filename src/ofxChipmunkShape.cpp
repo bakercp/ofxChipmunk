@@ -52,6 +52,11 @@ void ShapeCircle::scale(float s){
 	setRadius(radiusInitial*s);
 }
 
+ofPath ShapeCircle::getAsPath(){
+	ofPath ret;
+	ret.circle(toOf(cpCircleShapeGetOffset(shape)), getRadius());
+}
+
 //
 ShapeRect::ShapeRect(){
 
@@ -106,7 +111,17 @@ void ShapePolygon::scale(float s){
 		pts.push_back(cpvmult(points[i], s));
 	}
 
-	cpPolyShapeSetVerts(shape, numPoints, pts.data(), cpTransformIdentity);
+	//cpPolyShapeSetVerts(shape, numPoints, pts.data(), cpTransformIdentity);
+	cpPolyShapeSetVertsRaw(shape, numPoints, pts.data());
+}
+
+ofPath ShapePolygon::getAsPath(){
+	ofPath ret;
+	for(int i=0; i<cpPolyShapeGetCount(shape); i++){
+		ret.lineTo(toOf(cpPolyShapeGetVert(shape, i)));
+	}
+	ret.close();
+	return ret;
 }
 
 void ShapePolygon::setup(cpSpace *space, cpBody *body, int nPoints, cpVect *verts){
@@ -114,14 +129,20 @@ void ShapePolygon::setup(cpSpace *space, cpBody *body, int nPoints, cpVect *vert
 		delete[] points;
 	}
 
+	/*
+	numPoints = nPoints;
+	points = new cpVect[numPoints];
+	memcpy(points, verts, numPoints*sizeof(cpVect));
+	*/
+
 	Shape::setup(space, cpPolyShapeNew(body, nPoints, verts, cpTransformIdentity, 0.0));
+
 
 	numPoints = cpPolyShapeGetCount(shape);
 	points = new cpVect[numPoints];
 	for(int i=0;i<numPoints;i++){
 		points[i] = cpPolyShapeGetVert(shape, i);
 	}
-	//memcpy(points, verts, numPoints*sizeof(cpVect));
 }
 
 //

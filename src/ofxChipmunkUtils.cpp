@@ -137,11 +137,13 @@ void drawPolygon(int count, const cpVect *verts, cpFloat r, cpSpaceDebugColor ou
 
     for(int i=0; i<count;i++){
         poly.addVertex(toOf(verts[i]));
+		ofDrawCircle(toOf(verts[i]), 2);
     }
     poly.close();
 
 	ofSetColor(toOf(fill));
 	ofFill();
+
 	tesselator.tessellateToMesh(poly, ofPolyWindingMode::OF_POLY_WINDING_POSITIVE, polyMesh, true);
 	polyMesh.drawFaces();
 

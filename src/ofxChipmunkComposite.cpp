@@ -58,6 +58,14 @@ void Composite::setScale(float scl){
 	}
 }
 
+ofPath Composite::getAsPath(){
+	ofPath ret;
+	for(auto s: shapes){
+		ret.append(s->getAsPath());
+	}
+	return ret;
+}
+
 void Composite::add(Shape *shape){
 	shapes.push_back(std::shared_ptr<Shape>(shape));
 }
