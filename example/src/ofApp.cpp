@@ -38,9 +38,14 @@ void ofApp::setup(){
 	composite = world.createComposite(def);
 	composite->setPosition(ofVec2f(ofGetWidth()*.53, 100));
 
+	//anchor
+	anchor = world.createStaticBody();
+	anchor->setPosition(ofVec2f(ofGetWidth()*.7, 40));
+
 	//
-	spring = world.createSpring(circle, rect);
-	spring = world.createSpring(circle, poly);
+	spring1 = world.createSpring(circle, rect);
+	spring2 = world.createSpring(circle, poly);
+	spring2 = world.createSpring(anchor, composite);
 }
 
 //--------------------------------------------------------------

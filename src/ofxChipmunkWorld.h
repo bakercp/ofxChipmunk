@@ -10,6 +10,7 @@
 #include "ofxChipmunkSpring.h"
 #include "ofxChipmunkPolygon.h"
 #include "ofxChipmunkComposite.h"
+#include "ofxChipmunkStaticCircle.h"
 
 namespace ofxChipmunk {
 
@@ -35,12 +36,14 @@ public:
 	shared_ptr<Composite> createComposite(Composite::Definition& definition);
 
 	//static primitives
+	shared_ptr<StaticBody> createStaticBody();
 	shared_ptr<StaticLine> createStaticLine(ofVec2f a, ofVec2f b);
 	shared_ptr<StaticRect> createStaticRect(ofRectangle rect);
+	shared_ptr<StaticCircle> createStaticCircle(float radius);
 
 	//constraints
-	shared_ptr<Spring> createSpring(shared_ptr<Body> a, shared_ptr<Body> b, float stiffness=OFXCHIPMUNK_DEFAULT_STIFFNES, float damping=OFXCHIPMUNK_DEFAULT_DAMPING);
-	shared_ptr<Spring> createSpring(shared_ptr<Body> a, shared_ptr<Body> b, ofVec2f anchorA, ofVec2f anchorB, float distance, float stiffness=OFXCHIPMUNK_DEFAULT_STIFFNES, float damping=OFXCHIPMUNK_DEFAULT_DAMPING);
+	shared_ptr<Spring> createSpring(shared_ptr<BaseBody> a, shared_ptr<BaseBody> b, float stiffness=OFXCHIPMUNK_DEFAULT_STIFFNES, float damping=OFXCHIPMUNK_DEFAULT_DAMPING);
+	shared_ptr<Spring> createSpring(shared_ptr<BaseBody> a, shared_ptr<BaseBody> b, ofVec2f anchorA, ofVec2f anchorB, float distance, float stiffness=OFXCHIPMUNK_DEFAULT_STIFFNES, float damping=OFXCHIPMUNK_DEFAULT_DAMPING);
 
 private:
 	void onClick(ofMouseEventArgs& args);

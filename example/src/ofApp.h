@@ -28,6 +28,9 @@ public:
 	shared_ptr<Circle> circle;
     shared_ptr<Rect> rect;
 	shared_ptr<Polygon> poly;
-	shared_ptr<Spring> spring;
+	shared_ptr<Spring> spring1;
+	shared_ptr<Spring> spring2;
+	shared_ptr<Spring> spring3;
     shared_ptr<Composite> composite;
+	shared_ptr<StaticBody> anchor;
 };

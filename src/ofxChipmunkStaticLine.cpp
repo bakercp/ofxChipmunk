@@ -11,7 +11,8 @@ StaticLine::StaticLine(cpSpace *space, ofVec2f a, ofVec2f b){
 }
 
 void StaticLine::setup(cpSpace *space, ofVec2f a, ofVec2f b){
-	Shape::setup(space, cpSegmentShapeNew(cpSpaceGetStaticBody(space), toChipmunk(a), toChipmunk(b), 0.f));
+	StaticBody::setup(space);
+	Shape::setup(space, cpSegmentShapeNew(body, toChipmunk(a), toChipmunk(b), 1.f));
 	setFriction(.7);
 }
 

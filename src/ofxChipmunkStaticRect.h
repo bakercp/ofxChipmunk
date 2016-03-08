@@ -3,11 +3,12 @@
 
 #include "ofMain.h"
 #include "ofxChipmunkShape.h"
+#include "ofxChipmunkBody.h"
 #include "ofxChipmunkUtils.h"
 
 namespace ofxChipmunk {
 
-class StaticRect: public Shape{
+class StaticRect: public Shape, public StaticBody{
 public:
     StaticRect();
 	StaticRect(cpSpace* space, ofRectangle bounds);

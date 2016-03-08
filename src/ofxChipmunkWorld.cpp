@@ -76,6 +76,10 @@ shared_ptr<Composite> World::createComposite(Composite::Definition &definition){
 	return shared_ptr<Composite>(new Composite(space, definition));
 }
 
+shared_ptr<StaticBody> World::createStaticBody(){
+	return shared_ptr<StaticBody>(new StaticBody(space));
+}
+
 shared_ptr<StaticLine> World::createStaticLine(ofVec2f a, ofVec2f b){
 	return shared_ptr<StaticLine>(new StaticLine(space, a, b));
 }
@@ -84,11 +88,15 @@ shared_ptr<StaticRect> World::createStaticRect(ofRectangle rect){
 	return shared_ptr<StaticRect>(new StaticRect(space, rect));
 }
 
-shared_ptr<Spring> World::createSpring(shared_ptr<Body> a, shared_ptr<Body> b, float stiffness, float damping){
+shared_ptr<StaticCircle> World::createStaticCircle(float radius){
+	return shared_ptr<StaticCircle>(new StaticCircle(space, radius));
+}
+
+shared_ptr<Spring> World::createSpring(shared_ptr<BaseBody> a, shared_ptr<BaseBody> b, float stiffness, float damping){
 	return createSpring(a, b, ofVec2f(0, 0), ofVec2f(0, 0), a->getPosition().distance(b->getPosition()), stiffness, damping);
 }
 
-shared_ptr<Spring> World::createSpring(shared_ptr<Body> a, shared_ptr<Body> b, ofVec2f anchorA, ofVec2f anchorB, float distance, float stiffness, float damping){
+shared_ptr<Spring> World::createSpring(shared_ptr<BaseBody> a, shared_ptr<BaseBody> b, ofVec2f anchorA, ofVec2f anchorB, float distance, float stiffness, float damping){
 	return shared_ptr<Spring>(new Spring(space, a.get(), b.get(), anchorA, anchorB, distance, stiffness, damping));
 }
 

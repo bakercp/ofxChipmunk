@@ -6,7 +6,7 @@ Spring::Spring():forceFunction(nullptr){
 
 }
 
-Spring::Spring(cpSpace *space, Body *a, Body *b, ofVec2f anchorA, ofVec2f anchorB, float distance, float stiffness, float damping){
+Spring::Spring(cpSpace *space, BaseBody *a, BaseBody *b, ofVec2f anchorA, ofVec2f anchorB, float distance, float stiffness, float damping){
 	setup(space, a, b, anchorA, anchorB, distance, stiffness, damping);
 }
 
@@ -14,7 +14,7 @@ Spring::Spring(cpSpace *space, cpBody *a, cpBody *b, ofVec2f anchorA, ofVec2f an
 	setup(space, a, b, anchorA, anchorB, distance, stiffness, damping);
 }
 
-void Spring::setup(cpSpace* space, Body *a, Body *b, ofVec2f anchorA, ofVec2f anchorB, float distance, float stiffness, float damping){
+void Spring::setup(cpSpace* space, BaseBody *a, BaseBody *b, ofVec2f anchorA, ofVec2f anchorB, float distance, float stiffness, float damping){
 	setup(space, a->body, b->body, anchorA, anchorB, distance, stiffness, damping);
 }
 

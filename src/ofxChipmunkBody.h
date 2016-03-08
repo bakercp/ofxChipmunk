@@ -7,21 +7,36 @@
 
 namespace ofxChipmunk {
 
-class Body{
+class BaseBody{
+protected:
+	BaseBody();
+	~BaseBody();
+
+	void setup(cpSpace* space, cpBody* body);
+
+public:
+	ofVec2f getPosition();
+	void setPosition(ofVec2f pos);
+	void setRotation(float radians);
+	bool isSleeping();
+
+	cpBody* body;
+};
+
+class Body: public BaseBody{
 public:
 	Body();
 	~Body();
 
 	void setup(cpSpace* space, float mass, cpFloat moment);
+};
 
-	ofVec2f getPosition();
-	void setPosition(ofVec2f pos);
-    void setRotation(float radians);
+class StaticBody: public BaseBody{
+public:
+	StaticBody();
+	StaticBody(cpSpace* space);
 
-	bool isSleeping();
-
-
-	cpBody* body;
+	void setup(cpSpace* space);
 };
 
 } // namespace ofxChimpunk

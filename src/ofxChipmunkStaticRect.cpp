@@ -11,7 +11,8 @@ StaticRect::StaticRect(cpSpace *space, ofRectangle bounds){
 }
 
 void StaticRect::setup(cpSpace *space, ofRectangle bounds){
-	Shape::setup(space, cpBoxShapeNew2(cpSpaceGetStaticBody(space), toChipmunk(bounds), 0));
+	StaticBody::setup(space);
+	Shape::setup(space, cpBoxShapeNew2(body, toChipmunk(bounds), 0));
 }
 
 } // namespace ofxChipmunk
