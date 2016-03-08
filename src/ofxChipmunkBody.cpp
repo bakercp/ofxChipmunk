@@ -25,6 +25,10 @@ void BaseBody::setPosition(ofVec2f pos){
 	cpBodySetPosition(body, toChipmunk(pos));
 }
 
+float BaseBody::getRotation(){
+	return cpBodyGetAngle(body);
+}
+
 void BaseBody::setRotation(float radians){
 	cpBodySetAngle(body, radians);
 }
