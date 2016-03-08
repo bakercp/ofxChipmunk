@@ -7,8 +7,10 @@ Constraint::Constraint():constraint(nullptr){
 }
 
 Constraint::~Constraint(){
-	if(constraint)
+	if(constraint){
+		cpSpaceRemoveConstraint(cpConstraintGetSpace(constraint), constraint);
 		cpConstraintDestroy(constraint);
+	}
 }
 
 void Constraint::setup(cpSpace* space, cpConstraint *c){

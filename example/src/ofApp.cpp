@@ -50,7 +50,7 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-	composite->setScale(1.1);
+	composite->setScale(1.9);
 
 	world.update();
 }

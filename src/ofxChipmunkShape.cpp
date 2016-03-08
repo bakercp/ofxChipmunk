@@ -114,11 +114,14 @@ void ShapePolygon::setup(cpSpace *space, cpBody *body, int nPoints, cpVect *vert
 		delete[] points;
 	}
 
-	numPoints = nPoints;
-	points = new cpVect[numPoints];
-	memcpy(points, verts, numPoints*sizeof(cpVect));
-
 	Shape::setup(space, cpPolyShapeNew(body, nPoints, verts, cpTransformIdentity, 0.0));
+
+	numPoints = cpPolyShapeGetCount(shape);
+	points = new cpVect[numPoints];
+	for(int i=0;i<numPoints;i++){
+		points[i] = cpPolyShapeGetVert(shape, i);
+	}
+	//memcpy(points, verts, numPoints*sizeof(cpVect));
 }
 
 //
