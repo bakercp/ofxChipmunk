@@ -50,8 +50,6 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-	//circle->setRadius(circle->getRadius()+.3);
-
 	world.update();
 }
 

@@ -18,11 +18,11 @@ void Shape::setup(cpSpace *space, cpShape *s){
 }
 
 void Shape::setElasticity(float value){
-    cpShapeSetElasticity(shape, value);
+	cpShapeSetElasticity(shape, value);
 }
 
 void Shape::setFriction(float friction){
-    cpShapeSetFriction(shape, friction);
+	cpShapeSetFriction(shape, friction);
 }
 
 //
@@ -35,15 +35,20 @@ ShapeCircle::ShapeCircle(cpSpace *space, cpBody *body, float radius, ofVec2f off
 }
 
 void ShapeCircle::setup(cpSpace *space, cpBody* body, float radius, ofVec2f offset){
+	radiusInitial = radius;
 	Shape::setup(space, cpCircleShapeNew(body, radius, toChipmunk(offset)));
 }
 
 void ShapeCircle::setRadius(float r){
-    cpCircleShapeSetRadius(shape, r);
+	cpCircleShapeSetRadius(shape, r);
 }
 
 float ShapeCircle::getRadius(){
-    return cpCircleShapeGetRadius(shape);
+	return cpCircleShapeGetRadius(shape);
+}
+
+void ShapeCircle::scale(float s){
+	setRadius(radiusInitial*s);
 }
 
 //
@@ -56,40 +61,53 @@ ShapeRect::ShapeRect(cpSpace *space, cpBody *body, ofRectangle bounds){
 }
 
 void ShapeRect::setup(cpSpace *space, cpBody *body, ofRectangle bounds){
-    Shape::setup(space, cpBoxShapeNew(body, bounds.width, bounds.height, 0));
+	Shape::setup(space, cpBoxShapeNew(body, bounds.width, bounds.height, 0));
 }
 
 //
-ShapePolygon::ShapePolygon(){}
+ShapePolygon::ShapePolygon(){numPoints=0;}
 
 ShapePolygon::ShapePolygon(cpSpace *space, cpBody *body, ofPolyline poly){
+	numPoints=0;
 	setup(space, body, poly);
 }
 
 ShapePolygon::ShapePolygon(cpSpace *space, cpBody *body, std::vector<ofVec2f> &points){
+	numPoints = 0;
 	setup(space, body, points);
 }
 
 void ShapePolygon::setup(cpSpace *space, cpBody *body, ofPolyline poly){
-    std::vector<ofVec2f> vecs;
-    for(auto& p: poly){
-        vecs.push_back(p);
-    }
-    setup(space, body, vecs);
+	std::vector<ofVec2f> vecs;
+	for(auto& p: poly){
+		vecs.push_back(p);
+	}
+	setup(space, body, vecs);
 }
 
 void ShapePolygon::setup(cpSpace *space, cpBody *body, std::vector<ofVec2f> &points){
-    cpVect verts[points.size()];
-    //memcpy(verts, points.data(), sizeof(cpVect)*points.size());
-    for(size_t i=0; i<points.size(); i++){
-        verts[i] = toChipmunk(points[i]);
-    }
+	setup(space, body, points.size(), toChipmunk(points).data());
+}
 
-    setup(space, body, points.size(), verts);
+void ShapePolygon::scale(float s){
+	std::vector<cpVect> pts;
+	for(int i=0; i<numPoints; i++){
+		pts.push_back(cpvmult(points[i], s));
+	}
+
+	cpPolyShapeSetVerts(shape, numPoints, pts.data(), cpTransformIdentity);
 }
 
 void ShapePolygon::setup(cpSpace *space, cpBody *body, int nPoints, cpVect *verts){
-    Shape::setup(space, cpPolyShapeNew(body, nPoints, verts, cpTransformIdentity, 0.0));
+	if(numPoints>0){
+		delete[] points;
+	}
+
+	numPoints = nPoints;
+	points = new cpVect[numPoints];
+	memcpy(points, verts, numPoints*sizeof(cpVect));
+
+	Shape::setup(space, cpPolyShapeNew(body, nPoints, verts, cpTransformIdentity, 0.0));
 }
 
 //

@@ -18,6 +18,8 @@ public:
     void setElasticity(float);
 	void setFriction(float friction);
 
+	//very unsafe function
+	virtual void scale(float s){ofLogNotice("ofxChipmunk") << "Scale not implemented for this shape";};
 protected:
     cpShape* shape;
 };
@@ -29,6 +31,10 @@ public:
 	void setup(cpSpace* space, cpBody* body, float radius, ofVec2f offset = ofVec2f(0, 0));
     void setRadius(float r);
     float getRadius();
+	void scale(float s) override;
+private:
+	float radiusInitial;
+
 };
 
 class ShapeRect: public Shape{
@@ -46,8 +52,13 @@ public:
 
     void setup(cpSpace* space, cpBody* body, ofPolyline poly);
     void setup(cpSpace* space, cpBody* body, std::vector<ofVec2f>& points);
+
+	void scale(float s) override;
 protected:
     void setup(cpSpace* space, cpBody* body, int nPoints, cpVect* pts);
+
+	int numPoints;
+	cpVect* points;
 };
 
 } // namespace ofxChimpunk
