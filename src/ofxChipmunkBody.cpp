@@ -7,8 +7,10 @@ BaseBody::BaseBody():body(nullptr){
 }
 
 BaseBody::~BaseBody(){
-	if(body)
+	if(body){
+		cpSpaceRemoveBody(cpBodyGetSpace(body), body);
 		cpBodyFree(body);
+	}
 }
 
 void BaseBody::setup(cpSpace *space, cpBody *b){

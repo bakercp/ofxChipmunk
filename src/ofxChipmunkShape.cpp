@@ -8,6 +8,7 @@ Shape::Shape():shape(nullptr){
 }
 
 Shape::~Shape(){
+	cpSpaceRemoveShape(cpShapeGetSpace(shape), shape);
 	cpShapeFree(shape);
 }
 
