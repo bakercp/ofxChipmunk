@@ -52,11 +52,18 @@ shared_ptr<Shape> Composite::getShape(int id){
 	return shapes[id];
 }
 
+void Composite::scale(float scl){
+	for(auto s: shapes){
+		s->scale(scl);
+	}
+}
+
 void Composite::add(Shape *shape){
 	shapes.push_back(std::shared_ptr<Shape>(shape));
 }
 
-///////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Composite::Definition::addCircle(float radius, ofVec2f offset, float mass, float f, float e){
 	definitions.push_back(shared_ptr<ShapeDefinition>(new CircleDefinition(radius, offset, mass, f, e)));
