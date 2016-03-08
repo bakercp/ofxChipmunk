@@ -78,15 +78,15 @@ void Composite::Definition::addPolygon(std::vector<ofVec2f> points, float mass, 
 	definitions.push_back(shared_ptr<ShapeDefinition>(new PolygonDefinition(points, mass, f, e)));
 }
 
-void Composite::Definition::addConvexPolygon(ofPolyline poly, float precision, float mass, float friction, float elasticity){
+void Composite::Definition::addConcavePolygon(ofPolyline poly, float precision, float mass, float friction, float elasticity){
 	std::vector<ofVec2f> vecs;
 	for(auto& p: poly){
 		vecs.push_back(p);
 	}
-	addConvexPolygon(vecs, precision, mass, friction, elasticity);
+	addConcavePolygon(vecs, precision, mass, friction, elasticity);
 }
 
-void Composite::Definition::addConvexPolygon(std::vector<ofVec2f> points, float precision, float mass, float friction, float elasticity){
+void Composite::Definition::addConcavePolygon(std::vector<ofVec2f> points, float precision, float mass, float friction, float elasticity){
 	//definitions.push_back(shared_ptr<ShapeDefinition>(new ConvexPolygonDefinition(points, precision, mass, friction, elasticity)));
 	std::vector<cpVect> verts = toChipmunk(points);
 	if(verts[0].x != verts.back().x || verts[0].y != verts.back().y)
@@ -108,6 +108,8 @@ void Composite::Definition::addConvexPolygon(std::vector<ofVec2f> points, float 
 		}
 		addPolygon(vec, mass, friction, elasticity);
 	}
+
+	ofLogNotice("ofxChipmunk::Composite") << "Split concave polygon into " << set->count << " parts";
 
 	cpPolylineSetFree(set, true);
 	cpPolylineFree(cpl);

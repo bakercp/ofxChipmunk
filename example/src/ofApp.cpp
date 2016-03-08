@@ -25,14 +25,14 @@ void ofApp::setup(){
 		polyline.addVertex(cosf(angle)*r, sinf(angle)*r);
 	}
 
-	//create a polygon with the polyline, will automatically be converted to a concave shape
+	//NOTE: create a polygon with the polyline, will automatically be converted to a convex shape (outer hull)
 	poly = world.createPoly(polyline);
 	poly->setPosition(ofVec2f(ofGetWidth()*.4, 0));
 
-	//to create a convex shape, create a Composite and add the polyline. The composite will automatically split it into concave subshapes
+	//NOTE: to create a concave shape, create a Composite and add the polyline. The composite will automatically split it into convex subshapes
 	Composite::Definition def;
-	def.addConvexPolygon(polyline);
-	//def.addCircle(50, ofVec2f(10, 10), 1);
+	def.addConcavePolygon(polyline);
+	//def.addCircle(50, ofVec2f(10, 10));
 	//def.addCircle(50, ofVec2f(-50, -50));
 	//def.addRect(ofRectangle(-10, -10, 100, 100));
 	composite = world.createComposite(def);
