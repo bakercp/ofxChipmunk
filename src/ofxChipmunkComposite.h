@@ -27,7 +27,7 @@ public:
 		class CircleDefinition: public ShapeDefinition{
 		public:
 			CircleDefinition(float radius, ofVec2f offset=ofVec2f(0,0), float mass=1, float friction=OFXCHIPMUNK_DEFAULT_FRICTION, float elasticity=OFXCHIPMUNK_DEFAULT_ELASTICITY);
-			Shape *create(cpSpace *space, cpBody *body) override;
+			Shape* create(cpSpace *space, cpBody *body) override;
 			float radius;
 			ofVec2f offset;
 		};
@@ -35,14 +35,14 @@ public:
 		class RectDefinition: public ShapeDefinition{
 		public:
 			RectDefinition(ofRectangle bounds, float mass=1, float friction=OFXCHIPMUNK_DEFAULT_FRICTION, float elasticity=OFXCHIPMUNK_DEFAULT_ELASTICITY);
-			Shape *create(cpSpace *space, cpBody *body) override;
+			Shape* create(cpSpace *space, cpBody *body) override;
 			ofRectangle bounds;
 		};
 
 		class PolygonDefinition: public ShapeDefinition{
 		public:
 			PolygonDefinition(std::vector<ofVec2f> points, float mass=1, float friction=OFXCHIPMUNK_DEFAULT_FRICTION, float elasticity=OFXCHIPMUNK_DEFAULT_ELASTICITY);
-			Shape *create(cpSpace *space, cpBody *body) override;
+			Shape* create(cpSpace *space, cpBody *body) override;
 			std::vector<ofVec2f> points;
 		};
 
@@ -51,12 +51,14 @@ public:
 		void addRect(ofRectangle bounds, float mass=1, float friction=OFXCHIPMUNK_DEFAULT_FRICTION, float elasticity=OFXCHIPMUNK_DEFAULT_ELASTICITY);
 		void addPolygon(ofPolyline poly, float mass=1, float friction=OFXCHIPMUNK_DEFAULT_FRICTION, float elasticity=OFXCHIPMUNK_DEFAULT_ELASTICITY);
 		void addPolygon(std::vector<ofVec2f> points, float mass=1, float friction=OFXCHIPMUNK_DEFAULT_FRICTION, float elasticity=OFXCHIPMUNK_DEFAULT_ELASTICITY);
+		void addConvexPolygon(ofPolyline poly, float precision=1, float mass=1, float friction=OFXCHIPMUNK_DEFAULT_FRICTION, float elasticity=OFXCHIPMUNK_DEFAULT_ELASTICITY);
+		void addConvexPolygon(std::vector<ofVec2f> points, float precision=1, float mass=1, float friction=OFXCHIPMUNK_DEFAULT_FRICTION, float elasticity=OFXCHIPMUNK_DEFAULT_ELASTICITY);
 		void addLine(ofVec2f a, ofVec2f b, float mass=1, float friction=OFXCHIPMUNK_DEFAULT_FRICTION, float elasticity=OFXCHIPMUNK_DEFAULT_ELASTICITY);
 
 		cpFloat getMass();
 		cpFloat getMoment();
 
-		std::vector<ShapeDefinition*> shapes;
+		std::vector<shared_ptr<ShapeDefinition>> definitions;
 
 	};
 
@@ -64,6 +66,10 @@ public:
 	Composite(cpSpace* space, Definition& def);
 
 	void setup(cpSpace* space, Definition& def);
+
+	void setFriction(float friction, int id=-1);
+	void setElasticity(float elasiticity, int id=-1);
+	shared_ptr<Shape> getShape(int id);
 
 private:
 	void add(Shape* shape);

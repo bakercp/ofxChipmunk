@@ -24,14 +24,17 @@ void ofApp::setup(){
 		float r = ofRandom(15, 100);
 		polyline.addVertex(cosf(angle)*r, sinf(angle)*r);
 	}
+
+	//create a polygon with the polyline, will automatically be converted to a concave shape
 	poly = world.createPoly(polyline);
 	poly->setPosition(ofVec2f(ofGetWidth()*.4, 0));
 
-	//
+	//to create a convex shape, create a Composite and add the polyline. The composite will automatically split it into concave subshapes
 	Composite::Definition def;
-	def.addCircle(50, ofVec2f(10, 10), 1);
-	def.addCircle(50, ofVec2f(-50, -50));
-	def.addRect(ofRectangle(-10, -10, 100, 100));
+	def.addConvexPolygon(polyline);
+	//def.addCircle(50, ofVec2f(10, 10), 1);
+	//def.addCircle(50, ofVec2f(-50, -50));
+	//def.addRect(ofRectangle(-10, -10, 100, 100));
 	composite = world.createComposite(def);
 	composite->setPosition(ofVec2f(ofGetWidth()*.53, 100));
 
