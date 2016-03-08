@@ -50,9 +50,6 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-	//circle->setRadius(circle->getRadius()+.3);
-	composite->scale(ofGetFrameNum()*.005 + 1);
-
 	world.update();
 }
 

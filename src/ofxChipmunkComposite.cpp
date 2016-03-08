@@ -99,11 +99,17 @@ void Composite::Definition::addConcavePolygon(std::vector<ofVec2f> points, float
 	if(verts[0].x != verts.back().x || verts[0].y != verts.back().y)
 		verts.push_back(verts[0]);
 
+	//fix wrong winding
+	if(cpAreaForPoly(verts.size(), verts.data(), 0) < 0)
+		std::reverse(verts.begin(), verts.end());
+
 	cpPolyline* cpl = (cpPolyline*)calloc(1, sizeof(int)*2+sizeof(cpVect)*verts.size());
 	cpl->capacity = verts.size();
 	cpl->count = verts.size();
 
 	memcpy(&cpl->verts, verts.data(), sizeof(cpVect)*verts.size());
+
+
 
 	cpPolylineSet* set = cpPolylineConvexDecomposition(cpl, precision);
 
