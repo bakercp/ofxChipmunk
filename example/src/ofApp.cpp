@@ -2,14 +2,14 @@
 
 //--------------------------------------------------------------
 void ofApp::setup(){
-    ofBackground(30);
+	ofBackground(30);
 
 	ofSetFrameRate(60);
 
 	world.createBounds();
 
 	//
-    circle = world.createCircle(20);
+	circle = world.createCircle(20);
 	circle->setPosition(ofVec2f(ofGetWidth()*.5, 40));
 
 	//
@@ -50,6 +50,8 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
+	composite->setScale(1.1);
+
 	world.update();
 }
 

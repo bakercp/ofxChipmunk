@@ -91,6 +91,16 @@ void ShapePolygon::setup(cpSpace *space, cpBody *body, std::vector<ofVec2f> &poi
 }
 
 void ShapePolygon::scale(float s){
+
+	/*
+	int nPts = cpPolyShapeGetCount(shape);
+
+	std::vector<cpVect> pts(nPts);
+	for(int i=0; i<nPts; i++){
+		pts.push_back(cpvmult(cpPolyShapeGetVert(shape, i), s));
+	}
+	*/
+
 	std::vector<cpVect> pts;
 	for(int i=0; i<numPoints; i++){
 		pts.push_back(cpvmult(points[i], s));

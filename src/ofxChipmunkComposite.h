@@ -71,7 +71,7 @@ public:
 	void setElasticity(float elasiticity, int id=-1);
 	shared_ptr<Shape> getShape(int id);
 
-	void scale(float s);
+	void setScale(float s);
 
 private:
 	void add(Shape* shape);
