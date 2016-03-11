@@ -26,6 +26,47 @@ void Shape::setFriction(float friction){
 	cpShapeSetFriction(shape, friction);
 }
 
+void Shape::collisionSetGroup(unsigned int group){
+	cpShapeFilter filter = cpShapeGetFilter(shape);
+	filter.group = group;
+	cpShapeSetFilter(shape, filter);
+}
+
+/*
+void Shape::collisionSetCategory(unsigned int category){
+	cpShapeFilter filter = cpShapeGetFilter(shape);
+	//if(filter.categories == CP_ALL_CATEGORIES)
+	filter.categories = category;
+	//else
+		//filter.categories |= category;
+
+	cpShapeSetFilter(shape, filter);
+}
+
+void Shape::collisionDisableWithCategory(unsigned int category){
+	cpShapeFilter filter = cpShapeGetFilter(shape);
+	filter.mask = ~category;
+	cpShapeSetFilter(shape, filter);
+}
+
+void Shape::collisionEnableWithCategory(unsigned int category){
+	cpShapeFilter filter = cpShapeGetFilter(shape);
+	filter.mask = category;
+	cpShapeSetFilter(shape, filter);
+}
+
+void Shape::setCollisionType(int typeId){
+	//cpShapeFilterNew()
+	//cpShapeSetFilter(shape, groupId);
+	cpShapeSetCollisionType(shape, typeId);
+}
+
+/*
+void Shape::setCollisionFilter(unsigned int group, unsigned int categories, unsigned int mask){
+	cpShapeSetFilter(shape, cpShapeFilterNew(group, categories, mask));
+}
+*/
+
 //
 ShapeCircle::ShapeCircle(){
 

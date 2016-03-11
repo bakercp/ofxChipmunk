@@ -70,6 +70,12 @@ ofPath Composite::getAsPath(){
 	return ret;
 }
 
+void Composite::collisionSetGroup(unsigned int group){
+	for(auto s: shapes){
+		s->collisionSetGroup(group);
+	}
+}
+
 void Composite::add(Shape *shape){
 	shapes.push_back(std::shared_ptr<Shape>(shape));
 }

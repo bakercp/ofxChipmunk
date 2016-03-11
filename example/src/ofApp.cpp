@@ -1,5 +1,10 @@
 #include "ofApp.h"
 
+enum CollisionGroups{
+	NONE,
+	DEFAULT
+};
+
 //--------------------------------------------------------------
 void ofApp::setup(){
 	ofBackground(30);
@@ -13,10 +18,14 @@ void ofApp::setup(){
 	circle = world.createCircle(20);
 	circle->setPosition(ofVec2f(ofGetWidth()*.5, 40));
 
+
+
 	//
 	rect = world.createRect(ofRectangle(0, 0, 150, 200), 100);
 	rect->setPosition(ofVec2f(ofGetWidth()*.5, 200));
 	rect->setRotation(ofDegToRad(60));
+
+
 
 	//
 	ofPolyline polyline;
@@ -29,6 +38,10 @@ void ofApp::setup(){
 	//NOTE: create a polygon with the polyline, will automatically be converted to a convex shape (outer hull)
 	poly = world.createPoly(polyline);
 	poly->setPosition(ofVec2f(ofGetWidth()*.4, 0));
+
+
+
+	//poly->setCollisionFilter(CollisionGroups::NONE, ~CollisionGroups::DEFAULT, ~CollisionGroups::DEFAULT);
 
 	//NOTE: to create a concave shape, create a Composite and add the polyline. The composite will automatically split it into convex subshapes
 	Composite::Definition def;
@@ -47,6 +60,11 @@ void ofApp::setup(){
 	spring1 = world.createSpring(circle, rect);
 	spring2 = world.createSpring(circle, poly);
 	spring2 = world.createSpring(anchor, composite);
+
+	// to disable collision between circle and poly (same groups do not collide)
+	//circle->collisionSetGroup(3);
+	//poly->collisionSetGroup(3);
+
 }
 
 //--------------------------------------------------------------

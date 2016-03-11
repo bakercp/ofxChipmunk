@@ -20,7 +20,22 @@ public:
 
 	//very unsafe function
 	virtual void scale(float s){ofLogNotice("ofxChipmunk") << "Scale not implemented for this shape";};
+
 	virtual ofPath getAsPath(){ofLogNotice("ofxChipmunk") << "GetAsPath not implemented for this shape";};
+
+	/**
+	 * @brief shapes in the same category do not collide with each other
+	 * @param group id
+	 */
+	void collisionSetGroup(unsigned int group);
+
+	/*
+	void collisionSetCategory(unsigned int category);
+	void collisionDisableWithCategory(unsigned int category);
+	void collisionEnableWithCategory(unsigned int category);
+	*/
+
+	void setCollisionType(int typeId);
 
 protected:
 	cpShape* shape;
