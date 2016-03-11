@@ -37,11 +37,16 @@ ShapeCircle::ShapeCircle(cpSpace *space, cpBody *body, float radius, ofVec2f off
 
 void ShapeCircle::setup(cpSpace *space, cpBody* body, float radius, ofVec2f offset){
 	radiusInitial = radius;
+	offsetInitial = offset;
 	Shape::setup(space, cpCircleShapeNew(body, radius, toChipmunk(offset)));
 }
 
 void ShapeCircle::setRadius(float r){
 	cpCircleShapeSetRadius(shape, r);
+}
+
+void ShapeCircle::setOffset(ofVec2f off){
+	cpCircleShapeSetOffset(shape, toChipmunk(off));
 }
 
 float ShapeCircle::getRadius(){
@@ -50,6 +55,7 @@ float ShapeCircle::getRadius(){
 
 void ShapeCircle::scale(float s){
 	setRadius(radiusInitial*s);
+	setOffset(offsetInitial*s);
 }
 
 ofPath ShapeCircle::getAsPath(){

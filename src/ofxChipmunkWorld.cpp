@@ -6,6 +6,7 @@ namespace ofxChipmunk {
 World::World(){
 	space = cpSpaceNew();
 	setGravity();
+	lowFPS = false;
 }
 
 World::~World(){
@@ -24,7 +25,11 @@ void World::update(){
 
 	int curFPS = ofGetFrameRate();
 	if(curFPS < targetFPS*.95 && ofGetFrameNum() > 60){
-		ofLogWarning("ofxChipmunk") << "current framerate (" << curFPS << ") is bellow target framerate (" << targetFPS << "), physics may behave strangely";
+		if(!lowFPS)
+			ofLogWarning("ofxChipmunk") << "current framerate (" << curFPS << ") is bellow target framerate (" << targetFPS << "), physics may behave strangely";
+		lowFPS = true;
+	}else{
+		lowFPS = false;
 	}
 
     cpSpaceStep(space, 1.f/float(targetFPS));

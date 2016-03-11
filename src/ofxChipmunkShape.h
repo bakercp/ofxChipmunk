@@ -32,11 +32,13 @@ public:
 	ShapeCircle(cpSpace* space, cpBody* body, float radius, ofVec2f offset = ofVec2f(0, 0));
 	void setup(cpSpace* space, cpBody* body, float radius, ofVec2f offset = ofVec2f(0, 0));
 	void setRadius(float r);
+	void setOffset(ofVec2f off);
 	float getRadius();
 	void scale(float s) override;
 	ofPath getAsPath() override;
 private:
 	float radiusInitial;
+	ofVec2f offsetInitial;
 };
 
 class ShapeRect: public Shape{

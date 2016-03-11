@@ -15,3 +15,7 @@
 - [ ] Pivot Joint
 - [ ] Rotary Spring
 - [ ] Motor
+
+## Platforms
+
+Tested on Linux x64 but should also run on windows and mac.

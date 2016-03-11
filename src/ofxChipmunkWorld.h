@@ -54,6 +54,7 @@ private:
 	shared_ptr<StaticLine> floor;
 	shared_ptr<StaticLine> wallLeft;
 	shared_ptr<StaticLine> wallRight;
+	bool lowFPS;
 };
 
 } // namespace ofxChipmunk

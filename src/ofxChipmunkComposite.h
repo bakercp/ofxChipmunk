@@ -69,7 +69,14 @@ public:
 
 	void setFriction(float friction, int id=-1);
 	void setElasticity(float elasiticity, int id=-1);
+
+	template<typename Type>
+	shared_ptr<Type> getShape(int id){
+		return std::dynamic_pointer_cast<Type>(getShape(id));
+	}
+
 	shared_ptr<Shape> getShape(int id);
+	int getNumShapes();
 
 	void setScale(float s);
 

@@ -52,6 +52,10 @@ shared_ptr<Shape> Composite::getShape(int id){
 	return shapes[id];
 }
 
+int Composite::getNumShapes(){
+	return shapes.size();
+}
+
 void Composite::setScale(float scl){
 	for(auto s: shapes){
 		s->scale(scl);
