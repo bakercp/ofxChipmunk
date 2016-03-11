@@ -1,4 +1,5 @@
-# A wrapper for Chimpunk2D https://chipmunk-physics.net/ 
+# A wrapper for Chimpunk2D 
+https://chipmunk-physics.net/ 
 
 ## Wrapped features
 
@@ -15,6 +16,9 @@
 - [x] Pivot Joint
 - [ ] Rotary Spring
 - [ ] Motor
+- [x] Collision Groups
+- [ ] Collision Filtering
+- [ ] Collision Callbacks
 
 ## Platforms
 
