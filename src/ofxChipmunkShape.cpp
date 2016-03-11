@@ -176,8 +176,11 @@ void ShapePolygon::scale(float s){
 		pts.push_back(cpvmult(points[i], s));
 	}
 
+
+	//cpTransformIdentity;
 	//cpPolyShapeSetVerts(shape, numPoints, pts.data(), cpTransformIdentity);
 	cpPolyShapeSetVertsRaw(shape, numPoints, pts.data());
+	cpShapeCacheBB(shape);
 }
 
 ofPath ShapePolygon::getAsPath(){
