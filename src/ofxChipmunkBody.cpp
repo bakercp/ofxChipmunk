@@ -1,6 +1,16 @@
 #include "ofxChipmunkBody.h"
+#include "ofxChipmunkConstraint.h"
 
 namespace ofxChipmunk {
+
+static std::vector<cpConstraint*> constraintsToRemove;
+
+static void constraintRemoveQuery(cpConstraint *constraint, void *data){
+	Body* body = (Body*)data;
+
+	if(cpConstraintGetBodyA(constraint) == body->body || cpConstraintGetBodyB(constraint) == body->body)
+		constraintsToRemove.push_back(constraint);
+}
 
 Body::Body():body(nullptr){
 
@@ -8,6 +18,15 @@ Body::Body():body(nullptr){
 
 Body::~Body(){
 	if(body){
+		//clean up all constraints
+		constraintsToRemove.clear();
+		cpSpaceEachConstraint(cpBodyGetSpace(body), &constraintRemoveQuery, (void*)this);
+		for(auto c: constraintsToRemove){
+			((Constraint*)cpConstraintGetUserData(c))->constraint = nullptr;
+			cpSpaceRemoveConstraint(cpConstraintGetSpace(c), c);
+		}
+
+		//remove body
 		cpSpaceRemoveBody(cpBodyGetSpace(body), body);
 		cpBodyFree(body);
 	}

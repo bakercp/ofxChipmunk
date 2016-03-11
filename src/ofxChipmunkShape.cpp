@@ -26,6 +26,52 @@ void Shape::setFriction(float friction){
 	cpShapeSetFriction(shape, friction);
 }
 
+void Shape::collisionSetGroup(unsigned int group){
+	cpShapeFilter filter = cpShapeGetFilter(shape);
+	filter.group = group;
+	cpShapeSetFilter(shape, filter);
+}
+
+unsigned int Shape::collisionGetGroup(){
+	cpShapeFilter filter = cpShapeGetFilter(shape);
+	return filter.group;
+}
+
+/*
+void Shape::collisionSetCategory(unsigned int category){
+	cpShapeFilter filter = cpShapeGetFilter(shape);
+	//if(filter.categories == CP_ALL_CATEGORIES)
+	filter.categories = category;
+	//else
+		//filter.categories |= category;
+
+	cpShapeSetFilter(shape, filter);
+}
+
+void Shape::collisionDisableWithCategory(unsigned int category){
+	cpShapeFilter filter = cpShapeGetFilter(shape);
+	filter.mask = ~category;
+	cpShapeSetFilter(shape, filter);
+}
+
+void Shape::collisionEnableWithCategory(unsigned int category){
+	cpShapeFilter filter = cpShapeGetFilter(shape);
+	filter.mask = category;
+	cpShapeSetFilter(shape, filter);
+}
+
+void Shape::setCollisionType(int typeId){
+	//cpShapeFilterNew()
+	//cpShapeSetFilter(shape, groupId);
+	cpShapeSetCollisionType(shape, typeId);
+}
+
+/*
+void Shape::setCollisionFilter(unsigned int group, unsigned int categories, unsigned int mask){
+	cpShapeSetFilter(shape, cpShapeFilterNew(group, categories, mask));
+}
+*/
+
 //
 ShapeCircle::ShapeCircle(){
 
@@ -68,12 +114,25 @@ ShapeRect::ShapeRect(){
 
 }
 
-ShapeRect::ShapeRect(cpSpace *space, cpBody *body, ofRectangle bounds){
-	setup(space, body, bounds);
+ShapeRect::ShapeRect(cpSpace *space, cpBody *body, ofRectangle bounds, float radius){
+	setup(space, body, bounds, radius);
 }
 
-void ShapeRect::setup(cpSpace *space, cpBody *body, ofRectangle bounds){
-	Shape::setup(space, cpBoxShapeNew(body, bounds.width, bounds.height, 0));
+void ShapeRect::setup(cpSpace *space, cpBody *body, ofRectangle bounds, float radius){
+	Shape::setup(space, cpBoxShapeNew(body, bounds.width, bounds.height, radius));
+}
+
+///
+ShapeLine::ShapeLine(){
+
+}
+
+ShapeLine::ShapeLine(cpSpace *space, cpBody* body,ofVec2f a, ofVec2f b, float radius){
+	setup(space, body, a, b, radius);
+}
+
+void ShapeLine::setup(cpSpace *space, cpBody* body,ofVec2f a, ofVec2f b, float radius){
+	Shape::setup(space, cpSegmentShapeNew(body, toChipmunk(a), toChipmunk(b), radius));
 }
 
 //
@@ -150,6 +209,8 @@ void ShapePolygon::setup(cpSpace *space, cpBody *body, int nPoints, cpVect *vert
 		points[i] = cpPolyShapeGetVert(shape, i);
 	}
 }
+
+
 
 //
 

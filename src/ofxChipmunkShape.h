@@ -20,7 +20,23 @@ public:
 
 	//very unsafe function
 	virtual void scale(float s){ofLogNotice("ofxChipmunk") << "Scale not implemented for this shape";};
+
 	virtual ofPath getAsPath(){ofLogNotice("ofxChipmunk") << "GetAsPath not implemented for this shape";};
+
+	/**
+	 * @brief shapes in the same category do not collide with each other
+	 * @param group id
+	 */
+	void collisionSetGroup(unsigned int group);
+	unsigned int collisionGetGroup();
+
+	/*
+	void collisionSetCategory(unsigned int category);
+	void collisionDisableWithCategory(unsigned int category);
+	void collisionEnableWithCategory(unsigned int category);
+	*/
+
+	void setCollisionType(int typeId);
 
 protected:
 	cpShape* shape;
@@ -44,8 +60,15 @@ private:
 class ShapeRect: public Shape{
 public:
 	ShapeRect();
-	ShapeRect(cpSpace* space, cpBody* body, ofRectangle bounds);
-	void setup(cpSpace* space, cpBody* body, ofRectangle bounds);
+	ShapeRect(cpSpace* space, cpBody* body, ofRectangle bounds, float radius=0);
+	void setup(cpSpace* space, cpBody* body, ofRectangle bounds, float radius=0);
+};
+
+class ShapeLine: public Shape{
+public:
+	ShapeLine();
+	ShapeLine(cpSpace* space, cpBody* body, ofVec2f a, ofVec2f b, float radius=0);
+	void setup(cpSpace* space, cpBody* body, ofVec2f a, ofVec2f b, float radius=0);
 };
 
 class ShapePolygon: public Shape{

@@ -82,6 +82,8 @@ public:
 
 	ofPath getAsPath();
 
+	void collisionSetGroup(unsigned int group);
+
 private:
 	void add(Shape* shape);
 
