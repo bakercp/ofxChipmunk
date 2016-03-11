@@ -65,6 +65,8 @@ void ofApp::setup(){
 	//circle->collisionSetGroup(3);
 	//poly->collisionSetGroup(3);
 
+	anchor.reset();
+	spring2.reset();
 }
 
 //--------------------------------------------------------------

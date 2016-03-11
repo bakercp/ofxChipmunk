@@ -28,6 +28,7 @@ public:
 	 * @param group id
 	 */
 	void collisionSetGroup(unsigned int group);
+	unsigned int collisionGetGroup();
 
 	/*
 	void collisionSetCategory(unsigned int category);

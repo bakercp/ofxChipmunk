@@ -32,6 +32,11 @@ void Shape::collisionSetGroup(unsigned int group){
 	cpShapeSetFilter(shape, filter);
 }
 
+unsigned int Shape::collisionGetGroup(){
+	cpShapeFilter filter = cpShapeGetFilter(shape);
+	return filter.group;
+}
+
 /*
 void Shape::collisionSetCategory(unsigned int category){
 	cpShapeFilter filter = cpShapeGetFilter(shape);
