@@ -64,9 +64,6 @@ void ofApp::setup(){
 	// to disable collision between circle and poly (same groups do not collide)
 	//circle->collisionSetGroup(3);
 	//poly->collisionSetGroup(3);
-
-	anchor.reset();
-	spring2.reset();
 }
 
 //--------------------------------------------------------------
