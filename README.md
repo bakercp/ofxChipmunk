@@ -6,13 +6,13 @@
 - [x] Body
 - [x] Circle
 - [x] Rectangle
-- [ ] Line
+- [x] Line
 - [x] Convex Polygon
 - [x] Concave Polygon
 - [x] Spring
 - [ ] Gear Joint
 - [ ] Pin Join
-- [ ] Pivot Joint
+- [x] Pivot Joint
 - [ ] Rotary Spring
 - [ ] Motor
 
