@@ -8,68 +8,70 @@ Shape::Shape():shape(nullptr){
 }
 
 Shape::~Shape(){
-	cpSpaceRemoveShape(cpShapeGetSpace(shape), shape);
-	cpShapeFree(shape);
+    if(shape){
+        cpSpaceRemoveShape(cpShapeGetSpace(shape), shape);
+        cpShapeFree(shape);
+    }
 }
 
 void Shape::setup(cpSpace *space, cpShape *s){
-	shape = cpSpaceAddShape(space, s);
-	setFriction(OFXCHIPMUNK_DEFAULT_FRICTION);
-	setElasticity(OFXCHIPMUNK_DEFAULT_ELASTICITY);
+    shape = cpSpaceAddShape(space, s);
+    setFriction(OFXCHIPMUNK_DEFAULT_FRICTION);
+    setElasticity(OFXCHIPMUNK_DEFAULT_ELASTICITY);
 }
 
 void Shape::setElasticity(float value){
-	cpShapeSetElasticity(shape, value);
+    cpShapeSetElasticity(shape, value);
 }
 
 void Shape::setFriction(float friction){
-	cpShapeSetFriction(shape, friction);
+    cpShapeSetFriction(shape, friction);
 }
 
 void Shape::collisionSetGroup(unsigned int group){
-	cpShapeFilter filter = cpShapeGetFilter(shape);
-	filter.group = group;
-	cpShapeSetFilter(shape, filter);
+    cpShapeFilter filter = cpShapeGetFilter(shape);
+    filter.group = group;
+    cpShapeSetFilter(shape, filter);
 }
 
 unsigned int Shape::collisionGetGroup(){
-	cpShapeFilter filter = cpShapeGetFilter(shape);
+    cpShapeFilter filter = cpShapeGetFilter(shape);
     return filter.group;
 }
 
 
 /*
 void Shape::collisionSetCategory(unsigned int category){
-	cpShapeFilter filter = cpShapeGetFilter(shape);
-	//if(filter.categories == CP_ALL_CATEGORIES)
-	filter.categories = category;
-	//else
-		//filter.categories |= category;
+    cpShapeFilter filter = cpShapeGetFilter(shape);
+    //if(filter.categories == CP_ALL_CATEGORIES)
+    filter.categories = category;
+    //else
+        //filter.categories |= category;
 
-	cpShapeSetFilter(shape, filter);
+    cpShapeSetFilter(shape, filter);
 }
 
 void Shape::collisionDisableWithCategory(unsigned int category){
-	cpShapeFilter filter = cpShapeGetFilter(shape);
-	filter.mask = ~category;
-	cpShapeSetFilter(shape, filter);
+    cpShapeFilter filter = cpShapeGetFilter(shape);
+    filter.mask = ~category;
+    cpShapeSetFilter(shape, filter);
 }
 
 void Shape::collisionEnableWithCategory(unsigned int category){
-	cpShapeFilter filter = cpShapeGetFilter(shape);
-	filter.mask = category;
-	cpShapeSetFilter(shape, filter);
+    cpShapeFilter filter = cpShapeGetFilter(shape);
+    filter.mask = category;
+    cpShapeSetFilter(shape, filter);
 }
 
 void Shape::setCollisionType(int typeId){
-	//cpShapeFilterNew()
-	//cpShapeSetFilter(shape, groupId);
-	cpShapeSetCollisionType(shape, typeId);
+    //cpShapeFilterNew()
+    //cpShapeSetFilter(shape, groupId);
+    cpShapeSetCollisionType(shape, typeId);
 }
 
 /*
 void Shape::setCollisionFilter(unsigned int group, unsigned int categories, unsigned int mask){
-	cpShapeSetFilter(shape, cpShapeFilterNew(group, categories, mask));
+    cpShapeSetFilter(shape, cpShapeFilterNew(group, categories, mask));
 }
 */
 
@@ -79,12 +81,12 @@ ShapeCircle::ShapeCircle(){
 }
 
 ShapeCircle::ShapeCircle(cpSpace *space, cpBody *body, float radius, ofVec2f offset){
-	setup(space, body, radius, offset);
+    setup(space, body, radius, offset);
 }
 
 void ShapeCircle::setup(cpSpace *space, cpBody* body, float radius, ofVec2f offset){
-	radiusInitial = radius;
-	offsetInitial = offset;
+    radiusInitial = radius;
+    offsetInitial = offset;
     Shape::setup(space, cpCircleShapeNew(body, radius, toChipmunk(offset)));
 }
 
@@ -96,7 +98,7 @@ void ShapeCircle::setup(ShapeCircle *src){
 }
 
 void ShapeCircle::setRadius(float r){
-	cpCircleShapeSetRadius(shape, r);
+    cpCircleShapeSetRadius(shape, r);
 }
 
 float ShapeCircle::getRadius(){
@@ -113,12 +115,12 @@ ofVec2f ShapeCircle::getOffset(){
 }
 
 void ShapeCircle::scale(float s){
-	setRadius(radiusInitial*s);
-	setOffset(offsetInitial*s);
+    setRadius(radiusInitial*s);
+    setOffset(offsetInitial*s);
 }
 
 ofPath ShapeCircle::getAsPath(){
-	ofPath ret;
+    ofPath ret;
     ret.circle(toOf(cpCircleShapeGetOffset(shape)), getRadius());
 }
 
@@ -132,7 +134,7 @@ ShapeRect::ShapeRect(){
 }
 
 ShapeRect::ShapeRect(cpSpace *space, cpBody *body, ofRectangle bounds, float radius){
-	setup(space, body, bounds, radius);
+    setup(space, body, bounds, radius);
 }
 
 void ShapeRect::setup(cpSpace *space, cpBody *body, ofRectangle bounds, float radius){
@@ -149,7 +151,7 @@ ShapeLine::ShapeLine(){
 }
 
 ShapeLine::ShapeLine(cpSpace *space, cpBody* body,ofVec2f a, ofVec2f b, float radius){
-	setup(space, body, a, b, radius);
+    setup(space, body, a, b, radius);
 }
 
 void ShapeLine::setup(cpSpace *space, cpBody* body,ofVec2f a, ofVec2f b, float radius){
@@ -201,21 +203,21 @@ ShapePolygon::~ShapePolygon(){
 }
 
 ShapePolygon::ShapePolygon(cpSpace *space, cpBody *body, ofPolyline poly){
-	numPoints=0;
-	setup(space, body, poly);
+    numPoints=0;
+    setup(space, body, poly);
 }
 
 ShapePolygon::ShapePolygon(cpSpace *space, cpBody *body, std::vector<ofVec2f> &points){
-	numPoints = 0;
+    numPoints = 0;
     setup(space, body, points);
 }
 
 void ShapePolygon::setup(cpSpace *space, cpBody *body, ofPolyline poly){
-	std::vector<ofVec2f> vecs;
-	for(auto& p: poly){
-		vecs.push_back(p);
-	}
-	setup(space, body, vecs);
+    std::vector<ofVec2f> vecs;
+    for(auto& p: poly){
+        vecs.push_back(p);
+    }
+    setup(space, body, vecs);
 }
 
 void ShapePolygon::setup(cpSpace *space, cpBody *body, std::vector<ofVec2f> &points){
@@ -226,37 +228,39 @@ void ShapePolygon::setup(ShapePolygon *src){
     numPoints = src->numPoints;
     points = new cpVect[numPoints];
     memcpy(points, src->points, numPoints*sizeof(cpVect));
+    shape = src->shape;
+    src->shape = nullptr;
 }
 
 void ShapePolygon::scale(float s){
 
-	/*
-	int nPts = cpPolyShapeGetCount(shape);
+    /*
+    int nPts = cpPolyShapeGetCount(shape);
 
-	std::vector<cpVect> pts(nPts);
-	for(int i=0; i<nPts; i++){
-		pts.push_back(cpvmult(cpPolyShapeGetVert(shape, i), s));
-	}
-	*/
+    std::vector<cpVect> pts(nPts);
+    for(int i=0; i<nPts; i++){
+        pts.push_back(cpvmult(cpPolyShapeGetVert(shape, i), s));
+    }
+    */
 
-	std::vector<cpVect> pts;
-	for(int i=0; i<numPoints; i++){
-		pts.push_back(cpvmult(points[i], s));
-	}
+    std::vector<cpVect> pts;
+    for(int i=0; i<numPoints; i++){
+        pts.push_back(cpvmult(points[i], s));
+    }
 
 
-	//cpTransformIdentity;
-	//cpPolyShapeSetVerts(shape, numPoints, pts.data(), cpTransformIdentity);
-	cpPolyShapeSetVertsRaw(shape, numPoints, pts.data());
-	cpShapeCacheBB(shape);
+    //cpTransformIdentity;
+    //cpPolyShapeSetVerts(shape, numPoints, pts.data(), cpTransformIdentity);
+    cpPolyShapeSetVertsRaw(shape, numPoints, pts.data());
+    cpShapeCacheBB(shape);
 }
 
 ofPath ShapePolygon::getAsPath(){
-	ofPath ret;
-	for(int i=0; i<numPoints; i++){
-		ret.lineTo(toOf(points[i]));
-	}
-	ret.close();
+    ofPath ret;
+    for(int i=0; i<numPoints; i++){
+        ret.lineTo(toOf(points[i]));
+    }
+    ret.close();
     return ret;
 }
 
@@ -265,31 +269,31 @@ Shape::Type ShapePolygon::getType(){
 }
 
 std::vector<ofVec2f> ShapePolygon::getPoints(){
-	std::vector<ofVec2f> ret;
-	for(unsigned int i=0; i<numPoints; i++){
-		ret.push_back(toOf(points[i]));
-	}
-	return ret;
+    std::vector<ofVec2f> ret;
+    for(unsigned int i=0; i<numPoints; i++){
+        ret.push_back(toOf(points[i]));
+    }
+    return ret;
 }
 
 void ShapePolygon::setup(cpSpace *space, cpBody *body, int nPoints, cpVect *verts){
-	if(numPoints>0){
+    if(numPoints>0){
         free(points);
-	}
+    }
 
-	numPoints = nPoints;
-	points = new cpVect[numPoints];
-	memcpy(points, verts, numPoints*sizeof(cpVect));
+    numPoints = nPoints;
+    points = new cpVect[numPoints];
+    memcpy(points, verts, numPoints*sizeof(cpVect));
 
-	Shape::setup(space, cpPolyShapeNew(body, nPoints, verts, cpTransformIdentity, 0.0));
+    Shape::setup(space, cpPolyShapeNew(body, nPoints, verts, cpTransformIdentity, 0.0));
 
-	/*
-	numPoints = cpPolyShapeGetCount(shape);
-	points = new cpVect[numPoints];
-	for(int i=0;i<numPoints;i++){
-		points[i] = cpPolyShapeGetVert(shape, i);
-	}
-	*/
+    /*
+    numPoints = cpPolyShapeGetCount(shape);
+    points = new cpVect[numPoints];
+    for(int i=0;i<numPoints;i++){
+        points[i] = cpPolyShapeGetVert(shape, i);
+    }
+    */
 }
 
 

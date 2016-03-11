@@ -15,6 +15,8 @@ Circle::Circle(ShapeCircle *src, float mass){
     cpFloat moment = cpMomentForCircle(mass, 0, src->getRadius(), toChipmunk(src->getOffset()));
     DynamicBody::setup(cpShapeGetSpace(src->shape), mass, moment);
     ShapeCircle::setup(src);
+    cpSpaceRemoveShape(cpShapeGetSpace(shape), shape);
+    cpSpaceAddShape(cpBodyGetSpace(body), shape);
     cpShapeSetBody(shape, body);
 }
 

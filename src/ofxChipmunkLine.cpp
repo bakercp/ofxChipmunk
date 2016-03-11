@@ -14,6 +14,8 @@ Line::Line(ShapeLine *src, float mass){
     cpFloat moment = cpMomentForSegment(mass, toChipmunk(src->getA()), toChipmunk(src->getB()), src->getRadius());
     DynamicBody::setup(cpShapeGetSpace(src->shape), mass, moment);
     ShapeLine::setup(src);
+    cpSpaceRemoveShape(cpShapeGetSpace(shape), shape);
+    cpSpaceAddShape(cpBodyGetSpace(body), shape);
     cpShapeSetBody(shape, body);
 }
 

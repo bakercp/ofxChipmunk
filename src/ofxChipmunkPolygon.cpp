@@ -19,7 +19,10 @@ Polygon::Polygon(ShapePolygon *src, float mass){
     std::vector<cpVect> verts = toChipmunk(ofVerts);
     cpFloat moment = cpMomentForPoly(mass, verts.size(), verts.data(), cpvzero, 0.0);
     DynamicBody::setup(cpShapeGetSpace(src->shape), mass, moment);
+    cpSpaceRemoveShape(cpShapeGetSpace(src->shape), src->shape);
     ShapePolygon::setup(src);
+    cpShapeSetBody(shape, body);
+    cpSpaceAddShape(cpBodyGetSpace(body), shape);
 }
 
 void Polygon::setup(cpSpace *space, ofPolyline poly, float mass){

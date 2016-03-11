@@ -25,7 +25,7 @@ World::World(){
 
 World::~World(){
     //threadStop();
-    thread.join();
+    //thread.join();
     cpSpaceFree(space);
 }
 
@@ -220,23 +220,23 @@ shared_ptr<PivotJoint> World::createPivotJoint(Body *a, Body *b, ofVec2f anchorA
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 shared_ptr<DynamicBody> World::createBodyForShape(Shape *shape, float mass){
-    DynamicBody* ret = nullptr;
+    shared_ptr<DynamicBody> ret;
     switch(shape->getType()){
     case Shape::Type::Circle:
-        ret = new Circle((ShapeCircle*)shape, mass);
+        ret = std::dynamic_pointer_cast<DynamicBody>(shared_ptr<Circle>(new Circle((ShapeCircle*)shape, mass)));
         break;
     case Shape::Type::Line:
-        ret = new Line((ShapeLine*)shape, mass);
+        ret = std::dynamic_pointer_cast<DynamicBody>(shared_ptr<ShapeLine>(new Line((ShapeLine*)shape, mass)));
         break;
     case Shape::Type::Polygon:
-        ret = new Polygon((ShapePolygon*)shape, mass);
+        ret = std::dynamic_pointer_cast<DynamicBody>(shared_ptr<ShapePolygon>(new Polygon((ShapePolygon*)shape, mass)));
         break;
     case Shape::Type::Rectangle:
         //TODO
         ofLogWarning("ofxChipmunk") << "createBodyForShape not implemented for rectangles";
         break;
     }
-    return shared_ptr<DynamicBody>(ret);
+    return ret;
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
