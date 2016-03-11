@@ -48,15 +48,15 @@ void World::setGravity(ofVec2f g){
 }
 
 void World::createFloor(){
-	floor = createStaticLine(ofVec2f(0, ofGetHeight()), ofVec2f(ofGetWidth(), ofGetHeight()));
+	floor = createStaticLine(ofVec2f(0, ofGetHeight()), ofVec2f(ofGetWidth(), ofGetHeight()), 2);
 }
 
 void World::createWallLeft(){
-	wallLeft = createStaticLine(ofVec2f(0, 0), ofVec2f(0, ofGetHeight()));
+	wallLeft = createStaticLine(ofVec2f(0, 0), ofVec2f(0, ofGetHeight()), 2);
 }
 
 void World::createWallRight(){
-	wallRight = createStaticLine(ofVec2f(ofGetWidth(), 0), ofVec2f(ofGetWidth(), ofGetHeight()));
+	wallRight = createStaticLine(ofVec2f(ofGetWidth(), 0), ofVec2f(ofGetWidth(), ofGetHeight()), 2);
 }
 
 void World::createBounds(){
@@ -84,6 +84,10 @@ shared_ptr<Rect> World::createRect(ofRectangle rect, float mass){
 	return shared_ptr<Rect>(new Rect(space, rect, mass));
 }
 
+shared_ptr<Line> World::createLine(ofVec2f a, ofVec2f b, float radius, float mass){
+	return shared_ptr<Line>(new Line(space, a, b, radius, mass));
+}
+
 shared_ptr<Polygon> World::createPoly(std::vector<ofVec2f>& points, float mass){
 	return shared_ptr<Polygon>(new Polygon(space, points, mass));
 }
@@ -108,8 +112,8 @@ shared_ptr<StaticBody> World::createStaticBody(ofVec2f position){
 	return shared_ptr<StaticBody>(body);
 }
 
-shared_ptr<StaticLine> World::createStaticLine(ofVec2f a, ofVec2f b){
-	return shared_ptr<StaticLine>(new StaticLine(space, a, b));
+shared_ptr<StaticLine> World::createStaticLine(ofVec2f a, ofVec2f b, float radius){
+	return shared_ptr<StaticLine>(new StaticLine(space, a, b, radius));
 }
 
 shared_ptr<StaticRect> World::createStaticRect(ofRectangle rect){
@@ -159,7 +163,7 @@ void World::onMouseDown(ofMouseEventArgs &args){
 		mouseBody = createKinematicBody(args);
 
 	mouseJoint = createPivotJoint(mouseBody.get(), body);
-	mouseJoint->setMaxForce(50000.0);
+		mouseJoint->setMaxForce(50000.0);
 	mouseJoint->setErrorBias(cpfpow(1.0f - 0.15f, ofGetFrameRate()==0?60.f:ofGetFrameRate()));
 }
 

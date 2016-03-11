@@ -44,8 +44,15 @@ private:
 class ShapeRect: public Shape{
 public:
 	ShapeRect();
-	ShapeRect(cpSpace* space, cpBody* body, ofRectangle bounds);
-	void setup(cpSpace* space, cpBody* body, ofRectangle bounds);
+	ShapeRect(cpSpace* space, cpBody* body, ofRectangle bounds, float radius=0);
+	void setup(cpSpace* space, cpBody* body, ofRectangle bounds, float radius=0);
+};
+
+class ShapeLine: public Shape{
+public:
+	ShapeLine();
+	ShapeLine(cpSpace* space, cpBody* body, ofVec2f a, ofVec2f b, float radius=0);
+	void setup(cpSpace* space, cpBody* body, ofVec2f a, ofVec2f b, float radius=0);
 };
 
 class ShapePolygon: public Shape{

@@ -7,12 +7,12 @@
 
 namespace ofxChipmunk {
 
-class StaticLine: public Shape, public StaticBody{
+class StaticLine: public ShapeLine, public StaticBody{
 public:
     StaticLine();
-	StaticLine(cpSpace* space, ofVec2f a, ofVec2f b);
+	StaticLine(cpSpace* space, ofVec2f a, ofVec2f b, float radius=0);
 
-    void setup(cpSpace* space, ofVec2f a, ofVec2f b);
+	void setup(cpSpace* space, ofVec2f a, ofVec2f b, float radius=0);
 };
 
 } // namespace ofxChipmunk

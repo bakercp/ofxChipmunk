@@ -68,12 +68,25 @@ ShapeRect::ShapeRect(){
 
 }
 
-ShapeRect::ShapeRect(cpSpace *space, cpBody *body, ofRectangle bounds){
-	setup(space, body, bounds);
+ShapeRect::ShapeRect(cpSpace *space, cpBody *body, ofRectangle bounds, float radius){
+	setup(space, body, bounds, radius);
 }
 
-void ShapeRect::setup(cpSpace *space, cpBody *body, ofRectangle bounds){
-	Shape::setup(space, cpBoxShapeNew(body, bounds.width, bounds.height, 0));
+void ShapeRect::setup(cpSpace *space, cpBody *body, ofRectangle bounds, float radius){
+	Shape::setup(space, cpBoxShapeNew(body, bounds.width, bounds.height, radius));
+}
+
+///
+ShapeLine::ShapeLine(){
+
+}
+
+ShapeLine::ShapeLine(cpSpace *space, cpBody* body,ofVec2f a, ofVec2f b, float radius){
+	setup(space, body, a, b, radius);
+}
+
+void ShapeLine::setup(cpSpace *space, cpBody* body,ofVec2f a, ofVec2f b, float radius){
+	Shape::setup(space, cpSegmentShapeNew(body, toChipmunk(a), toChipmunk(b), radius));
 }
 
 //
@@ -150,6 +163,8 @@ void ShapePolygon::setup(cpSpace *space, cpBody *body, int nPoints, cpVect *vert
 		points[i] = cpPolyShapeGetVert(shape, i);
 	}
 }
+
+
 
 //
 
