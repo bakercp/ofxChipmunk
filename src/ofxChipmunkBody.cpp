@@ -57,6 +57,10 @@ bool Body::isSleeping(){
 	return cpBodyIsSleeping(body);
 }
 
+void Body::addForce(ofVec2f force, ofVec2f offset){
+	cpBodyApplyForceAtLocalPoint(body, toChipmunk(force), toChipmunk(offset));
+}
+
 ////////////////////////////////////////////////////
 DynamicBody::DynamicBody(){
 

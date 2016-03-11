@@ -20,6 +20,7 @@ public:
 	float getRotation();
 	void setRotation(float radians);
 	bool isSleeping();
+	void addForce(ofVec2f force, ofVec2f localOffset=ofVec2f(0,0));
 
 	cpBody* body;
 };

@@ -21,7 +21,17 @@ public:
 	World();
 	~World();
 
+	/*
+	void runThreaded(const int runsPerUpdate);
+	void threadLock();
+	void threadUnlock();
+	void threadStop();
+	void waitForThread();
+	void continueThread();
+	*/
+
 	void update();
+	void update(double timeStep);
 	void draw();
 
 	void setGravity(ofVec2f g=ofVec2f(0, 100));
@@ -70,6 +80,11 @@ private:
 	bool bPickingEnabled;
 	shared_ptr<KinematicBody> mouseBody;
 	shared_ptr<PivotJoint> mouseJoint;
+
+	std::thread thread;
+	std::mutex mutex;
+	bool bKeepThreadRunning;
+	bool bThreadWaiting;
 };
 
 } // namespace ofxChipmunk

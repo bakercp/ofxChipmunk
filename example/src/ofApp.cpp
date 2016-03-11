@@ -64,11 +64,15 @@ void ofApp::setup(){
 	// to disable collision between circle and poly (same groups do not collide)
 	//circle->collisionSetGroup(3);
 	//poly->collisionSetGroup(3);
+
 }
 
 //--------------------------------------------------------------
 void ofApp::update(){
-	composite->setScale(1.2);
+
+	//composite->setScale(1.2);
+
+	//not needed when running threaded
 
 	world.update();
 }
@@ -78,6 +82,9 @@ void ofApp::draw(){
 
 	//debug drawing may be slow...
 	world.draw();
+
+	ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate()), ofVec2f(20, 20));
+
 }
 
 //--------------------------------------------------------------

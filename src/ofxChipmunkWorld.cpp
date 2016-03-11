@@ -1,10 +1,19 @@
+#include <chrono>
+
 #include "ofxChipmunkWorld.h"
+
+extern "C"{
+#include "cpHastySpace.h"
+}
 
 namespace ofxChipmunk {
 
 
 World::World(){
+	//space = cpHastySpaceNew();
+	//cpHastySpaceSetThreads(space, 4);
 	space = cpSpaceNew();
+
 	setGravity();
 	bLowFPS = false;
 
@@ -14,12 +23,62 @@ World::World(){
 }
 
 World::~World(){
+	//threadStop();
+	thread.join();
 	cpSpaceFree(space);
 }
 
+/*
+void World::runThreaded(const int runsPerUpdate){
+	bKeepThreadRunning = true;
+
+	thread = std::thread([=](){
+		std::chrono::time_point<std::chrono::system_clock> start, end;
+		while(true){
+
+			threadLock();
+			if(!bKeepThreadRunning){
+				ofLog() << "STOP THREAD";
+				break;
+			}
+			for(int i=0;i<runsPerUpdate; i++){
+				update(1./double(ofGetTargetFrameRate()*runsPerUpdate));
+			}
+			threadUnlock();
+
+		}
+	});
+}
+
+void World::threadLock(){
+	mutex.lock();
+}
+
+void World::threadUnlock(){
+	mutex.unlock();
+}
+
+void World::threadStop(){
+	threadLock();
+	bKeepThreadRunning = false;
+	threadUnlock();
+}
+
+void World::waitForThread(){
+	threadLock();
+
+	threadUnlock();
+}
+
+void World::continueThread(){
+	threadUnlock();
+	threadUnlock();
+}
+*/
+
 void World::update(){
-    if(ofGetFrameNum() < 10)
-        return;
+	if(ofGetFrameNum() < 10)
+		return;
 
 	int targetFPS = ofGetTargetFrameRate();
 	if(targetFPS == 0){
@@ -36,7 +95,12 @@ void World::update(){
 		bLowFPS = false;
 	}
 
-    cpSpaceStep(space, 1.f/float(targetFPS));
+	//cpHastySpaceStep(space, 1.f/float(targetFPS));
+	update(1./double(targetFPS));
+}
+
+void World::update(double timeStep){
+	cpSpaceStep(space, timeStep);
 }
 
 void World::draw(){
@@ -93,7 +157,7 @@ shared_ptr<Polygon> World::createPoly(std::vector<ofVec2f>& points, float mass){
 }
 
 shared_ptr<Polygon> World::createPoly(ofPolyline poly, float mass){
-    return shared_ptr<Polygon>(new Polygon(space, poly, mass));
+	return shared_ptr<Polygon>(new Polygon(space, poly, mass));
 }
 
 shared_ptr<Composite> World::createComposite(Composite::Definition &definition){
