@@ -182,10 +182,18 @@ void ShapePolygon::scale(float s){
 
 ofPath ShapePolygon::getAsPath(){
 	ofPath ret;
-	for(int i=0; i<cpPolyShapeGetCount(shape); i++){
-		ret.lineTo(toOf(cpPolyShapeGetVert(shape, i)));
+	for(int i=0; i<numPoints; i++){
+		ret.lineTo(toOf(points[i]));
 	}
 	ret.close();
+	return ret;
+}
+
+std::vector<ofVec2f> ShapePolygon::getPoints(){
+	std::vector<ofVec2f> ret;
+	for(unsigned int i=0; i<numPoints; i++){
+		ret.push_back(toOf(points[i]));
+	}
 	return ret;
 }
 
@@ -194,20 +202,19 @@ void ShapePolygon::setup(cpSpace *space, cpBody *body, int nPoints, cpVect *vert
 		delete[] points;
 	}
 
-	/*
 	numPoints = nPoints;
 	points = new cpVect[numPoints];
 	memcpy(points, verts, numPoints*sizeof(cpVect));
-	*/
 
 	Shape::setup(space, cpPolyShapeNew(body, nPoints, verts, cpTransformIdentity, 0.0));
 
-
+	/*
 	numPoints = cpPolyShapeGetCount(shape);
 	points = new cpVect[numPoints];
 	for(int i=0;i<numPoints;i++){
 		points[i] = cpPolyShapeGetVert(shape, i);
 	}
+	*/
 }
 
 

@@ -82,6 +82,8 @@ public:
 
 	void scale(float s) override;
 	ofPath getAsPath() override;
+
+	std::vector<ofVec2f> getPoints();
 protected:
 	void setup(cpSpace* space, cpBody* body, int nPoints, cpVect* pts);
 
