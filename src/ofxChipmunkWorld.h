@@ -11,6 +11,7 @@
 #include "ofxChipmunkPolygon.h"
 #include "ofxChipmunkComposite.h"
 #include "ofxChipmunkStaticCircle.h"
+#include "ofxChipmunkPivotJoint.h"
 
 namespace ofxChipmunk {
 
@@ -27,6 +28,8 @@ public:
 	void createWallLeft();
 	void createWallRight();
 	void createBounds();
+	void setPicking(bool state=true);
+	Body* getNearestBody(ofVec2f pos, float radius=20.f);
 
 	//primitives
 	shared_ptr<Circle> createCircle(float radius, float mass=1);
@@ -35,26 +38,36 @@ public:
 	shared_ptr<Polygon> createPoly(ofPolyline poly, float mass=1);
 	shared_ptr<Composite> createComposite(Composite::Definition& definition);
 
+	//kinematic primitives
+	shared_ptr<KinematicBody> createKinematicBody(ofVec2f position=ofVec2f(0,0));
+
 	//static primitives
-	shared_ptr<StaticBody> createStaticBody();
+	shared_ptr<StaticBody> createStaticBody(ofVec2f position=ofVec2f(0,0));
 	shared_ptr<StaticLine> createStaticLine(ofVec2f a, ofVec2f b);
 	shared_ptr<StaticRect> createStaticRect(ofRectangle rect);
 	shared_ptr<StaticCircle> createStaticCircle(float radius);
 
 	//constraints
-	shared_ptr<Spring> createSpring(shared_ptr<BaseBody> a, shared_ptr<BaseBody> b, float stiffness=OFXCHIPMUNK_DEFAULT_STIFFNES, float damping=OFXCHIPMUNK_DEFAULT_DAMPING);
-	shared_ptr<Spring> createSpring(shared_ptr<BaseBody> a, shared_ptr<BaseBody> b, ofVec2f anchorA, ofVec2f anchorB, float distance, float stiffness=OFXCHIPMUNK_DEFAULT_STIFFNES, float damping=OFXCHIPMUNK_DEFAULT_DAMPING);
+	shared_ptr<Spring> createSpring(shared_ptr<Body> a, shared_ptr<Body> b, float stiffness=OFXCHIPMUNK_DEFAULT_STIFFNES, float damping=OFXCHIPMUNK_DEFAULT_DAMPING);
+	shared_ptr<Spring> createSpring(Body* a, Body* b, float stiffness=OFXCHIPMUNK_DEFAULT_STIFFNES, float damping=OFXCHIPMUNK_DEFAULT_DAMPING);
+	shared_ptr<Spring> createSpring(shared_ptr<Body> a, shared_ptr<Body> b, ofVec2f anchorA, ofVec2f anchorB, float distance, float stiffness=OFXCHIPMUNK_DEFAULT_STIFFNES, float damping=OFXCHIPMUNK_DEFAULT_DAMPING);
+	shared_ptr<Spring> createSpring(Body* a, Body* b, ofVec2f anchorA, ofVec2f anchorB, float distance, float stiffness=OFXCHIPMUNK_DEFAULT_STIFFNES, float damping=OFXCHIPMUNK_DEFAULT_DAMPING);
+	shared_ptr<PivotJoint> createPivotJoint(shared_ptr<Body> a, shared_ptr<Body> b, ofVec2f anchorA = ofVec2f(0,0), ofVec2f anchorB = ofVec2f(0,0));
+	shared_ptr<PivotJoint> createPivotJoint(Body* a, Body* b, ofVec2f anchorA = ofVec2f(0,0), ofVec2f anchorB = ofVec2f(0,0));
 
 private:
-	void onClick(ofMouseEventArgs& args);
-	void onDrag(ofMouseEventArgs& args);
-	void onRelease(ofMouseEventArgs& args);
+	void onMouseDown(ofMouseEventArgs& args);
+	void onMouseDrag(ofMouseEventArgs& args);
+	void onMouseUp(ofMouseEventArgs& args);
 
     cpSpace* space;
 	shared_ptr<StaticLine> floor;
 	shared_ptr<StaticLine> wallLeft;
 	shared_ptr<StaticLine> wallRight;
-	bool lowFPS;
+	bool bLowFPS;
+	bool bPickingEnabled;
+	shared_ptr<KinematicBody> mouseBody;
+	shared_ptr<PivotJoint> mouseJoint;
 };
 
 } // namespace ofxChipmunk

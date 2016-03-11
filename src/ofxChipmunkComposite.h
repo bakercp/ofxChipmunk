@@ -10,7 +10,7 @@
 
 namespace ofxChipmunk {
 
-class Composite: public Body{
+class Composite: public DynamicBody{
 public:
 	class Definition{
 	private:

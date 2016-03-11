@@ -25,7 +25,7 @@ void Polygon::setup(cpSpace *space, ofPolyline poly, float mass){
 void Polygon::setup(cpSpace *space, std::vector<ofVec2f> &points, float mass){
 	std::vector<cpVect> verts = toChipmunk(points);
 	cpFloat moment = cpMomentForPoly(mass, points.size(), verts.data(), cpvzero, 0.0);
-	Body::setup(space, mass, moment);
+	DynamicBody::setup(space, mass, moment);
 	ShapePolygon::setup(space, body, points.size(), verts.data());
 }
 

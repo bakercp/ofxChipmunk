@@ -2,52 +2,53 @@
 
 namespace ofxChipmunk {
 
-BaseBody::BaseBody():body(nullptr){
+Body::Body():body(nullptr){
 
 }
 
-BaseBody::~BaseBody(){
+Body::~Body(){
 	if(body){
 		cpSpaceRemoveBody(cpBodyGetSpace(body), body);
 		cpBodyFree(body);
 	}
 }
 
-void BaseBody::setup(cpSpace *space, cpBody *b){
+void Body::setup(cpSpace *space, cpBody *b){
 	body = cpSpaceAddBody(space, b);
+	cpBodySetUserData(body, this);
 }
 
-ofVec2f ofxChipmunk::BaseBody::getPosition(){
+ofVec2f ofxChipmunk::Body::getPosition(){
 	return toOf(cpBodyGetPosition(body));
 }
 
-void BaseBody::setPosition(ofVec2f pos){
+void Body::setPosition(ofVec2f pos){
 	cpBodySetPosition(body, toChipmunk(pos));
 }
 
-float BaseBody::getRotation(){
+float Body::getRotation(){
 	return cpBodyGetAngle(body);
 }
 
-void BaseBody::setRotation(float radians){
+void Body::setRotation(float radians){
 	cpBodySetAngle(body, radians);
 }
 
-bool BaseBody::isSleeping(){
+bool Body::isSleeping(){
 	return cpBodyIsSleeping(body);
 }
 
 ////////////////////////////////////////////////////
-Body::Body(){
+DynamicBody::DynamicBody(){
 
 }
 
-Body::~Body(){
+DynamicBody::~DynamicBody(){
 
 }
 
-void Body::setup(cpSpace* space,float mass, cpFloat moment){
-	BaseBody::setup(space, cpBodyNew(mass, moment));
+void DynamicBody::setup(cpSpace* space,float mass, cpFloat moment){
+	Body::setup(space, cpBodyNew(mass, moment));
 }
 
 /////////////////////////////////////////////////////////////
@@ -61,8 +62,19 @@ StaticBody::StaticBody(cpSpace *space){
 }
 
 void ofxChipmunk::StaticBody::setup(cpSpace *space){
-	body = cpBodyNewStatic();
-	BaseBody::setup(space, body);
+	Body::setup(space, cpBodyNewStatic());
+}
+
+////////////////////////////////////////////////////////
+KinematicBody::KinematicBody(){
+}
+
+KinematicBody::KinematicBody(cpSpace *space){
+	setup(space);
+}
+
+void KinematicBody::setup(cpSpace *space){
+	Body::setup(space, cpBodyNewKinematic());
 }
 
 

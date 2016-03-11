@@ -6,7 +6,7 @@
 
 namespace ofxChipmunk {
 
-class Circle: public ofxChipmunk::Body, public ofxChipmunk::ShapeCircle{
+class Circle: public ofxChipmunk::DynamicBody, public ofxChipmunk::ShapeCircle{
 public:
     Circle();
 	Circle(cpSpace* space, float radius, float mass=1);

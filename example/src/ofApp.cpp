@@ -7,6 +7,7 @@ void ofApp::setup(){
 	ofSetFrameRate(60);
 
 	world.createBounds();
+	world.setPicking();
 
 	//
 	circle = world.createCircle(20);
@@ -50,7 +51,7 @@ void ofApp::setup(){
 
 //--------------------------------------------------------------
 void ofApp::update(){
-	composite->setScale(3.9);
+	composite->setScale(1.2);
 
 	world.update();
 }

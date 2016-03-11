@@ -18,4 +18,12 @@ void Constraint::setup(cpSpace* space, cpConstraint *c){
 	cpSpaceAddConstraint(space, constraint);
 }
 
+void Constraint::setMaxForce(double force){
+	cpConstraintSetMaxForce(constraint, force);
+}
+
+void Constraint::setErrorBias(double bias){
+	cpConstraintSetErrorBias(constraint, bias);
+}
+
 } // namespace ofxChipmunk

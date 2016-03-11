@@ -6,7 +6,11 @@ namespace ofxChipmunk {
 World::World(){
 	space = cpSpaceNew();
 	setGravity();
-	lowFPS = false;
+	bLowFPS = false;
+
+	ofAddListener(ofEvents().mousePressed, this, &World::onMouseDown);
+	ofAddListener(ofEvents().mouseDragged, this, &World::onMouseDrag);
+	ofAddListener(ofEvents().mouseReleased, this, &World::onMouseUp);
 }
 
 World::~World(){
@@ -25,11 +29,11 @@ void World::update(){
 
 	int curFPS = ofGetFrameRate();
 	if(curFPS < targetFPS*.95 && ofGetFrameNum() > 60){
-		if(!lowFPS)
+		if(!bLowFPS)
 			ofLogWarning("ofxChipmunk") << "current framerate (" << curFPS << ") is bellow target framerate (" << targetFPS << "), physics may behave strangely";
-		lowFPS = true;
+		bLowFPS = true;
 	}else{
-		lowFPS = false;
+		bLowFPS = false;
 	}
 
     cpSpaceStep(space, 1.f/float(targetFPS));
@@ -61,6 +65,17 @@ void World::createBounds(){
 	createWallRight();
 }
 
+void World::setPicking(bool state){
+	bPickingEnabled = state;
+}
+
+Body* World::getNearestBody(ofVec2f pos, float radius){
+	cpShape* shape = cpSpacePointQueryNearest(space, toChipmunk(pos), radius, CP_SHAPE_FILTER_ALL, NULL);
+	if(!shape)
+		return nullptr;
+	return (Body*)cpBodyGetUserData(cpShapeGetBody(shape));
+}
+
 shared_ptr<Circle> World::createCircle(float radius, float mass){
 	return shared_ptr<Circle>(new Circle(space, radius, mass));
 }
@@ -81,8 +96,16 @@ shared_ptr<Composite> World::createComposite(Composite::Definition &definition){
 	return shared_ptr<Composite>(new Composite(space, definition));
 }
 
-shared_ptr<StaticBody> World::createStaticBody(){
-	return shared_ptr<StaticBody>(new StaticBody(space));
+shared_ptr<KinematicBody> World::createKinematicBody(ofVec2f position){
+	KinematicBody* body = new KinematicBody(space);
+	body->setPosition(position);
+	return shared_ptr<KinematicBody>(body);
+}
+
+shared_ptr<StaticBody> World::createStaticBody(ofVec2f position){
+	StaticBody* body = new StaticBody(space);
+	body->setPosition(position);
+	return shared_ptr<StaticBody>(body);
 }
 
 shared_ptr<StaticLine> World::createStaticLine(ofVec2f a, ofVec2f b){
@@ -97,24 +120,61 @@ shared_ptr<StaticCircle> World::createStaticCircle(float radius){
 	return shared_ptr<StaticCircle>(new StaticCircle(space, radius));
 }
 
-shared_ptr<Spring> World::createSpring(shared_ptr<BaseBody> a, shared_ptr<BaseBody> b, float stiffness, float damping){
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// SPRINGS
+
+
+shared_ptr<Spring> World::createSpring(shared_ptr<Body> a, shared_ptr<Body> b, float stiffness, float damping){
 	return createSpring(a, b, ofVec2f(0, 0), ofVec2f(0, 0), a->getPosition().distance(b->getPosition()), stiffness, damping);
 }
 
-shared_ptr<Spring> World::createSpring(shared_ptr<BaseBody> a, shared_ptr<BaseBody> b, ofVec2f anchorA, ofVec2f anchorB, float distance, float stiffness, float damping){
-	return shared_ptr<Spring>(new Spring(space, a.get(), b.get(), anchorA, anchorB, distance, stiffness, damping));
+shared_ptr<Spring> World::createSpring(Body *a, Body *b, float stiffness, float damping){
+	return createSpring(a, b, ofVec2f(0, 0), ofVec2f(0, 0), a->getPosition().distance(b->getPosition()), stiffness, damping);
 }
 
-void World::onClick(ofMouseEventArgs &args){
-
+shared_ptr<Spring> World::createSpring(shared_ptr<Body> a, shared_ptr<Body> b, ofVec2f anchorA, ofVec2f anchorB, float distance, float stiffness, float damping){
+	return createSpring(a.get(), b.get(), anchorA, anchorB, distance, stiffness, damping);
 }
 
-void World::onDrag(ofMouseEventArgs &args){
-
+shared_ptr<Spring> World::createSpring(Body *a, Body *b, ofVec2f anchorA, ofVec2f anchorB, float distance, float stiffness, float damping){
+	return shared_ptr<Spring>(new Spring(space, a, b, anchorA, anchorB, distance, stiffness, damping));
 }
 
-void World::onRelease(ofMouseEventArgs &args){
+shared_ptr<PivotJoint> World::createPivotJoint(shared_ptr<Body> a, shared_ptr<Body> b, ofVec2f anchorA, ofVec2f anchorB){
+	return createPivotJoint(a.get(), b.get(), anchorA, anchorB);
+}
 
+shared_ptr<PivotJoint> World::createPivotJoint(Body *a, Body *b, ofVec2f anchorA, ofVec2f anchorB){
+	return shared_ptr<PivotJoint>(new PivotJoint(space, a, b, anchorA, anchorB));
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void World::onMouseDown(ofMouseEventArgs &args){
+	if(!bPickingEnabled) return;
+	Body* body = getNearestBody(args);
+	if(!body)
+		return;
+
+	if(!mouseBody)
+		mouseBody = createKinematicBody(args);
+
+	mouseJoint = createPivotJoint(mouseBody.get(), body);
+	mouseJoint->setMaxForce(50000.0);
+	mouseJoint->setErrorBias(cpfpow(1.0f - 0.15f, ofGetFrameRate()==0?60.f:ofGetFrameRate()));
+}
+
+void World::onMouseDrag(ofMouseEventArgs &args){
+	if(!bPickingEnabled) return;
+
+	if(mouseJoint)
+		mouseBody->setPosition(args);
+}
+
+void World::onMouseUp(ofMouseEventArgs &args){
+	if(!bPickingEnabled) return;
+
+	if(mouseJoint)
+		mouseJoint.reset();
 }
 
 

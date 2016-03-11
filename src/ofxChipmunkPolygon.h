@@ -6,7 +6,7 @@
 
 namespace ofxChipmunk {
 
-class Polygon: public Body, public ShapePolygon{
+class Polygon: public DynamicBody, public ShapePolygon{
 public:
     Polygon();
 	Polygon(cpSpace* space, ofPolyline poly, float mass=1);

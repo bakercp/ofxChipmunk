@@ -7,10 +7,10 @@
 
 namespace ofxChipmunk {
 
-class BaseBody{
+class Body{
 protected:
-	BaseBody();
-	~BaseBody();
+	Body();
+	~Body();
 
 	void setup(cpSpace* space, cpBody* body);
 
@@ -24,18 +24,26 @@ public:
 	cpBody* body;
 };
 
-class Body: public BaseBody{
+class DynamicBody: public Body{
 public:
-	Body();
-	~Body();
+	DynamicBody();
+	~DynamicBody();
 
 	void setup(cpSpace* space, float mass, cpFloat moment);
 };
 
-class StaticBody: public BaseBody{
+class StaticBody: public Body{
 public:
 	StaticBody();
 	StaticBody(cpSpace* space);
+
+	void setup(cpSpace* space);
+};
+
+class KinematicBody: public Body{
+public:
+	KinematicBody();
+	KinematicBody(cpSpace* space);
 
 	void setup(cpSpace* space);
 };

@@ -6,7 +6,7 @@
 
 namespace ofxChipmunk {
 
-class Rect: public ofxChipmunk::Body, public ofxChipmunk::ShapeRect{
+class Rect: public ofxChipmunk::DynamicBody, public ofxChipmunk::ShapeRect{
 public:
     Rect();
 	Rect(cpSpace* space, ofRectangle bounds, float mass=1);

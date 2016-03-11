@@ -12,7 +12,7 @@ Circle::Circle(cpSpace *space, float radius, float mass){
 
 void Circle::setup(cpSpace *space, float radius, float mass){
     cpFloat moment = cpMomentForCircle(mass, 0, radius, cpvzero);
-    Body::setup(space, mass, moment);
+    DynamicBody::setup(space, mass, moment);
     ShapeCircle::setup(space, body, radius);
 }
 

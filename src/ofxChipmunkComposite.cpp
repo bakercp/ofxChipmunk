@@ -19,7 +19,7 @@ void Composite::setup(cpSpace* space, Definition& def){
 		ofLogError("ofxChipmunk::Composite") << "No shape definitions added. Cannot create body.";
 		return;
 	}
-	Body::setup(space, def.getMass(), def.getMoment());
+	DynamicBody::setup(space, def.getMass(), def.getMoment());
 	for(auto d: def.definitions){
 		add(d->create(space, body));
 	}

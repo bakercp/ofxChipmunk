@@ -9,13 +9,16 @@ namespace ofxChipmunk {
 class Constraint{
 public:
 
+	void setMaxForce(double force);
+	void setErrorBias(double bias);
+
+	cpConstraint* constraint;
+
 protected:
     Constraint();
 	~Constraint();
 
 	void setup(cpSpace* space, cpConstraint* constraint);
-
-    cpConstraint* constraint;
 };
 
 } // namespace ofxChipmunk
