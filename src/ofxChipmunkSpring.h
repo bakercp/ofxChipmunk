@@ -19,6 +19,8 @@ public:
 	void setup(cpSpace* space, cpBody* a, cpBody* b, ofVec2f anchorA, ofVec2f anchorB, float distance, float stiffness=OFXCHIPMUNK_DEFAULT_STIFFNES, float damping=OFXCHIPMUNK_DEFAULT_DAMPING);
 
 	float getStiffness();
+	float getLength();
+	void setLength(float length);
 	void setStiffness(float stiffness);
 
 	void setSpringForceFunction(ForceFunction f);

@@ -159,7 +159,7 @@ void World::onMouseDown(ofMouseEventArgs &args){
 		mouseBody = createKinematicBody(args);
 
 	mouseJoint = createPivotJoint(mouseBody.get(), body);
-	mouseJoint->setMaxForce(50000.0);
+	mouseJoint->setMaxForce(500000.0);
 	mouseJoint->setErrorBias(cpfpow(1.0f - 0.15f, ofGetFrameRate()==0?60.f:ofGetFrameRate()));
 }
 

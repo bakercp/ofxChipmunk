@@ -26,6 +26,14 @@ float Spring::getStiffness(){
 	return cpDampedSpringGetStiffness(constraint);
 }
 
+float Spring::getLength(){
+	return cpDampedSpringGetRestLength(constraint);
+}
+
+void Spring::setLength(float length){
+	cpDampedSpringSetRestLength(constraint,length);
+}
+
 void Spring::setStiffness(float stiffness){
 	cpDampedSpringSetStiffness(constraint, stiffness);
 }
