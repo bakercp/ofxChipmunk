@@ -84,10 +84,14 @@ public:
 
 	void collisionSetGroup(unsigned int group);
 
+    std::vector<std::shared_ptr<DynamicBody>> breakApart();
+
 private:
 	void add(Shape* shape);
 
 	std::vector<shared_ptr<Shape>> shapes;
+
+    cpSpace* space;
 };
 
 } // namespace ofxChimpunk

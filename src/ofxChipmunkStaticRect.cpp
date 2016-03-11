@@ -6,13 +6,13 @@ StaticRect::StaticRect(){
 
 }
 
-StaticRect::StaticRect(cpSpace *space, ofRectangle bounds){
+StaticRect::StaticRect(cpSpace *space, ofRectangle bounds, float radius){
 	setup(space, bounds);
 }
 
-void StaticRect::setup(cpSpace *space, ofRectangle bounds){
+void StaticRect::setup(cpSpace *space, ofRectangle bounds, float radius){
 	StaticBody::setup(space);
-	Shape::setup(space, cpBoxShapeNew2(body, toChipmunk(bounds), 0));
+    ShapeRect::setup(space, body, bounds, radius);
 }
 
 } // namespace ofxChipmunk

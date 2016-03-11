@@ -1,4 +1,5 @@
 #include "ofxChipmunkComposite.h"
+#include "ofxChipmunkWorld.h"
 
 extern "C"{
 #include <cpPolyline.h>
@@ -14,7 +15,8 @@ Composite::Composite(cpSpace *space, Composite::Definition &def){
 	setup(space, def);
 }
 
-void Composite::setup(cpSpace* space, Definition& def){
+void Composite::setup(cpSpace* s, Definition& def){
+    space = s;
 	if(def.definitions.size() == 0){
 		ofLogError("ofxChipmunk::Composite") << "No shape definitions added. Cannot create body.";
 		return;
@@ -73,7 +75,23 @@ ofPath Composite::getAsPath(){
 void Composite::collisionSetGroup(unsigned int group){
 	for(auto s: shapes){
 		s->collisionSetGroup(group);
-	}
+    }
+}
+
+std::vector<std::shared_ptr<DynamicBody>> Composite::breakApart(){
+    std::vector<std::shared_ptr<DynamicBody>> ret;
+    float mass = cpBodyGetMass(body) / float(shapes.size());
+    float moment = cpBodyGetMoment(body) / float(shapes.size());
+    //ugly hack to get the world
+    World* world = (World*)cpSpaceGetUserData(space);
+    for(auto shape: shapes){
+        ret.push_back(world->createBodyForShape(shape.get()));
+        if(ret.back()){
+            ret.back()->setPosition(getPosition());
+        }
+    }
+    shapes.clear();
+    return ret;
 }
 
 void Composite::add(Shape *shape){

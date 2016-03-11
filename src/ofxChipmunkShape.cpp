@@ -34,8 +34,9 @@ void Shape::collisionSetGroup(unsigned int group){
 
 unsigned int Shape::collisionGetGroup(){
 	cpShapeFilter filter = cpShapeGetFilter(shape);
-	return filter.group;
+    return filter.group;
 }
+
 
 /*
 void Shape::collisionSetCategory(unsigned int category){
@@ -84,19 +85,31 @@ ShapeCircle::ShapeCircle(cpSpace *space, cpBody *body, float radius, ofVec2f off
 void ShapeCircle::setup(cpSpace *space, cpBody* body, float radius, ofVec2f offset){
 	radiusInitial = radius;
 	offsetInitial = offset;
-	Shape::setup(space, cpCircleShapeNew(body, radius, toChipmunk(offset)));
+    Shape::setup(space, cpCircleShapeNew(body, radius, toChipmunk(offset)));
+}
+
+void ShapeCircle::setup(ShapeCircle *src){
+    radiusInitial = src->radiusInitial;
+    offsetInitial = src->offsetInitial;
+    shape = src->shape;
+    src->shape = nullptr;
 }
 
 void ShapeCircle::setRadius(float r){
 	cpCircleShapeSetRadius(shape, r);
 }
 
-void ShapeCircle::setOffset(ofVec2f off){
-	cpCircleShapeSetOffset(shape, toChipmunk(off));
+float ShapeCircle::getRadius(){
+    return cpCircleShapeGetRadius(shape);
 }
 
-float ShapeCircle::getRadius(){
-	return cpCircleShapeGetRadius(shape);
+
+void ShapeCircle::setOffset(ofVec2f off){
+    cpCircleShapeSetOffset(shape, toChipmunk(off));
+}
+
+ofVec2f ShapeCircle::getOffset(){
+    return toOf(cpCircleShapeGetOffset(shape));
 }
 
 void ShapeCircle::scale(float s){
@@ -106,7 +119,11 @@ void ShapeCircle::scale(float s){
 
 ofPath ShapeCircle::getAsPath(){
 	ofPath ret;
-	ret.circle(toOf(cpCircleShapeGetOffset(shape)), getRadius());
+    ret.circle(toOf(cpCircleShapeGetOffset(shape)), getRadius());
+}
+
+Shape::Type ShapeCircle::getType(){
+    return Shape::Type::Circle;
 }
 
 //
@@ -119,7 +136,11 @@ ShapeRect::ShapeRect(cpSpace *space, cpBody *body, ofRectangle bounds, float rad
 }
 
 void ShapeRect::setup(cpSpace *space, cpBody *body, ofRectangle bounds, float radius){
-	Shape::setup(space, cpBoxShapeNew(body, bounds.width, bounds.height, radius));
+    Shape::setup(space, cpBoxShapeNew(body, bounds.width, bounds.height, radius));
+}
+
+Shape::Type ShapeRect::getType(){
+    return Shape::Type::Rectangle;
 }
 
 ///
@@ -132,11 +153,52 @@ ShapeLine::ShapeLine(cpSpace *space, cpBody* body,ofVec2f a, ofVec2f b, float ra
 }
 
 void ShapeLine::setup(cpSpace *space, cpBody* body,ofVec2f a, ofVec2f b, float radius){
-	Shape::setup(space, cpSegmentShapeNew(body, toChipmunk(a), toChipmunk(b), radius));
+    aInitial = a;
+    bInitial = b;
+    radiusInitial = radius;
+    Shape::setup(space, cpSegmentShapeNew(body, toChipmunk(a), toChipmunk(b), radius));
+}
+
+void ShapeLine::setup(ShapeLine *src){
+    aInitial = src->aInitial;
+    bInitial = src->bInitial;
+    shape = src->shape;
+    src->shape = nullptr;
+}
+
+ofVec2f ShapeLine::getA(){
+    return toOf(cpSegmentShapeGetA(shape));
+}
+
+ofVec2f ShapeLine::getB(){
+    return toOf(cpSegmentShapeGetB(shape));
+}
+
+float ShapeLine::getRadius(){
+    return cpSegmentShapeGetRadius(shape);
+}
+
+void ShapeLine::scale(float s){
+    cpSegmentShapeSetEndpoints(shape, toChipmunk(aInitial*s), toChipmunk(bInitial*s));
+}
+
+ofPath ShapeLine::getAsPath(){
+    ofPath ret;
+    ret.moveTo(getA());
+    ret.lineTo(getB());
+    return ret;
+}
+
+Shape::Type ShapeLine::getType(){
+    return Shape::Type::Line;
 }
 
 //
 ShapePolygon::ShapePolygon(){numPoints=0;}
+
+ShapePolygon::~ShapePolygon(){
+    free(points);
+}
 
 ShapePolygon::ShapePolygon(cpSpace *space, cpBody *body, ofPolyline poly){
 	numPoints=0;
@@ -145,7 +207,7 @@ ShapePolygon::ShapePolygon(cpSpace *space, cpBody *body, ofPolyline poly){
 
 ShapePolygon::ShapePolygon(cpSpace *space, cpBody *body, std::vector<ofVec2f> &points){
 	numPoints = 0;
-	setup(space, body, points);
+    setup(space, body, points);
 }
 
 void ShapePolygon::setup(cpSpace *space, cpBody *body, ofPolyline poly){
@@ -157,7 +219,13 @@ void ShapePolygon::setup(cpSpace *space, cpBody *body, ofPolyline poly){
 }
 
 void ShapePolygon::setup(cpSpace *space, cpBody *body, std::vector<ofVec2f> &points){
-	setup(space, body, points.size(), toChipmunk(points).data());
+    setup(space, body, points.size(), toChipmunk(points).data());
+}
+
+void ShapePolygon::setup(ShapePolygon *src){
+    numPoints = src->numPoints;
+    points = new cpVect[numPoints];
+    memcpy(points, src->points, numPoints*sizeof(cpVect));
 }
 
 void ShapePolygon::scale(float s){
@@ -189,7 +257,11 @@ ofPath ShapePolygon::getAsPath(){
 		ret.lineTo(toOf(points[i]));
 	}
 	ret.close();
-	return ret;
+    return ret;
+}
+
+Shape::Type ShapePolygon::getType(){
+    return Shape::Type::Polygon;
 }
 
 std::vector<ofVec2f> ShapePolygon::getPoints(){
@@ -202,7 +274,7 @@ std::vector<ofVec2f> ShapePolygon::getPoints(){
 
 void ShapePolygon::setup(cpSpace *space, cpBody *body, int nPoints, cpVect *verts){
 	if(numPoints>0){
-		delete[] points;
+        free(points);
 	}
 
 	numPoints = nPoints;

@@ -33,4 +33,5 @@ public:
 	shared_ptr<Spring> spring3;
 	shared_ptr<Composite> composite;
 	shared_ptr<StaticBody> anchor;
+    vector<shared_ptr<DynamicBody>> parts;
 };

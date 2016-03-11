@@ -8,12 +8,12 @@
 
 namespace ofxChipmunk {
 
-class StaticRect: public Shape, public StaticBody{
+class StaticRect: public ShapeRect, public StaticBody{
 public:
     StaticRect();
-	StaticRect(cpSpace* space, ofRectangle bounds);
+    StaticRect(cpSpace* space, ofRectangle bounds, float radius=1.f);
 
-	void setup(cpSpace* space, ofRectangle bounds);
+    void setup(cpSpace* space, ofRectangle bounds, float radius=1.f);
 
 };
 
