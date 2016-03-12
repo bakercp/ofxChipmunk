@@ -88,6 +88,13 @@ std::vector<std::shared_ptr<DynamicBody>> Composite::breakApart(){
         ret.push_back(world->createBodyForShape(shape.get()));
         if(ret.back()){
             ret.back()->setPosition(getPosition());
+			ret.back()->setRotation(getRotation());
+			if(shape->getType() == Shape::Type::Polygon){
+				Polygon* poly = (Polygon*)ret.back().get();
+				ofVec2f offset = poly->getCenter();
+				poly->move(offset);
+				poly->setOffset(-offset);
+			}
         }
     }
     shapes.clear();

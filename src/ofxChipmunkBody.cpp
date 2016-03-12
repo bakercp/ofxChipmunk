@@ -5,11 +5,11 @@ namespace ofxChipmunk {
 
 static std::vector<cpConstraint*> constraintsToRemove;
 
-static void constraintRemoveQuery(cpConstraint *constraint, void *data){
-	Body* body = (Body*)data;
+static void constraintRemoveQuery(cpBody* body, cpConstraint *constraint, void *data){
+	if(!constraint)
+		return;
 
-	if(cpConstraintGetBodyA(constraint) == body->body || cpConstraintGetBodyB(constraint) == body->body)
-		constraintsToRemove.push_back(constraint);
+	constraintsToRemove.push_back(constraint);
 }
 
 Body::Body():body(nullptr){
@@ -20,15 +20,17 @@ Body::~Body(){
 	if(body){
 		//clean up all constraints
 		constraintsToRemove.clear();
-		cpSpaceEachConstraint(cpBodyGetSpace(body), &constraintRemoveQuery, (void*)this);
+		cpBodyEachConstraint(body, &constraintRemoveQuery, (void*)this);
 		for(auto c: constraintsToRemove){
 			((Constraint*)cpConstraintGetUserData(c))->constraint = nullptr;
 			cpSpaceRemoveConstraint(cpConstraintGetSpace(c), c);
+			cpConstraintDestroy(c);
 		}
 
 		//remove body
 		cpSpaceRemoveBody(cpBodyGetSpace(body), body);
 		cpBodyFree(body);
+		body = nullptr;
 	}
 }
 
@@ -43,6 +45,10 @@ ofVec2f ofxChipmunk::Body::getPosition(){
 
 void Body::setPosition(ofVec2f pos){
 	cpBodySetPosition(body, toChipmunk(pos));
+}
+
+void Body::move(ofVec2f m){
+	setPosition(getPosition()+m);
 }
 
 float Body::getRotation(){

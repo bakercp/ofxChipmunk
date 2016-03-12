@@ -17,6 +17,7 @@ protected:
 public:
 	ofVec2f getPosition();
 	void setPosition(ofVec2f pos);
+	void move(ofVec2f m);
 	float getRotation();
 	void setRotation(float radians);
 	bool isSleeping();

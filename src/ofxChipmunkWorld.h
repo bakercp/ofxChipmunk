@@ -36,12 +36,16 @@ public:
     void draw();
 
     void setGravity(ofVec2f g=ofVec2f(0, 100));
+	ofVec2f getGravity();
     void createFloor();
     void createWallLeft();
     void createWallRight();
     void createBounds();
     void setPicking(bool state=true);
     Body* getNearestBody(ofVec2f pos, float radius=20.f);
+
+	void setNumIterations(int i);
+	int getNumIterations();
 
     //primitives
     shared_ptr<Circle> createCircle(float radius, float mass=1);

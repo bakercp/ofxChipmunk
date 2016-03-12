@@ -115,6 +115,8 @@ public:
     Shape::Type getType() override;
 
     std::vector<ofVec2f> getPoints();
+	ofVec2f getCenter();
+	void setOffset(ofVec2f off);
 protected:
     void setup(cpSpace* space, cpBody* body, int nPoints, cpVect* pts);
 

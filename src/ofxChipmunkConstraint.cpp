@@ -10,6 +10,7 @@ Constraint::~Constraint(){
 	if(constraint){
 		cpSpaceRemoveConstraint(cpConstraintGetSpace(constraint), constraint);
 		cpConstraintDestroy(constraint);
+		constraint = nullptr;
 	}
 }
 

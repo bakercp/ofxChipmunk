@@ -26,7 +26,7 @@ World::World(){
 World::~World(){
     //threadStop();
     //thread.join();
-    cpSpaceFree(space);
+	//cpSpaceFree(space);
 }
 
 /*
@@ -109,7 +109,11 @@ void World::draw(){
 }
 
 void World::setGravity(ofVec2f g){
-    cpSpaceSetGravity(space, toChipmunk(g));
+	cpSpaceSetGravity(space, toChipmunk(g));
+}
+
+ofVec2f World::getGravity(){
+	return toOf(cpSpaceGetGravity(space));
 }
 
 void World::createFloor(){
@@ -138,7 +142,15 @@ Body* World::getNearestBody(ofVec2f pos, float radius){
     cpShape* shape = cpSpacePointQueryNearest(space, toChipmunk(pos), radius, CP_SHAPE_FILTER_ALL, NULL);
     if(!shape)
         return nullptr;
-    return (Body*)cpBodyGetUserData(cpShapeGetBody(shape));
+	return (Body*)cpBodyGetUserData(cpShapeGetBody(shape));
+}
+
+void World::setNumIterations(int i){
+	cpSpaceSetIterations(space, i);
+}
+
+int World::getNumIterations(){
+	return cpSpaceGetIterations(space);
 }
 
 shared_ptr<Circle> World::createCircle(float radius, float mass){

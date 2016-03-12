@@ -11,6 +11,7 @@ Shape::~Shape(){
     if(shape){
         cpSpaceRemoveShape(cpShapeGetSpace(shape), shape);
         cpShapeFree(shape);
+		shape = nullptr;
     }
 }
 
@@ -273,7 +274,41 @@ std::vector<ofVec2f> ShapePolygon::getPoints(){
     for(unsigned int i=0; i<numPoints; i++){
         ret.push_back(toOf(points[i]));
     }
-    return ret;
+	return ret;
+}
+
+const cpVect findCentroid(cpVect* pts, size_t nPts){
+	cpVect off = pts[0];
+	float twicearea = 0;
+	float x = 0;
+	float y = 0;
+	cpVect p1, p2;
+	float f;
+	for (int i = 0, j = nPts - 1; i < nPts; j = i++) {
+		p1 = pts[i];
+		p2 = pts[j];
+		f = (p1.x - off.x) * (p2.y - off.y) - (p2.x - off.x) * (p1.y - off.y);
+		twicearea += f;
+		x += (p1.x + p2.x - 2 * off.x) * f;
+		y += (p1.y + p2.y - 2 * off.y) * f;
+	}
+
+	f = twicearea * 3;
+
+	return {x / f + off.x, y / f + off.y};
+}
+
+ofVec2f ShapePolygon::getCenter(){
+	return toOf(findCentroid(points, numPoints));
+}
+
+void ShapePolygon::setOffset(ofVec2f o){
+	cpVect off = toChipmunk(o);
+	for(int i=0;i<numPoints;i++){
+		points[i] = cpvadd(points[i], off);
+	}
+	cpPolyShapeSetVertsRaw(shape, numPoints, points);
+	cpShapeCacheBB(shape);
 }
 
 void ShapePolygon::setup(cpSpace *space, cpBody *body, int nPoints, cpVect *verts){
