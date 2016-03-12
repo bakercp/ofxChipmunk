@@ -144,8 +144,14 @@ void drawPolygon(int count, const cpVect *verts, cpFloat r, cpSpaceDebugColor ou
 	ofSetColor(toOf(fill));
 	ofFill();
 
-	tesselator.tessellateToMesh(poly, ofPolyWindingMode::OF_POLY_WINDING_POSITIVE, polyMesh, true);
-	polyMesh.drawFaces();
+	ofBeginShape();
+	for(auto p: poly){
+		ofVertex(p);
+	}
+	ofEndShape();
+
+	//tesselator.tessellateToMesh(poly, ofPolyWindingMode::OF_POLY_WINDING_POSITIVE, polyMesh, true);
+	//polyMesh.drawFaces();
 
 	ofSetColor(toOf(outline));
 	ofNoFill();
