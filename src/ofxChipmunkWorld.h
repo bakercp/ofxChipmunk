@@ -48,11 +48,11 @@ public:
 	int getNumIterations();
 
     //primitives
-    shared_ptr<Circle> createCircle(float radius, float mass=1);
-    shared_ptr<Rect> createRect(ofRectangle rect, float mass=1);
-    shared_ptr<Line> createLine(ofVec2f a, ofVec2f b, float radius=0, float mass=1);
-    shared_ptr<Polygon> createPoly(std::vector<ofVec2f>& points, float mass=1);
-    shared_ptr<Polygon> createPoly(ofPolyline poly, float mass=1);
+	shared_ptr<Circle> createCircle(float radius, float mass=1.f);
+	shared_ptr<Rect> createRect(ofRectangle rect, float mass=1.f);
+	shared_ptr<Line> createLine(ofVec2f a, ofVec2f b, float radius=0.f, float mass=1.f);
+	shared_ptr<Polygon> createPoly(std::vector<ofVec2f>& points, float radius=0.f, float mass=1);
+	shared_ptr<Polygon> createPoly(ofPolyline poly, float radius=1.f, float mass=1);
     shared_ptr<Composite> createComposite(Composite::Definition& definition);
 
     //kinematic primitives

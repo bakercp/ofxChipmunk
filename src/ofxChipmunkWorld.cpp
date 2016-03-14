@@ -165,12 +165,12 @@ shared_ptr<Line> World::createLine(ofVec2f a, ofVec2f b, float radius, float mas
     return shared_ptr<Line>(new Line(space, a, b, radius, mass));
 }
 
-shared_ptr<Polygon> World::createPoly(std::vector<ofVec2f>& points, float mass){
-    return shared_ptr<Polygon>(new Polygon(space, points, mass));
+shared_ptr<Polygon> World::createPoly(std::vector<ofVec2f>& points, float radius, float mass){
+	return shared_ptr<Polygon>(new Polygon(space, points, radius, mass));
 }
 
-shared_ptr<Polygon> World::createPoly(ofPolyline poly, float mass){
-    return shared_ptr<Polygon>(new Polygon(space, poly, mass));
+shared_ptr<Polygon> World::createPoly(ofPolyline poly, float radius, float mass){
+	return shared_ptr<Polygon>(new Polygon(space, poly, radius, mass));
 }
 
 shared_ptr<Composite> World::createComposite(Composite::Definition &definition){

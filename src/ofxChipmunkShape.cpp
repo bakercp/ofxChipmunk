@@ -203,17 +203,17 @@ ShapePolygon::~ShapePolygon(){
     free(points);
 }
 
-ShapePolygon::ShapePolygon(cpSpace *space, cpBody *body, ofPolyline poly){
+ShapePolygon::ShapePolygon(cpSpace *space, cpBody *body, ofPolyline poly, float radius){
     numPoints=0;
     setup(space, body, poly);
 }
 
-ShapePolygon::ShapePolygon(cpSpace *space, cpBody *body, std::vector<ofVec2f> &points){
+ShapePolygon::ShapePolygon(cpSpace *space, cpBody *body, std::vector<ofVec2f> &points, float radius){
     numPoints = 0;
     setup(space, body, points);
 }
 
-void ShapePolygon::setup(cpSpace *space, cpBody *body, ofPolyline poly){
+void ShapePolygon::setup(cpSpace *space, cpBody *body, ofPolyline poly, float radius){
     std::vector<ofVec2f> vecs;
     for(auto& p: poly){
         vecs.push_back(p);
@@ -221,7 +221,7 @@ void ShapePolygon::setup(cpSpace *space, cpBody *body, ofPolyline poly){
     setup(space, body, vecs);
 }
 
-void ShapePolygon::setup(cpSpace *space, cpBody *body, std::vector<ofVec2f> &points){
+void ShapePolygon::setup(cpSpace *space, cpBody *body, std::vector<ofVec2f> &points, float radius){
     setup(space, body, points.size(), toChipmunk(points).data());
 }
 
@@ -311,7 +311,7 @@ void ShapePolygon::setOffset(ofVec2f o){
 	cpShapeCacheBB(shape);
 }
 
-void ShapePolygon::setup(cpSpace *space, cpBody *body, int nPoints, cpVect *verts){
+void ShapePolygon::setup(cpSpace *space, cpBody *body, int nPoints, cpVect *verts, float radius){
     if(numPoints>0){
         free(points);
     }

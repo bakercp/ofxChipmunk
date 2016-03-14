@@ -103,11 +103,11 @@ class ShapePolygon: public Shape{
 public:
     ShapePolygon();
     ~ShapePolygon();
-    ShapePolygon(cpSpace* space, cpBody* body, ofPolyline poly);
-    ShapePolygon(cpSpace* space, cpBody* body, std::vector<ofVec2f>& points);
+	ShapePolygon(cpSpace* space, cpBody* body, ofPolyline poly, float radius=0.f);
+	ShapePolygon(cpSpace* space, cpBody* body, std::vector<ofVec2f>& points, float radius=0.f);
 
-    void setup(cpSpace* space, cpBody* body, ofPolyline poly);
-    void setup(cpSpace* space, cpBody* body, std::vector<ofVec2f>& points);
+	void setup(cpSpace* space, cpBody* body, ofPolyline poly, float radius=0.f);
+	void setup(cpSpace* space, cpBody* body, std::vector<ofVec2f>& points, float radius=0.f);
     void setup(ShapePolygon* src);
 
     void scale(float s) override;
@@ -118,7 +118,7 @@ public:
 	ofVec2f getCenter();
 	void setOffset(ofVec2f off);
 protected:
-    void setup(cpSpace* space, cpBody* body, int nPoints, cpVect* pts);
+	void setup(cpSpace* space, cpBody* body, int nPoints, cpVect* pts, float radius=0.f);
 
     int numPoints;
     cpVect* points;
