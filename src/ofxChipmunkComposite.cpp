@@ -116,27 +116,27 @@ void Composite::Definition::addRect(ofRectangle rect, float mass, float f, float
 	definitions.push_back(shared_ptr<ShapeDefinition>(new RectDefinition(rect, mass, f, e)));
 }
 
-void Composite::Definition::addPolygon(ofPolyline poly, float mass, float f, float e){
+void Composite::Definition::addPolygon(ofPolyline poly, float radius, float mass, float f, float e){
 	std::vector<ofVec2f> vecs;
 	for(auto& p: poly){
 		vecs.push_back(p);
 	}
-	addPolygon(vecs, mass, f, e);
+	addPolygon(vecs, radius, mass, f, e);
 }
 
-void Composite::Definition::addPolygon(std::vector<ofVec2f> points, float mass, float f, float e){
-	definitions.push_back(shared_ptr<ShapeDefinition>(new PolygonDefinition(points, mass, f, e)));
+void Composite::Definition::addPolygon(std::vector<ofVec2f> points, float radius, float mass, float f, float e){
+	definitions.push_back(shared_ptr<ShapeDefinition>(new PolygonDefinition(points, radius, mass, f, e)));
 }
 
-void Composite::Definition::addConcavePolygon(ofPolyline poly, float precision, float mass, float friction, float elasticity){
+void Composite::Definition::addConcavePolygon(ofPolyline poly, float precision, float radius, float mass, float friction, float elasticity){
 	std::vector<ofVec2f> vecs;
 	for(auto& p: poly){
 		vecs.push_back(p);
 	}
-	addConcavePolygon(vecs, precision, mass, friction, elasticity);
+	addConcavePolygon(vecs, precision, radius, mass, friction, elasticity);
 }
 
-void Composite::Definition::addConcavePolygon(std::vector<ofVec2f> points, float precision, float mass, float friction, float elasticity){
+void Composite::Definition::addConcavePolygon(std::vector<ofVec2f> points, float precision, float radius, float mass, float friction, float elasticity){
 	//definitions.push_back(shared_ptr<ShapeDefinition>(new ConvexPolygonDefinition(points, precision, mass, friction, elasticity)));
 	std::vector<cpVect> verts = toChipmunk(points);
 	if(verts[0].x != verts.back().x || verts[0].y != verts.back().y)
@@ -162,7 +162,7 @@ void Composite::Definition::addConcavePolygon(std::vector<ofVec2f> points, float
 		for(int j=0; j<poly->count; j++){
 			vec.push_back(toOf(poly->verts[j]));
 		}
-		addPolygon(vec, mass, friction, elasticity);
+		addPolygon(vec, radius, mass, friction, elasticity);
 	}
 
 	ofLogNotice("ofxChipmunk::Composite") << "Split concave polygon into " << set->count << " parts";
@@ -219,16 +219,17 @@ Shape* Composite::Definition::RectDefinition::create(cpSpace *space, cpBody *bod
 }
 
 //
-Composite::Definition::PolygonDefinition::PolygonDefinition(std::vector<ofVec2f> p, float m, float f, float e){
+Composite::Definition::PolygonDefinition::PolygonDefinition(std::vector<ofVec2f> p, float r, float m, float f, float e){
 	mass = m;
 	points = p;
 	friction = f;
 	elasticity = e;
+	radius = r;
 	moment = cpMomentForPoly(mass, points.size(), toChipmunk(points).data(), toChipmunk(ofVec2f(0,0)), 0);
 }
 
 Shape* Composite::Definition::PolygonDefinition::create(cpSpace *space, cpBody *body){
-	ShapePolygon* sp = new ShapePolygon(space, body, points);
+	ShapePolygon* sp = new ShapePolygon(space, body, points, radius);
 	sp->setElasticity(elasticity);
 	sp->setFriction(friction);
 	return {sp};

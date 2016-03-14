@@ -205,12 +205,12 @@ ShapePolygon::~ShapePolygon(){
 
 ShapePolygon::ShapePolygon(cpSpace *space, cpBody *body, ofPolyline poly, float radius){
     numPoints=0;
-    setup(space, body, poly);
+	setup(space, body, poly, radius);
 }
 
 ShapePolygon::ShapePolygon(cpSpace *space, cpBody *body, std::vector<ofVec2f> &points, float radius){
     numPoints = 0;
-    setup(space, body, points);
+	setup(space, body, points, radius);
 }
 
 void ShapePolygon::setup(cpSpace *space, cpBody *body, ofPolyline poly, float radius){
@@ -218,11 +218,11 @@ void ShapePolygon::setup(cpSpace *space, cpBody *body, ofPolyline poly, float ra
     for(auto& p: poly){
         vecs.push_back(p);
     }
-    setup(space, body, vecs);
+	setup(space, body, vecs, radius);
 }
 
 void ShapePolygon::setup(cpSpace *space, cpBody *body, std::vector<ofVec2f> &points, float radius){
-    setup(space, body, points.size(), toChipmunk(points).data());
+	setup(space, body, points.size(), toChipmunk(points).data(), radius);
 }
 
 void ShapePolygon::setup(ShapePolygon *src){
@@ -320,7 +320,7 @@ void ShapePolygon::setup(cpSpace *space, cpBody *body, int nPoints, cpVect *vert
     points = new cpVect[numPoints];
     memcpy(points, verts, numPoints*sizeof(cpVect));
 
-    Shape::setup(space, cpPolyShapeNew(body, nPoints, verts, cpTransformIdentity, 0.0));
+	Shape::setup(space, cpPolyShapeNew(body, nPoints, verts, cpTransformIdentity, radius));
 
     /*
     numPoints = cpPolyShapeGetCount(shape);
