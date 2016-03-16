@@ -235,6 +235,10 @@ void ShapePolygon::setup(ShapePolygon *src){
 	scale(src->curScale);
 }
 
+void ShapePolygon::setRadius(float radius){
+	cpPolyShapeSetRadius(shape, radius);
+}
+
 void ShapePolygon::scale(float s){
 
     /*

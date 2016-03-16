@@ -18,9 +18,9 @@ World::World(){
     setGravity();
     bLowFPS = false;
 
-    ofAddListener(ofEvents().mousePressed, this, &World::onMouseDown);
-    ofAddListener(ofEvents().mouseDragged, this, &World::onMouseDrag);
-    ofAddListener(ofEvents().mouseReleased, this, &World::onMouseUp);
+	ofAddListener(ofEvents().mousePressed, this, &World::onMouseDown);
+	ofAddListener(ofEvents().mouseDragged, this, &World::onMouseDrag);
+	ofAddListener(ofEvents().mouseReleased, this, &World::onMouseUp);
 }
 
 World::~World(){

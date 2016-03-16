@@ -110,6 +110,7 @@ public:
 	void setup(cpSpace* space, cpBody* body, std::vector<ofVec2f>& points, float radius=0.f);
     void setup(ShapePolygon* src);
 
+	void setRadius(float radius);
     void scale(float s) override;
     ofPath getAsPath() override;
     Shape::Type getType() override;
