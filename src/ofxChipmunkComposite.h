@@ -93,6 +93,8 @@ private:
 	std::vector<shared_ptr<Shape>> shapes;
 
     cpSpace* space;
+
+	float scale;
 };
 
 } // namespace ofxChimpunk

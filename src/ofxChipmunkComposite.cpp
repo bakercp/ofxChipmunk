@@ -16,6 +16,7 @@ Composite::Composite(cpSpace *space, Composite::Definition &def){
 }
 
 void Composite::setup(cpSpace* s, Definition& def){
+	scale = 1;
     space = s;
 	if(def.definitions.size() == 0){
 		ofLogError("ofxChipmunk::Composite") << "No shape definitions added. Cannot create body.";
@@ -59,6 +60,7 @@ int Composite::getNumShapes(){
 }
 
 void Composite::setScale(float scl){
+	scale = scl;
 	for(auto s: shapes){
 		s->scale(scl);
 	}
@@ -87,10 +89,11 @@ std::vector<std::shared_ptr<DynamicBody>> Composite::breakApart(){
     for(auto shape: shapes){
         ret.push_back(world->createBodyForShape(shape.get()));
         if(ret.back()){
-            ret.back()->setPosition(getPosition());
+			ret.back()->setPosition(getPosition());
 			ret.back()->setRotation(getRotation());
 			if(shape->getType() == Shape::Type::Polygon){
 				Polygon* poly = (Polygon*)ret.back().get();
+				poly->scale(scale);
 				ofVec2f offset = poly->getCenter();
 				poly->move(offset);
 				poly->setOffset(-offset);

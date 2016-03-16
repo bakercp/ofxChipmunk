@@ -52,6 +52,8 @@ void ofApp::setup(){
 	composite = world.createComposite(def);
 	composite->setPosition(ofVec2f(ofGetWidth()*.53, 100));
 
+	composite->setScale(2);
+
 	//anchor
 	anchor = world.createStaticBody();
 	anchor->setPosition(ofVec2f(ofGetWidth()*.7, 40));

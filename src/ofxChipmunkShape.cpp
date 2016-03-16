@@ -197,7 +197,7 @@ Shape::Type ShapeLine::getType(){
 }
 
 //
-ShapePolygon::ShapePolygon(){numPoints=0;}
+ShapePolygon::ShapePolygon(){numPoints=0;curScale=1;}
 
 ShapePolygon::~ShapePolygon(){
     free(points);
@@ -219,6 +219,7 @@ void ShapePolygon::setup(cpSpace *space, cpBody *body, ofPolyline poly, float ra
         vecs.push_back(p);
     }
 	setup(space, body, vecs, radius);
+	curScale = 1;
 }
 
 void ShapePolygon::setup(cpSpace *space, cpBody *body, std::vector<ofVec2f> &points, float radius){
@@ -231,6 +232,7 @@ void ShapePolygon::setup(ShapePolygon *src){
     memcpy(points, src->points, numPoints*sizeof(cpVect));
     shape = src->shape;
     src->shape = nullptr;
+	scale(src->curScale);
 }
 
 void ShapePolygon::scale(float s){
@@ -244,11 +246,12 @@ void ShapePolygon::scale(float s){
     }
     */
 
+	curScale = s;
+
     std::vector<cpVect> pts;
     for(int i=0; i<numPoints; i++){
         pts.push_back(cpvmult(points[i], s));
     }
-
 
     //cpTransformIdentity;
     //cpPolyShapeSetVerts(shape, numPoints, pts.data(), cpTransformIdentity);
@@ -259,7 +262,7 @@ void ShapePolygon::scale(float s){
 ofPath ShapePolygon::getAsPath(){
     ofPath ret;
     for(int i=0; i<numPoints; i++){
-        ret.lineTo(toOf(points[i]));
+		ret.lineTo(toOf(points[i])*curScale);
     }
     ret.close();
     return ret;
@@ -272,7 +275,7 @@ Shape::Type ShapePolygon::getType(){
 std::vector<ofVec2f> ShapePolygon::getPoints(){
     std::vector<ofVec2f> ret;
     for(unsigned int i=0; i<numPoints; i++){
-        ret.push_back(toOf(points[i]));
+		ret.push_back(toOf(points[i])*curScale);
     }
 	return ret;
 }
@@ -299,15 +302,18 @@ const cpVect findCentroid(cpVect* pts, size_t nPts){
 }
 
 ofVec2f ShapePolygon::getCenter(){
-	return toOf(findCentroid(points, numPoints));
+	return toOf(findCentroid(points, numPoints))*curScale;
 }
 
 void ShapePolygon::setOffset(ofVec2f o){
+	std::vector<cpVect> pts(numPoints);
+
 	cpVect off = toChipmunk(o);
 	for(int i=0;i<numPoints;i++){
+		pts[i] = cpvadd(cpvmult(points[i], curScale), off);
 		points[i] = cpvadd(points[i], off);
 	}
-	cpPolyShapeSetVertsRaw(shape, numPoints, points);
+	cpPolyShapeSetVertsRaw(shape, numPoints, pts.data());
 	cpShapeCacheBB(shape);
 }
 

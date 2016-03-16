@@ -30,7 +30,7 @@ public:
     //very unsafe function
     virtual void scale(float s){ofLogNotice("ofxChipmunk") << "Scale not implemented for this shape";};
 
-    virtual ofPath getAsPath(){ofLogNotice("ofxChipmunk") << "GetAsPath not implemented for this shape";};
+	virtual ofPath getAsPath(){ofLogNotice("ofxChipmunk") << "GetAsPath not implemented for this shape";return ofPath();};
 
     /**
      * @brief shapes in the same category do not collide with each other
@@ -122,6 +122,7 @@ protected:
 
     int numPoints;
     cpVect* points;
+	float curScale;
 };
 
 } // namespace ofxChimpunk
