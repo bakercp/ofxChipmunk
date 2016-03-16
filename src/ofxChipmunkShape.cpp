@@ -261,8 +261,8 @@ void ShapePolygon::scale(float s){
 
 ofPath ShapePolygon::getAsPath(){
     ofPath ret;
-    for(int i=0; i<numPoints; i++){
-		ret.lineTo(toOf(points[i])*curScale);
+	for(int i=0; i<cpPolyShapeGetCount(shape); i++){
+		ret.lineTo(toOf(cpPolyShapeGetVert(shape, i)));
     }
     ret.close();
     return ret;
@@ -307,6 +307,7 @@ ofVec2f ShapePolygon::getCenter(){
 
 void ShapePolygon::setOffset(ofVec2f o){
 	std::vector<cpVect> pts(numPoints);
+
 
 	cpVect off = toChipmunk(o);
 	for(int i=0;i<numPoints;i++){
