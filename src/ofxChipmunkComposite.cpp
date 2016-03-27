@@ -34,8 +34,7 @@ void Composite::setFriction(float friction, int id){
 	}else{
 		for(auto s:shapes){
 			s->setFriction(friction);
-		}
-	}
+		}	}
 }
 
 void Composite::setElasticity(float elasiticity, int id){
@@ -168,7 +167,7 @@ void Composite::Definition::addConcavePolygon(std::vector<ofVec2f> points, float
 		addPolygon(vec, radius, mass, friction, elasticity);
 	}
 
-	ofLogNotice("ofxChipmunk::Composite") << "Split concave polygon into " << set->count << " parts";
+	//ofLogNotice("ofxChipmunk::Composite") << "Split concave polygon into " << set->count << " parts";
 
 	cpPolylineSetFree(set, true);
 	cpPolylineFree(cpl);
