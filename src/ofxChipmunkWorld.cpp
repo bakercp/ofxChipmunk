@@ -225,7 +225,15 @@ shared_ptr<PivotJoint> World::createPivotJoint(shared_ptr<Body> a, shared_ptr<Bo
 }
 
 shared_ptr<PivotJoint> World::createPivotJoint(Body *a, Body *b, ofVec2f anchorA, ofVec2f anchorB){
-    return shared_ptr<PivotJoint>(new PivotJoint(space, a, b, anchorA, anchorB));
+	return shared_ptr<PivotJoint>(new PivotJoint(space, a, b, anchorA, anchorB));
+}
+
+shared_ptr<SimpleMotor> World::createSimpleMotor(shared_ptr<Body> a, shared_ptr<Body> b, float rate){
+	return createSimpleMotor(a.get(), b.get(), rate);
+}
+
+shared_ptr<SimpleMotor> World::createSimpleMotor(Body *a, Body *b, float rate){
+	return shared_ptr<SimpleMotor>(new SimpleMotor(space, a, b, rate));
 }
 
 

@@ -13,6 +13,7 @@
 #include "ofxChipmunkStaticCircle.h"
 #include "ofxChipmunkStaticLine.h"
 #include "ofxChipmunkStaticRect.h"
+#include "ofxChipmunkSimpleMotor.h"
 
 
 namespace ofxChipmunk {
@@ -71,6 +72,8 @@ public:
     shared_ptr<Spring> createSpring(Body* a, Body* b, ofVec2f anchorA, ofVec2f anchorB, float distance, float stiffness=OFXCHIPMUNK_DEFAULT_STIFFNES, float damping=OFXCHIPMUNK_DEFAULT_DAMPING);
     shared_ptr<PivotJoint> createPivotJoint(shared_ptr<Body> a, shared_ptr<Body> b, ofVec2f anchorA = ofVec2f(0,0), ofVec2f anchorB = ofVec2f(0,0));
     shared_ptr<PivotJoint> createPivotJoint(Body* a, Body* b, ofVec2f anchorA = ofVec2f(0,0), ofVec2f anchorB = ofVec2f(0,0));
+	shared_ptr<SimpleMotor> createSimpleMotor(shared_ptr<Body> a, shared_ptr<Body> b, float rate=1);
+	shared_ptr<SimpleMotor> createSimpleMotor(Body* a, Body* b, float rate=1);
 
     //helpers
     shared_ptr<DynamicBody> createBodyForShape(Shape* shape, float mass=1);
