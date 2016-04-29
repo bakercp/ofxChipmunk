@@ -204,7 +204,7 @@ Composite::Definition::CircleDefinition::CircleDefinition(float r, ofVec2f o, fl
 }
 
 Shape* Composite::Definition::CircleDefinition::create(cpSpace *space, cpBody *body){
-	return {new ShapeCircle(space, body, radius, offset)};
+	return new ShapeCircle(space, body, radius, offset);
 }
 
 //
@@ -217,7 +217,7 @@ Composite::Definition::RectDefinition::RectDefinition(ofRectangle b, float m, fl
 }
 
 Shape* Composite::Definition::RectDefinition::create(cpSpace *space, cpBody *body){
-	return {new ShapeRect(space, body, bounds)};
+	return new ShapeRect(space, body, bounds);
 }
 
 //
@@ -234,7 +234,7 @@ Shape* Composite::Definition::PolygonDefinition::create(cpSpace *space, cpBody *
 	ShapePolygon* sp = new ShapePolygon(space, body, points, radius);
 	sp->setElasticity(elasticity);
 	sp->setFriction(friction);
-	return {sp};
+	return sp;
 }
 
 
