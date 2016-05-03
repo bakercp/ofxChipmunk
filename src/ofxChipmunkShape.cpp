@@ -70,7 +70,6 @@ void Shape::setCollisionType(int typeId){
     cpShapeSetCollisionType(shape, typeId);
 }
 
-/*
 void Shape::setCollisionFilter(unsigned int group, unsigned int categories, unsigned int mask){
     cpShapeSetFilter(shape, cpShapeFilterNew(group, categories, mask));
 }
@@ -123,6 +122,7 @@ void ShapeCircle::scale(float s){
 ofPath ShapeCircle::getAsPath(){
     ofPath ret;
     ret.circle(toOf(cpCircleShapeGetOffset(shape)), getRadius());
+    return ret;
 }
 
 Shape::Type ShapeCircle::getType(){
