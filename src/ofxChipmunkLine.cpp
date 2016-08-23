@@ -6,7 +6,7 @@ Line::Line(){
 
 }
 
-Line::Line(cpSpace *space, ofVec2f a, ofVec2f b, float radius, float mass){
+Line::Line(cpSpace *space, glm::vec2 a, glm::vec2 b, float radius, float mass){
     setup(space, a, b, radius, mass);
 }
 
@@ -19,7 +19,7 @@ Line::Line(ShapeLine *src, float mass){
     cpShapeSetBody(shape, body);
 }
 
-void Line::setup(cpSpace* space, ofVec2f a, ofVec2f b, float radius, float mass){
+void Line::setup(cpSpace* space, glm::vec2 a, glm::vec2 b, float radius, float mass){
 	DynamicBody::setup(space, mass, cpMomentForSegment(mass, toChipmunk(a), toChipmunk(b), radius));
     ShapeLine::setup(space, body, a, b, radius);
 }

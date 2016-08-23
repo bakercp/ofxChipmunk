@@ -93,7 +93,7 @@ std::vector<std::shared_ptr<DynamicBody>> Composite::breakApart(){
 			if(shape->getType() == Shape::Type::Polygon){
 				Polygon* poly = (Polygon*)ret.back().get();
 				poly->scale(scale);
-				ofVec2f offset = poly->getCenter();
+				glm::vec2 offset = poly->getCenter();
 				poly->move(offset);
 				poly->setOffset(-offset);
 			}
@@ -110,7 +110,7 @@ void Composite::add(Shape *shape){
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void Composite::Definition::addCircle(float radius, ofVec2f offset, float mass, float f, float e){
+void Composite::Definition::addCircle(float radius, glm::vec2 offset, float mass, float f, float e){
 	definitions.push_back(shared_ptr<ShapeDefinition>(new CircleDefinition(radius, offset, mass, f, e)));
 }
 
@@ -119,26 +119,26 @@ void Composite::Definition::addRect(ofRectangle rect, float mass, float f, float
 }
 
 void Composite::Definition::addPolygon(ofPolyline poly, float radius, float mass, float f, float e){
-	std::vector<ofVec2f> vecs;
+	std::vector<glm::vec2> vecs;
 	for(auto& p: poly){
-		vecs.push_back(p);
+		vecs.push_back(glm::vec2(p.x, p.y));
 	}
 	addPolygon(vecs, radius, mass, f, e);
 }
 
-void Composite::Definition::addPolygon(std::vector<ofVec2f> points, float radius, float mass, float f, float e){
+void Composite::Definition::addPolygon(std::vector<glm::vec2> points, float radius, float mass, float f, float e){
 	definitions.push_back(shared_ptr<ShapeDefinition>(new PolygonDefinition(points, radius, mass, f, e)));
 }
 
 void Composite::Definition::addConcavePolygon(ofPolyline poly, float precision, float radius, float mass, float friction, float elasticity){
-	std::vector<ofVec2f> vecs;
+	std::vector<glm::vec2> vecs;
 	for(auto& p: poly){
-		vecs.push_back(p);
+		vecs.push_back(glm::vec2(p.x, p.y));
 	}
 	addConcavePolygon(vecs, precision, radius, mass, friction, elasticity);
 }
 
-void Composite::Definition::addConcavePolygon(std::vector<ofVec2f> points, float precision, float radius, float mass, float friction, float elasticity){
+void Composite::Definition::addConcavePolygon(std::vector<glm::vec2> points, float precision, float radius, float mass, float friction, float elasticity){
 	//definitions.push_back(shared_ptr<ShapeDefinition>(new ConvexPolygonDefinition(points, precision, mass, friction, elasticity)));
 	std::vector<cpVect> verts = toChipmunk(points);
 	if(verts[0].x != verts.back().x || verts[0].y != verts.back().y)
@@ -159,7 +159,7 @@ void Composite::Definition::addConcavePolygon(std::vector<ofVec2f> points, float
 	cpPolylineSet* set = cpPolylineConvexDecomposition(cpl, precision);
 
 	for(int i=0; i<set->count; i++){
-		std::vector<ofVec2f> vec;
+		std::vector<glm::vec2> vec;
 		cpPolyline* poly = set->lines[i];
 		for(int j=0; j<poly->count; j++){
 			vec.push_back(toOf(poly->verts[j]));
@@ -173,7 +173,7 @@ void Composite::Definition::addConcavePolygon(std::vector<ofVec2f> points, float
 	cpPolylineFree(cpl);
 }
 
-void Composite::Definition::addLine(ofVec2f a, ofVec2f b, float mass, float f, float e){
+void Composite::Definition::addLine(glm::vec2 a, glm::vec2 b, float mass, float f, float e){
 	ofLogWarning("ofxChipmunk::Composite") << "add line not yet implemented";
 }
 
@@ -194,7 +194,7 @@ cpFloat Composite::Definition::getMoment(){
 }
 
 /////////////////////////////////////////////
-Composite::Definition::CircleDefinition::CircleDefinition(float r, ofVec2f o, float m, float f, float e){
+Composite::Definition::CircleDefinition::CircleDefinition(float r, glm::vec2 o, float m, float f, float e){
 	radius = r;
 	offset = o;
 	mass = m;
@@ -221,13 +221,13 @@ Shape* Composite::Definition::RectDefinition::create(cpSpace *space, cpBody *bod
 }
 
 //
-Composite::Definition::PolygonDefinition::PolygonDefinition(std::vector<ofVec2f> p, float r, float m, float f, float e){
+Composite::Definition::PolygonDefinition::PolygonDefinition(std::vector<glm::vec2> p, float r, float m, float f, float e){
 	mass = m;
 	points = p;
 	friction = f;
 	elasticity = e;
 	radius = r;
-	moment = cpMomentForPoly(mass, points.size(), toChipmunk(points).data(), toChipmunk(ofVec2f(0,0)), 0);
+	moment = cpMomentForPoly(mass, points.size(), toChipmunk(points).data(), toChipmunk(glm::vec2(0,0)), 0);
 }
 
 Shape* Composite::Definition::PolygonDefinition::create(cpSpace *space, cpBody *body){

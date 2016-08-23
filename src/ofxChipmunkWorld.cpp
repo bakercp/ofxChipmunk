@@ -108,24 +108,24 @@ void World::draw(){
     drawSpace(space);
 }
 
-void World::setGravity(ofVec2f g){
+void World::setGravity(glm::vec2 g){
 	cpSpaceSetGravity(space, toChipmunk(g));
 }
 
-ofVec2f World::getGravity(){
+glm::vec2 World::getGravity(){
 	return toOf(cpSpaceGetGravity(space));
 }
 
 void World::createFloor(){
-    floor = createStaticLine(ofVec2f(0, ofGetHeight()), ofVec2f(ofGetWidth(), ofGetHeight()), 2);
+    floor = createStaticLine(glm::vec2(0, ofGetHeight()), glm::vec2(ofGetWidth(), ofGetHeight()), 2);
 }
 
 void World::createWallLeft(){
-    wallLeft = createStaticLine(ofVec2f(0, 0), ofVec2f(0, ofGetHeight()), 2);
+    wallLeft = createStaticLine(glm::vec2(0, 0), glm::vec2(0, ofGetHeight()), 2);
 }
 
 void World::createWallRight(){
-    wallRight = createStaticLine(ofVec2f(ofGetWidth(), 0), ofVec2f(ofGetWidth(), ofGetHeight()), 2);
+    wallRight = createStaticLine(glm::vec2(ofGetWidth(), 0), glm::vec2(ofGetWidth(), ofGetHeight()), 2);
 }
 
 void World::createBounds(){
@@ -138,7 +138,7 @@ void World::setPicking(bool state){
     bPickingEnabled = state;
 }
 
-Body* World::getNearestBody(ofVec2f pos, float radius){
+Body* World::getNearestBody(glm::vec2 pos, float radius){
     cpShape* shape = cpSpacePointQueryNearest(space, toChipmunk(pos), radius, CP_SHAPE_FILTER_ALL, NULL);
     if(!shape)
         return nullptr;
@@ -161,11 +161,11 @@ shared_ptr<Rect> World::createRect(ofRectangle rect, float mass){
     return shared_ptr<Rect>(new Rect(space, rect, mass));
 }
 
-shared_ptr<Line> World::createLine(ofVec2f a, ofVec2f b, float radius, float mass){
+shared_ptr<Line> World::createLine(glm::vec2 a, glm::vec2 b, float radius, float mass){
     return shared_ptr<Line>(new Line(space, a, b, radius, mass));
 }
 
-shared_ptr<Polygon> World::createPoly(std::vector<ofVec2f>& points, float radius, float mass){
+shared_ptr<Polygon> World::createPoly(std::vector<glm::vec2>& points, float radius, float mass){
 	return shared_ptr<Polygon>(new Polygon(space, points, radius, mass));
 }
 
@@ -177,19 +177,19 @@ shared_ptr<Composite> World::createComposite(Composite::Definition &definition){
     return shared_ptr<Composite>(new Composite(space, definition));
 }
 
-shared_ptr<KinematicBody> World::createKinematicBody(ofVec2f position){
+shared_ptr<KinematicBody> World::createKinematicBody(glm::vec2 position){
     KinematicBody* body = new KinematicBody(space);
     body->setPosition(position);
     return shared_ptr<KinematicBody>(body);
 }
 
-shared_ptr<StaticBody> World::createStaticBody(ofVec2f position){
+shared_ptr<StaticBody> World::createStaticBody(glm::vec2 position){
     StaticBody* body = new StaticBody(space);
     body->setPosition(position);
     return shared_ptr<StaticBody>(body);
 }
 
-shared_ptr<StaticLine> World::createStaticLine(ofVec2f a, ofVec2f b, float radius){
+shared_ptr<StaticLine> World::createStaticLine(glm::vec2 a, glm::vec2 b, float radius){
     return shared_ptr<StaticLine>(new StaticLine(space, a, b, radius));
 }
 
@@ -205,26 +205,26 @@ shared_ptr<StaticCircle> World::createStaticCircle(float radius){
 
 
 shared_ptr<Spring> World::createSpring(shared_ptr<Body> a, shared_ptr<Body> b, float stiffness, float damping){
-    return createSpring(a, b, ofVec2f(0, 0), ofVec2f(0, 0), a->getPosition().distance(b->getPosition()), stiffness, damping);
+	return createSpring(a, b, glm::vec2(0, 0), glm::vec2(0, 0), glm::distance(a->getPosition(),b->getPosition()), stiffness, damping);
 }
 
 shared_ptr<Spring> World::createSpring(Body *a, Body *b, float stiffness, float damping){
-    return createSpring(a, b, ofVec2f(0, 0), ofVec2f(0, 0), a->getPosition().distance(b->getPosition()), stiffness, damping);
+	return createSpring(a, b, glm::vec2(0, 0), glm::vec2(0, 0), glm::distance(a->getPosition(), b->getPosition()), stiffness, damping);
 }
 
-shared_ptr<Spring> World::createSpring(shared_ptr<Body> a, shared_ptr<Body> b, ofVec2f anchorA, ofVec2f anchorB, float distance, float stiffness, float damping){
+shared_ptr<Spring> World::createSpring(shared_ptr<Body> a, shared_ptr<Body> b, glm::vec2 anchorA, glm::vec2 anchorB, float distance, float stiffness, float damping){
     return createSpring(a.get(), b.get(), anchorA, anchorB, distance, stiffness, damping);
 }
 
-shared_ptr<Spring> World::createSpring(Body *a, Body *b, ofVec2f anchorA, ofVec2f anchorB, float distance, float stiffness, float damping){
+shared_ptr<Spring> World::createSpring(Body *a, Body *b, glm::vec2 anchorA, glm::vec2 anchorB, float distance, float stiffness, float damping){
     return shared_ptr<Spring>(new Spring(space, a, b, anchorA, anchorB, distance, stiffness, damping));
 }
 
-shared_ptr<PivotJoint> World::createPivotJoint(shared_ptr<Body> a, shared_ptr<Body> b, ofVec2f anchorA, ofVec2f anchorB){
+shared_ptr<PivotJoint> World::createPivotJoint(shared_ptr<Body> a, shared_ptr<Body> b, glm::vec2 anchorA, glm::vec2 anchorB){
     return createPivotJoint(a.get(), b.get(), anchorA, anchorB);
 }
 
-shared_ptr<PivotJoint> World::createPivotJoint(Body *a, Body *b, ofVec2f anchorA, ofVec2f anchorB){
+shared_ptr<PivotJoint> World::createPivotJoint(Body *a, Body *b, glm::vec2 anchorA, glm::vec2 anchorB){
 	return shared_ptr<PivotJoint>(new PivotJoint(space, a, b, anchorA, anchorB));
 }
 

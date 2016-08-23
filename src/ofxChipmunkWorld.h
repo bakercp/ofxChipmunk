@@ -36,14 +36,14 @@ public:
     void update(double timeStep);
     void draw();
 
-    void setGravity(ofVec2f g=ofVec2f(0, 100));
-	ofVec2f getGravity();
+    void setGravity(glm::vec2 g=glm::vec2(0, 100));
+	glm::vec2 getGravity();
     void createFloor();
     void createWallLeft();
     void createWallRight();
     void createBounds();
     void setPicking(bool state=true);
-    Body* getNearestBody(ofVec2f pos, float radius=20.f);
+    Body* getNearestBody(glm::vec2 pos, float radius=20.f);
 
 	void setNumIterations(int i);
 	int getNumIterations();
@@ -51,27 +51,27 @@ public:
     //primitives
 	shared_ptr<Circle> createCircle(float radius, float mass=1.f);
 	shared_ptr<Rect> createRect(ofRectangle rect, float mass=1.f);
-	shared_ptr<Line> createLine(ofVec2f a, ofVec2f b, float radius=0.f, float mass=1.f);
-	shared_ptr<Polygon> createPoly(std::vector<ofVec2f>& points, float radius=0.f, float mass=1);
+	shared_ptr<Line> createLine(glm::vec2 a, glm::vec2 b, float radius=0.f, float mass=1.f);
+	shared_ptr<Polygon> createPoly(std::vector<glm::vec2>& points, float radius=0.f, float mass=1);
 	shared_ptr<Polygon> createPoly(ofPolyline poly, float radius=1.f, float mass=1);
     shared_ptr<Composite> createComposite(Composite::Definition& definition);
 
     //kinematic primitives
-    shared_ptr<KinematicBody> createKinematicBody(ofVec2f position=ofVec2f(0,0));
+    shared_ptr<KinematicBody> createKinematicBody(glm::vec2 position=glm::vec2(0,0));
 
     //static primitives
-    shared_ptr<StaticBody> createStaticBody(ofVec2f position=ofVec2f(0,0));
-    shared_ptr<StaticLine> createStaticLine(ofVec2f a, ofVec2f b, float radius=0.f);
+    shared_ptr<StaticBody> createStaticBody(glm::vec2 position=glm::vec2(0,0));
+    shared_ptr<StaticLine> createStaticLine(glm::vec2 a, glm::vec2 b, float radius=0.f);
     shared_ptr<StaticRect> createStaticRect(ofRectangle rect);
     shared_ptr<StaticCircle> createStaticCircle(float radius);
 
     //constraints
     shared_ptr<Spring> createSpring(shared_ptr<Body> a, shared_ptr<Body> b, float stiffness=OFXCHIPMUNK_DEFAULT_STIFFNES, float damping=OFXCHIPMUNK_DEFAULT_DAMPING);
     shared_ptr<Spring> createSpring(Body* a, Body* b, float stiffness=OFXCHIPMUNK_DEFAULT_STIFFNES, float damping=OFXCHIPMUNK_DEFAULT_DAMPING);
-    shared_ptr<Spring> createSpring(shared_ptr<Body> a, shared_ptr<Body> b, ofVec2f anchorA, ofVec2f anchorB, float distance, float stiffness=OFXCHIPMUNK_DEFAULT_STIFFNES, float damping=OFXCHIPMUNK_DEFAULT_DAMPING);
-    shared_ptr<Spring> createSpring(Body* a, Body* b, ofVec2f anchorA, ofVec2f anchorB, float distance, float stiffness=OFXCHIPMUNK_DEFAULT_STIFFNES, float damping=OFXCHIPMUNK_DEFAULT_DAMPING);
-    shared_ptr<PivotJoint> createPivotJoint(shared_ptr<Body> a, shared_ptr<Body> b, ofVec2f anchorA = ofVec2f(0,0), ofVec2f anchorB = ofVec2f(0,0));
-    shared_ptr<PivotJoint> createPivotJoint(Body* a, Body* b, ofVec2f anchorA = ofVec2f(0,0), ofVec2f anchorB = ofVec2f(0,0));
+    shared_ptr<Spring> createSpring(shared_ptr<Body> a, shared_ptr<Body> b, glm::vec2 anchorA, glm::vec2 anchorB, float distance, float stiffness=OFXCHIPMUNK_DEFAULT_STIFFNES, float damping=OFXCHIPMUNK_DEFAULT_DAMPING);
+    shared_ptr<Spring> createSpring(Body* a, Body* b, glm::vec2 anchorA, glm::vec2 anchorB, float distance, float stiffness=OFXCHIPMUNK_DEFAULT_STIFFNES, float damping=OFXCHIPMUNK_DEFAULT_DAMPING);
+    shared_ptr<PivotJoint> createPivotJoint(shared_ptr<Body> a, shared_ptr<Body> b, glm::vec2 anchorA = glm::vec2(0,0), glm::vec2 anchorB = glm::vec2(0,0));
+    shared_ptr<PivotJoint> createPivotJoint(Body* a, Body* b, glm::vec2 anchorA = glm::vec2(0,0), glm::vec2 anchorB = glm::vec2(0,0));
 	shared_ptr<SimpleMotor> createSimpleMotor(shared_ptr<Body> a, shared_ptr<Body> b, float rate=1);
 	shared_ptr<SimpleMotor> createSimpleMotor(Body* a, Body* b, float rate=1);
 

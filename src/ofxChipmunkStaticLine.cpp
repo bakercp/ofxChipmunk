@@ -6,11 +6,11 @@ StaticLine::StaticLine(){
 
 }
 
-StaticLine::StaticLine(cpSpace *space, ofVec2f a, ofVec2f b, float radius){
+StaticLine::StaticLine(cpSpace *space, glm::vec2 a, glm::vec2 b, float radius){
 	setup(space, a, b, radius);
 }
 
-void StaticLine::setup(cpSpace *space, ofVec2f a, ofVec2f b, float radius){
+void StaticLine::setup(cpSpace *space, glm::vec2 a, glm::vec2 b, float radius){
 	StaticBody::setup(space);
 	//Shape::setup(space, cpSegmentShapeNew(body, toChipmunk(a), toChipmunk(b), 1.f));
 	//setFriction(.7);

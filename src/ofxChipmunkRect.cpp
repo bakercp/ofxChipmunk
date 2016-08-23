@@ -13,7 +13,8 @@ void Rect::setup(cpSpace *space, ofRectangle bounds, float mass){
 	cpFloat moment = cpMomentForBox2(mass, toChipmunk(bounds));
 	DynamicBody::setup(space, mass, moment);
     ShapeRect::setup(space, body, bounds);
-    setPosition(bounds.getPosition());
+	auto p = bounds.getPosition();
+	setPosition(glm::vec2(p.x, p.y));
 }
 
 } // namespace ofxChipmunk

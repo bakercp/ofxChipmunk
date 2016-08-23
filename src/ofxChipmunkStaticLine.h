@@ -10,9 +10,9 @@ namespace ofxChipmunk {
 class StaticLine: public ShapeLine, public StaticBody{
 public:
     StaticLine();
-	StaticLine(cpSpace* space, ofVec2f a, ofVec2f b, float radius=0);
+	StaticLine(cpSpace* space, glm::vec2 a, glm::vec2 b, float radius=0);
 
-	void setup(cpSpace* space, ofVec2f a, ofVec2f b, float radius=0);
+	void setup(cpSpace* space, glm::vec2 a, glm::vec2 b, float radius=0);
 };
 
 } // namespace ofxChipmunk

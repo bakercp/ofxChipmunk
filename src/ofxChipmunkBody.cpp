@@ -39,15 +39,15 @@ void Body::setup(cpSpace *space, cpBody *b){
 	cpBodySetUserData(body, this);
 }
 
-ofVec2f ofxChipmunk::Body::getPosition(){
+glm::vec2 ofxChipmunk::Body::getPosition(){
 	return toOf(cpBodyGetPosition(body));
 }
 
-void Body::setPosition(ofVec2f pos){
+void Body::setPosition(glm::vec2 pos){
 	cpBodySetPosition(body, toChipmunk(pos));
 }
 
-void Body::move(ofVec2f m){
+void Body::move(glm::vec2 m){
 	setPosition(getPosition()+m);
 }
 
@@ -63,7 +63,7 @@ bool Body::isSleeping(){
 	return cpBodyIsSleeping(body);
 }
 
-void Body::addForce(ofVec2f force, ofVec2f offset){
+void Body::addForce(glm::vec2 force, glm::vec2 offset){
 	cpBodyApplyForceAtLocalPoint(body, toChipmunk(force), toChipmunk(offset));
 }
 

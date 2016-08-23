@@ -16,13 +16,13 @@ void ofApp::setup(){
 
 	//
 	circle = world.createCircle(20);
-	circle->setPosition(ofVec2f(ofGetWidth()*.5, 40));
+	circle->setPosition(glm::vec2(ofGetWidth()*.5, 40));
 
 
 
 	//
 	rect = world.createRect(ofRectangle(0, 0, 150, 200), 100);
-	rect->setPosition(ofVec2f(ofGetWidth()*.5, 200));
+	rect->setPosition(glm::vec2(ofGetWidth()*.5, 200));
 	rect->setRotation(ofDegToRad(60));
 
 
@@ -37,7 +37,7 @@ void ofApp::setup(){
 
 	//NOTE: create a polygon with the polyline, will automatically be converted to a convex shape (outer hull)
 	poly = world.createPoly(polyline);
-	poly->setPosition(ofVec2f(ofGetWidth()*.4, 0));
+	poly->setPosition(glm::vec2(ofGetWidth()*.4, 0));
 
 
 
@@ -46,17 +46,17 @@ void ofApp::setup(){
 	//NOTE: to create a concave shape, create a Composite and add the polyline. The composite will automatically split it into convex subshapes
 	Composite::Definition def;
 	def.addConcavePolygon(polyline);
-	//def.addCircle(50, ofVec2f(10, 10));
-	//def.addCircle(50, ofVec2f(-50, -50));
+	//def.addCircle(50, glm::vec2(10, 10));
+	//def.addCircle(50, glm::vec2(-50, -50));
 	//def.addRect(ofRectangle(-10, -10, 100, 100));
 	composite = world.createComposite(def);
-	composite->setPosition(ofVec2f(ofGetWidth()*.53, 100));
+	composite->setPosition(glm::vec2(ofGetWidth()*.53, 100));
 
 	composite->setScale(2);
 
 	//anchor
 	anchor = world.createStaticBody();
-	anchor->setPosition(ofVec2f(ofGetWidth()*.7, 40));
+	anchor->setPosition(glm::vec2(ofGetWidth()*.7, 40));
 
 	//
 	spring1 = world.createSpring(circle, rect);
@@ -85,7 +85,7 @@ void ofApp::draw(){
 	//debug drawing may be slow...
 	world.draw();
 
-	ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate()), ofVec2f(20, 20));
+	ofDrawBitmapStringHighlight(ofToString(ofGetFrameRate()), glm::vec2(20, 20));
 
 }
 

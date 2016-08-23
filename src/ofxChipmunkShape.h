@@ -54,22 +54,22 @@ public:
 class ShapeCircle: public Shape{
 public:
     ShapeCircle();
-    ShapeCircle(cpSpace* space, cpBody* body, float radius, ofVec2f offset = ofVec2f(0, 0));
-    void setup(cpSpace* space, cpBody* body, float radius, ofVec2f offset = ofVec2f(0, 0));
+    ShapeCircle(cpSpace* space, cpBody* body, float radius, glm::vec2 offset = glm::vec2(0, 0));
+    void setup(cpSpace* space, cpBody* body, float radius, glm::vec2 offset = glm::vec2(0, 0));
     void setup(ShapeCircle* shape);
 
     void setRadius(float r);
     float getRadius();
 
-    void setOffset(ofVec2f off);
-    ofVec2f getOffset();
+    void setOffset(glm::vec2 off);
+    glm::vec2 getOffset();
 
     void scale(float s) override;
     ofPath getAsPath() override;
     Shape::Type getType() override;
 protected:
     float radiusInitial;
-    ofVec2f offsetInitial;
+    glm::vec2 offsetInitial;
 };
 
 class ShapeRect: public Shape{
@@ -83,18 +83,18 @@ public:
 class ShapeLine: public Shape{
 public:
     ShapeLine();
-    ShapeLine(cpSpace* space, cpBody* body, ofVec2f a, ofVec2f b, float radius=0);
-    void setup(cpSpace* space, cpBody* body, ofVec2f a, ofVec2f b, float radius=0);
+    ShapeLine(cpSpace* space, cpBody* body, glm::vec2 a, glm::vec2 b, float radius=0);
+    void setup(cpSpace* space, cpBody* body, glm::vec2 a, glm::vec2 b, float radius=0);
     void setup(ShapeLine* src);
-    ofVec2f getA();
-    ofVec2f getB();
+    glm::vec2 getA();
+    glm::vec2 getB();
     float getRadius();
     void scale(float s) override;
     ofPath getAsPath() override;
     Shape::Type getType() override;
 
 protected:
-    ofVec2f aInitial, bInitial;
+    glm::vec2 aInitial, bInitial;
     float radiusInitial;
 
 };
@@ -104,10 +104,10 @@ public:
     ShapePolygon();
     ~ShapePolygon();
 	ShapePolygon(cpSpace* space, cpBody* body, ofPolyline poly, float radius=0.f);
-	ShapePolygon(cpSpace* space, cpBody* body, std::vector<ofVec2f>& points, float radius=0.f);
+	ShapePolygon(cpSpace* space, cpBody* body, std::vector<glm::vec2>& points, float radius=0.f);
 
 	void setup(cpSpace* space, cpBody* body, ofPolyline poly, float radius=0.f);
-	void setup(cpSpace* space, cpBody* body, std::vector<ofVec2f>& points, float radius=0.f);
+	void setup(cpSpace* space, cpBody* body, std::vector<glm::vec2>& points, float radius=0.f);
     void setup(ShapePolygon* src);
 
 	void setRadius(float radius);
@@ -115,9 +115,9 @@ public:
     ofPath getAsPath() override;
     Shape::Type getType() override;
 
-    std::vector<ofVec2f> getPoints();
-	ofVec2f getCenter();
-	void setOffset(ofVec2f off);
+    std::vector<glm::vec2> getPoints();
+	glm::vec2 getCenter();
+	void setOffset(glm::vec2 off);
 protected:
 	void setup(cpSpace* space, cpBody* body, int nPoints, cpVect* pts, float radius=0.f);
 

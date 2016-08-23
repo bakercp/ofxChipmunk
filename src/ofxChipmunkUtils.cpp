@@ -4,12 +4,12 @@
 
 namespace ofxChipmunk {
 
-cpVect toChipmunk(ofVec2f v){
+cpVect toChipmunk(glm::vec2 v){
 	return {v.x, v.y};
 }
 
-ofVec2f toOf(cpVect v){
-	return ofVec2f(v.x, v.y);
+glm::vec2 toOf(cpVect v){
+	return glm::vec2(v.x, v.y);
 }
 
 //
@@ -136,7 +136,7 @@ void drawPolygon(int count, const cpVect *verts, cpFloat r, cpSpaceDebugColor ou
 	ofPolyline poly;
 
     for(int i=0; i<count;i++){
-        poly.addVertex(toOf(verts[i]));
+		poly.addVertex(glm::vec3(toOf(verts[i]), 0));
 		ofDrawCircle(toOf(verts[i]), 2);
     }
     poly.close();
@@ -164,7 +164,7 @@ void drawDot(cpFloat size, cpVect pos, cpSpaceDebugColor color, cpDataPointer da
 	ofDrawCircle(toOf(pos), size);
 }
 
-std::vector<cpVect> toChipmunk(std::vector<ofVec2f>& points){
+std::vector<cpVect> toChipmunk(std::vector<glm::vec2>& points){
 	std::vector<cpVect> ret;
 	for(auto& p: points){
 		ret.push_back(toChipmunk(p));

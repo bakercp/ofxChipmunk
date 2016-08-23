@@ -80,11 +80,11 @@ ShapeCircle::ShapeCircle(){
 
 }
 
-ShapeCircle::ShapeCircle(cpSpace *space, cpBody *body, float radius, ofVec2f offset){
+ShapeCircle::ShapeCircle(cpSpace *space, cpBody *body, float radius, glm::vec2 offset){
     setup(space, body, radius, offset);
 }
 
-void ShapeCircle::setup(cpSpace *space, cpBody* body, float radius, ofVec2f offset){
+void ShapeCircle::setup(cpSpace *space, cpBody* body, float radius, glm::vec2 offset){
     radiusInitial = radius;
     offsetInitial = offset;
     Shape::setup(space, cpCircleShapeNew(body, radius, toChipmunk(offset)));
@@ -106,11 +106,11 @@ float ShapeCircle::getRadius(){
 }
 
 
-void ShapeCircle::setOffset(ofVec2f off){
+void ShapeCircle::setOffset(glm::vec2 off){
     cpCircleShapeSetOffset(shape, toChipmunk(off));
 }
 
-ofVec2f ShapeCircle::getOffset(){
+glm::vec2 ShapeCircle::getOffset(){
     return toOf(cpCircleShapeGetOffset(shape));
 }
 
@@ -151,11 +151,11 @@ ShapeLine::ShapeLine(){
 
 }
 
-ShapeLine::ShapeLine(cpSpace *space, cpBody* body,ofVec2f a, ofVec2f b, float radius){
+ShapeLine::ShapeLine(cpSpace *space, cpBody* body,glm::vec2 a, glm::vec2 b, float radius){
     setup(space, body, a, b, radius);
 }
 
-void ShapeLine::setup(cpSpace *space, cpBody* body,ofVec2f a, ofVec2f b, float radius){
+void ShapeLine::setup(cpSpace *space, cpBody* body,glm::vec2 a, glm::vec2 b, float radius){
     aInitial = a;
     bInitial = b;
     radiusInitial = radius;
@@ -169,11 +169,11 @@ void ShapeLine::setup(ShapeLine *src){
     src->shape = nullptr;
 }
 
-ofVec2f ShapeLine::getA(){
+glm::vec2 ShapeLine::getA(){
     return toOf(cpSegmentShapeGetA(shape));
 }
 
-ofVec2f ShapeLine::getB(){
+glm::vec2 ShapeLine::getB(){
     return toOf(cpSegmentShapeGetB(shape));
 }
 
@@ -208,21 +208,21 @@ ShapePolygon::ShapePolygon(cpSpace *space, cpBody *body, ofPolyline poly, float 
 	setup(space, body, poly, radius);
 }
 
-ShapePolygon::ShapePolygon(cpSpace *space, cpBody *body, std::vector<ofVec2f> &points, float radius){
+ShapePolygon::ShapePolygon(cpSpace *space, cpBody *body, std::vector<glm::vec2> &points, float radius){
     numPoints = 0;
 	setup(space, body, points, radius);
 }
 
 void ShapePolygon::setup(cpSpace *space, cpBody *body, ofPolyline poly, float radius){
-    std::vector<ofVec2f> vecs;
+	std::vector<glm::vec2> vecs;
     for(auto& p: poly){
-        vecs.push_back(p);
+		vecs.push_back(glm::vec2(p.x, p.y));
     }
 	setup(space, body, vecs, radius);
 	curScale = 1;
 }
 
-void ShapePolygon::setup(cpSpace *space, cpBody *body, std::vector<ofVec2f> &points, float radius){
+void ShapePolygon::setup(cpSpace *space, cpBody *body, std::vector<glm::vec2> &points, float radius){
 	setup(space, body, points.size(), toChipmunk(points).data(), radius);
 }
 
@@ -276,8 +276,8 @@ Shape::Type ShapePolygon::getType(){
     return Shape::Type::Polygon;
 }
 
-std::vector<ofVec2f> ShapePolygon::getPoints(){
-    std::vector<ofVec2f> ret;
+std::vector<glm::vec2> ShapePolygon::getPoints(){
+	std::vector<glm::vec2> ret;
     for(unsigned int i=0; i<numPoints; i++){
 		ret.push_back(toOf(points[i])*curScale);
     }
@@ -305,11 +305,11 @@ const cpVect findCentroid(cpVect* pts, size_t nPts){
 	return {x / f + off.x, y / f + off.y};
 }
 
-ofVec2f ShapePolygon::getCenter(){
+glm::vec2 ShapePolygon::getCenter(){
 	return toOf(findCentroid(points, numPoints))*curScale;
 }
 
-void ShapePolygon::setOffset(ofVec2f o){
+void ShapePolygon::setOffset(glm::vec2 o){
 	std::vector<cpVect> pts(numPoints);
 
 

@@ -12,13 +12,13 @@
 namespace ofxChipmunk {
 
 //converting
-cpVect toChipmunk(ofVec2f v);
-ofVec2f toOf(cpVect v);
+cpVect toChipmunk(glm::vec2 v);
+glm::vec2 toOf(cpVect v);
 
 cpBB toChipmunk(ofRectangle rect);
 ofRectangle toOf(cpBB rect);
 
-std::vector<cpVect> toChipmunk(std::vector<ofVec2f>& points);
+std::vector<cpVect> toChipmunk(std::vector<glm::vec2>& points);
 
 //drawing
 void drawSpace(cpSpace* space);

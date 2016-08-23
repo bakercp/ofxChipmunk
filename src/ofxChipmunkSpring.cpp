@@ -6,19 +6,19 @@ Spring::Spring():forceFunction(nullptr){
 
 }
 
-Spring::Spring(cpSpace *space, Body *a, Body *b, ofVec2f anchorA, ofVec2f anchorB, float distance, float stiffness, float damping){
+Spring::Spring(cpSpace *space, Body *a, Body *b, glm::vec2 anchorA, glm::vec2 anchorB, float distance, float stiffness, float damping){
 	setup(space, a, b, anchorA, anchorB, distance, stiffness, damping);
 }
 
-Spring::Spring(cpSpace *space, cpBody *a, cpBody *b, ofVec2f anchorA, ofVec2f anchorB, float distance, float stiffness, float damping){
+Spring::Spring(cpSpace *space, cpBody *a, cpBody *b, glm::vec2 anchorA, glm::vec2 anchorB, float distance, float stiffness, float damping){
 	setup(space, a, b, anchorA, anchorB, distance, stiffness, damping);
 }
 
-void Spring::setup(cpSpace* space, Body *a, Body *b, ofVec2f anchorA, ofVec2f anchorB, float distance, float stiffness, float damping){
+void Spring::setup(cpSpace* space, Body *a, Body *b, glm::vec2 anchorA, glm::vec2 anchorB, float distance, float stiffness, float damping){
 	setup(space, a->body, b->body, anchorA, anchorB, distance, stiffness, damping);
 }
 
-void Spring::setup(cpSpace *space, cpBody *a, cpBody *b, ofVec2f anchorA, ofVec2f anchorB, float distance, float stiffness, float damping){
+void Spring::setup(cpSpace *space, cpBody *a, cpBody *b, glm::vec2 anchorA, glm::vec2 anchorB, float distance, float stiffness, float damping){
 	Constraint::setup(space, cpDampedSpringNew(a, b, toChipmunk(anchorA), toChipmunk(anchorB), distance, stiffness, damping));
 }
 
