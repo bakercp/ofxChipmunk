@@ -129,24 +129,58 @@ Shape::Type ShapeCircle::getType(){
     return Shape::Type::Circle;
 }
 
-//
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ShapeRect::ShapeRect(){
 
 }
 
 ShapeRect::ShapeRect(cpSpace *space, cpBody *body, ofRectangle bounds, float radius){
-    setup(space, body, bounds, radius);
+	setup(space, body, bounds, radius);
+}
+
+void ShapeRect::scale(float s){
+	//cpPolyShapeSetRadius(shape, s);
+	scale(s, s);
+}
+
+void ShapeRect::scale(glm::vec2 s){
+	scale(s.x, s.y);
+}
+
+void ShapeRect::scale(float sx, float sy){
+	curScaleX = sx;
+	curScaleY = sy;
+
+	std::vector<cpVect> pts;
+	for(int i=0; i<numPoints; i++){
+		pts.push_back({points[i].x*curScaleX, points[i].y*curScaleY});
+	}
+
+	cpPolyShapeSetVertsRaw(shape, numPoints, pts.data());
+	cpShapeCacheBB(shape);
+}
+
+glm::vec2 ShapeRect::getScale(){
+	return glm::vec2(curScaleX, curScaleY);
 }
 
 void ShapeRect::setup(cpSpace *space, cpBody *body, ofRectangle bounds, float radius){
     Shape::setup(space, cpBoxShapeNew(body, bounds.width, bounds.height, radius));
+
+	curScaleX = curScaleY = 1;
+
+	numPoints = 4;
+	points = new cpVect[numPoints];
+	for(int i=0; i<numPoints; i++){
+		points[i] = cpPolyShapeGetVert(shape, i);
+	}
 }
 
 Shape::Type ShapeRect::getType(){
     return Shape::Type::Rectangle;
 }
 
-///
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ShapeLine::ShapeLine(){
 
 }
@@ -196,7 +230,7 @@ Shape::Type ShapeLine::getType(){
     return Shape::Type::Line;
 }
 
-//
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ShapePolygon::ShapePolygon(){numPoints=0;curScale=1;}
 
 ShapePolygon::~ShapePolygon(){

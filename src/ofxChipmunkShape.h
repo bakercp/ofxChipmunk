@@ -76,8 +76,18 @@ class ShapeRect: public Shape{
 public:
     ShapeRect();
     ShapeRect(cpSpace* space, cpBody* body, ofRectangle bounds, float radius=0);
-    void setup(cpSpace* space, cpBody* body, ofRectangle bounds, float radius=0);
+	void scale(float s) override;
+	void scale(glm::vec2 scale);
+	void scale(float sx, float sy);
+	glm::vec2 getScale();
+	void setup(cpSpace* space, cpBody* body, ofRectangle bounds, float radius=0);
     Shape::Type getType() override;
+
+protected:
+
+	int numPoints;
+	cpVect* points;
+	float curScaleX, curScaleY;
 };
 
 class ShapeLine: public Shape{

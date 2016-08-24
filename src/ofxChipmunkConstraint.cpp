@@ -3,7 +3,7 @@
 namespace ofxChipmunk {
 
 Constraint::Constraint():constraint(nullptr){
-
+	tmpSpace = nullptr;
 }
 
 Constraint::~Constraint(){
@@ -15,7 +15,7 @@ Constraint::~Constraint(){
 }
 
 void Constraint::setup(cpSpace* space, cpConstraint *c){
-    constraint = c;
+	constraint = c;
 	cpSpaceAddConstraint(space, constraint);
 	cpConstraintSetUserData(constraint, this);
 }
@@ -26,6 +26,19 @@ void Constraint::setMaxForce(double force){
 
 void Constraint::setErrorBias(double bias){
 	cpConstraintSetErrorBias(constraint, bias);
+}
+
+void Constraint::disable(){
+	tmpSpace = cpConstraintGetSpace(constraint);
+	cpSpaceRemoveConstraint(tmpSpace, constraint);
+}
+
+void Constraint::enable(){
+	if(!tmpSpace)
+		return;
+
+	cpSpaceAddConstraint(tmpSpace, constraint);
+	tmpSpace = nullptr;
 }
 
 } // namespace ofxChipmunk

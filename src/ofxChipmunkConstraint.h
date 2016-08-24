@@ -14,11 +14,16 @@ public:
 
 	cpConstraint* constraint;
 
+	void disable();
+	void enable();
+
 protected:
     Constraint();
 	~Constraint();
 
 	void setup(cpSpace* space, cpConstraint* constraint);
+
+	cpSpace* tmpSpace;
 };
 
 } // namespace ofxChipmunk
